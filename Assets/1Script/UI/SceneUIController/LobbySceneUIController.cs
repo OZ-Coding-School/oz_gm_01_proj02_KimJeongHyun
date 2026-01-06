@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class LobbySceneUIController : BaseSceneUIController
 {
@@ -12,7 +11,6 @@ public class LobbySceneUIController : BaseSceneUIController
 
     private void Awake()
     {
-
         baseCnt = GetComponentsInChildren<BaseUIController>(true);
 
         foreach (var cnt in baseCnt)
@@ -22,7 +20,7 @@ public class LobbySceneUIController : BaseSceneUIController
         }
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         
         foreach (var cnts in baseCnt)
@@ -32,7 +30,7 @@ public class LobbySceneUIController : BaseSceneUIController
         }
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         
         foreach (var cnts in baseCnt)

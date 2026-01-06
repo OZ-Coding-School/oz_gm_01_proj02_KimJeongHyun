@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 3044227758491826936}
   - component: {fileID: 4401128055344301371}
   - component: {fileID: 4434615045962029456}
-  - component: {fileID: 1813165398761243610}
   - component: {fileID: 483134063210000376}
   m_Layer: 0
   m_Name: LobbyFirstStartBtn
@@ -196,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -234,8 +233,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5764706, g: 0, b: 0, a: 1}
+    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.5764706, g: 0, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -253,22 +252,10 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4401128055344301371}
+  m_TargetGraphic: {fileID: 1740072519066911191}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1813165398761243610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3477104290829037245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18c528b5166a9444aa5e03e00d2a4b27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &483134063210000376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,4 +268,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e9998b3366ba946b0a6ce9c8b74300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   btnType: 0

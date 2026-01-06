@@ -31,6 +31,7 @@ public class TitleSceneUIController : BaseSceneUIController
         yield return new WaitForSeconds(logoAni.clip.length + 1.0f);
         intro.SetActive(false);        
         title.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
         pressText.SetActive(true);
 
         yield return new WaitUntil(() => Input.anyKeyDown);
