@@ -44,4 +44,14 @@ public class EnumData
         SFX,
         BGM
     }
+
+    public enum BGM
+    {
+        COUNT
+    }
+
+    public enum SFX
+    {
+        COUNT
+    }
 }

@@ -13,7 +13,7 @@ public class LobbySceneUIController : BaseSceneUIController
     private void Awake()
     {
 
-        var baseCnt = GetComponentsInChildren<BaseUIController>(true);
+        baseCnt = GetComponentsInChildren<BaseUIController>(true);
 
         foreach (var cnt in baseCnt)
         {
@@ -64,7 +64,7 @@ public class LobbySceneUIController : BaseSceneUIController
 
             case (_, EnumData.ButtonType.Back): CloseUI(); break;
             case (_, EnumData.ButtonType.Exit): Application.Quit(); break;
-
+                
         }
         //gamestartui의 버튼들 눌렀을때 게임시작 ( 데이터정보를 json에서 비교해서 map씬에서 해당 진행도에서 시작되어야함 (진행도에따른 스폰지역 설정)
     }
