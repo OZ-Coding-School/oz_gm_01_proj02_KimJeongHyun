@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
+    public bool isReady { get; protected set; } = false;
     protected bool isDistroyOnLoad = false;
 
     protected static T instance;
