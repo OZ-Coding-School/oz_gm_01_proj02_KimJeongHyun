@@ -1,6 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+namespace playerAction
+{
+    public enum PlayerAction
+    {
+        Idle,
+        Intro,
+        Ghost,
+        Death,
+        Jump,
+        JumpDust,
+        AimDiagonalDown,
+        AimDiagonalUp,
+        AimDown,
+        AimStraight,
+        AimUp,
+        DashAir,
+        DashGround,
+        HitAir,
+        HitGround,
+        DuckEntry,
+        DuckIdle,
+        DuckExit,
+        DuckShot,
+        ParrySpark,
+        Run,
+        RunDiagonalUpShot,
+        RunShot,
+        ShotDiagonalDown,
+        ShotDiagonalUp,
+        ShotDown,
+        ShotStraight,
+        ShotUp,
+        SuperBeamFX,
+        SuperBeamWater,
+        SuperBeam,
+        SuperGroundUp,
+        SuperAirUp,
+        SuperAirDiagonalDown,
+        SuperGroundDiagonalDown,
+        SuperAirDiagonalUp,
+        SuperGroundDiagonalUp,
+        SuperAirDown,
+        SuperGroundDown,
+        SuperAirStraight,
+        SuperGroundStraight,
+    }
+}
+namespace animationName
+{
+    public enum AniName
+    {
+
+    }
+}
 
 public class EnumData
 {
