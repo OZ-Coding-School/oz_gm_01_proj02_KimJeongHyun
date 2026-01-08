@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BaseSceneUIController : MonoBehaviour
 {
-    public event Action temp;
+    //public event Action temp;
     
     private void Awake()
     {

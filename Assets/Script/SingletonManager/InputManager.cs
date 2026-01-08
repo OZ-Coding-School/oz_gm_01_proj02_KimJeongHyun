@@ -2,70 +2,64 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using playerAction;
+using CustomKeyMapping;
 
-[System.Serializable]
-public class KeyMapping
-{
-    public PlayerAction action;
-    public KeyCode keyCode;
-}
 
 public class InputManager : Singleton<InputManager>
 {
-
-    private Dictionary<PlayerAction, KeyCode> keyMappingDic = new Dictionary<PlayerAction, KeyCode>();
-    [SerializeField] private List<KeyMapping> defaultKeySet;
-
-    public event Action OnKeyChange;
+    private Dictionary<CusKey, KeyCode> keyMapping;
 
     protected override void Init()
     {
         base.Init();
-
-        foreach (var key in defaultKeySet)
-        {
-            if (!keyMappingDic.ContainsKey(key.action))
-            {
-                keyMappingDic.Add(key.action, key.keyCode);
-            }
-        }
+        InitKey();
     }
 
-    public bool GetAction(PlayerAction action)
+    private void InitKey()
     {
-        if (keyMappingDic.TryGetValue(action, out KeyCode key)) return Input.GetKey(key);
-        return false;
-    }
-    public bool GetActionDown(PlayerAction action)
-    {
-        if (keyMappingDic.TryGetValue(action,out KeyCode key)) return Input.GetKeyDown(key);
-        return false;
-    }
-    public bool GetActionUp(PlayerAction action)
-    {
-        if (keyMappingDic.TryGetValue (action,out KeyCode key)) return Input.GetKeyUp(key);
-        return false;
-    }
-    public float GetMovementDir()
-    {
-        float x = 0f;
+        keyMapping = new Dictionary<CusKey, KeyCode>();
 
-        if (GetAction(PlayerAction.Right)) x += 1f;
-        if (GetAction(PlayerAction.Left)) x -= 1f;
+        keyMapping[CusKey.Up] = KeyCode.UpArrow;
+        keyMapping[CusKey.Down] = KeyCode.DownArrow;
+        keyMapping[CusKey.Left] = KeyCode.LeftArrow;
+        keyMapping[CusKey.Right] = KeyCode.RightArrow;
 
-        return x;
+        keyMapping[CusKey.Lock] = KeyCode.Z;
+        keyMapping[CusKey.Shoot] = KeyCode.X;
+        keyMapping[CusKey.Dash] = KeyCode.C;
+        keyMapping[CusKey.Jump] = KeyCode.V;
     }
-    /*public Vector2 GetAimDir()
+
+    public bool GetKeyDown(CusKey key)
     {
-        float x = 0f;
-        float y = 0f;
-
-        if (GetAction(PlayerAction.Right)) x += 1f;
-        if (GetAction(PlayerAction.Left)) x -= 1f;
-        if (GetAction(PlayerAction.Up)) y += 1f;
-        if (GetAction(PlayerAction.Down)) y -= 1f;
-
+        return Input.GetKeyDown(keyMapping[key]);
     }
-    */
+
+    public bool GetKey(CusKey key)
+    {
+        return Input.GetKey(keyMapping[key]);
+    }
+
+    public bool GetKeyUp(CusKey key)
+    {
+        return Input.GetKeyUp(keyMapping[key]);
+    }
+
+    public float GetHorizontal()
+    {
+        float val = 0f;
+        if (GetKey(CusKey.Left)) val -= 1f;
+        if (GetKey(CusKey.Right)) val += 1f;
+        return val;
+    }
+
+    public float GetVertical()
+    {
+        float val = 0f;
+        if (GetKey(CusKey.Up)) val += 1f;
+        if (GetKey(CusKey.Down)) val -= 1f;
+        return val;
+    }
+
+
 }

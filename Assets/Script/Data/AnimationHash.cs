@@ -3,30 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class AnimationHash
+public class AnimationHash<T> where T : Enum
 {
     private readonly Animator animator;
-    private readonly Dictionary<int, int> aniHash = new Dictionary<int, int>();
+    private readonly Dictionary<T, int> aniHash = new Dictionary<T, int>();
 
     public AnimationHash(Animator animator)
     {
         this.animator = animator;
     }
 
-    public void InitAniHash<T>() where T : Enum
+    public void InitAniHash()
     {
         foreach (T state in Enum.GetValues(typeof(T)))
-        {
-            int key = state.GetHashCode();
-            int hash = Animator.StringToHash(state.ToString());
-            aniHash[key] = hash;
+        {    
+            aniHash.Add(state, Animator.StringToHash(state.ToString()));
         }
     }
 
-    public void PlayAni<T>(T state) where T : Enum
+    public void PlayAni(T state)
     {
-        int key = state.GetHashCode();
-        if (aniHash.TryGetValue(key, out int hash))
+        if (aniHash.TryGetValue(state, out var hash))
         {
             animator.Play(hash);
         }

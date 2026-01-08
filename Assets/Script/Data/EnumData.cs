@@ -1,6 +1,6 @@
-namespace playerAction
+namespace playerAnimation
 {
-    public enum PlayerAction
+    public enum PlayerAnimation
     {
         Idle,
         Intro,
@@ -45,14 +45,20 @@ namespace playerAction
         SuperGroundStraight,
     }
 }
-namespace animationName
+namespace CustomKeyMapping
 {
-    public enum AniName
+    public enum CusKey
     {
-
+        Up,
+        Down,
+        Left,
+        Right,
+        Jump,
+        Shoot,
+        Dash,
+        Lock,
     }
 }
-
 public class EnumData
 {
     public enum SceneType

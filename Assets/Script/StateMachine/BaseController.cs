@@ -9,12 +9,11 @@ public class BaseController: MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public Collider2D col {  get; private set; }
     public SpriteRenderer sr { get; private set; }
-
-    public AnimationHash aniHash {  get; private set; }
+    public Animator animator { get; private set; }
     public StateMachine machine {  get; private set; }
 
-
     public int curDir { get; private set; } = 1;
+
     [SerializeField] protected Transform groundCheckTrs;
     [SerializeField] protected Transform wallCheckTrs;
     [SerializeField] protected float groundCheckRaius = 0.2f;
@@ -32,9 +31,9 @@ public class BaseController: MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         machine = new StateMachine();
-        aniHash = new AnimationHash(GetComponent<Animator>());
 
     }
 
@@ -50,7 +49,7 @@ public class BaseController: MonoBehaviour
         machine.CurState?.StateFixedUpdate();
     }
 
-    public virtual void Flip(int x)
+    protected virtual void Flip(int x)
     {
         if (x != 0 && x != curDir)
         {

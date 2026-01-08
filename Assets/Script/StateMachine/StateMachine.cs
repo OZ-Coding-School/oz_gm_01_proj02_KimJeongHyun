@@ -1,15 +1,15 @@
 
 public class StateMachine
 {
-    public State CurState { get; private set; }
+    public IState CurState { get; private set; }
 
-    public void Init(State startState)
+    public void Init(IState startState)
     {
         CurState = startState;
         CurState.Enter();
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(IState newState)
     {
         CurState.Exit();
         CurState = newState;

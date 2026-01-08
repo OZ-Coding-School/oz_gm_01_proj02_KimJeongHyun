@@ -1,27 +1,14 @@
-using animationName;
 using System;
-using playerAction;
 
-public interface State
-{
-    void Enter();
-    void Exit();
-    void StateUpdate();
-    void StateFixedUpdate();
-}
-
-public abstract class BaseState<T> : State where T : BaseController
+public abstract class BaseState<T> : IState where T : BaseController
 {
     protected T ctr;
     protected StateMachine machine;
-    protected PlayerAction aniName;
 
-
-    public BaseState(T ctr, StateMachine machine, PlayerAction aniName)
+    public BaseState(T ctr, StateMachine machine)
     {
         this.ctr = ctr;
         this.machine = machine;
-        this.aniName = aniName;
     }
 
     public virtual void Enter() { }
