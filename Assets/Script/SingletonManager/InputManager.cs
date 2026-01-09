@@ -60,6 +60,4 @@ public class InputManager : Singleton<InputManager>
         if (GetKey(CusKey.Down)) val -= 1f;
         return val;
     }
-
-
 }

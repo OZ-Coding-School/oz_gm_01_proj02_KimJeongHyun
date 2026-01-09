@@ -12,12 +12,14 @@ public class BaseController: MonoBehaviour
     public Animator animator { get; private set; }
     public StateMachine machine {  get; private set; }
 
-    public int curDir { get; private set; } = 1;
+    public int curDir { get; protected set; } = 1;
 
     [SerializeField] protected Transform groundCheckTrs;
     [SerializeField] protected Transform wallCheckTrs;
     [SerializeField] protected float groundCheckRaius = 0.2f;
     [SerializeField] protected float wallCheckRaius = 0.2f;
+    public bool isGround { get; private set; }
+    public bool isWall { get; private set; }
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask wall;
 
@@ -41,12 +43,14 @@ public class BaseController: MonoBehaviour
 
     protected virtual void Update()
     {
-        machine.CurState?.StateUpdate();
+        machine.CurState?.StateUpdate();      
     }
 
     protected virtual void FixedUpdate()
     {
         machine.CurState?.StateFixedUpdate();
+        isGround = IsGround();
+        isWall = IsWall();
     }
 
     protected virtual void Flip(int x)
@@ -58,8 +62,14 @@ public class BaseController: MonoBehaviour
         }
     }
 
-    public bool IsGround => Physics2D.OverlapCircle(groundCheckTrs.position, groundCheckRaius, ground);
-    public bool IsWall => Physics2D.OverlapCircle(wallCheckTrs.position, wallCheckRaius, wall);
+    private bool IsGround()
+    {
+        return Physics2D.OverlapCircle(groundCheckTrs.position, groundCheckRaius, ground);
+    }
+    private bool IsWall()
+    {
+        return Physics2D.OverlapCircle(wallCheckTrs.position, wallCheckRaius, wall);
+    }
 
     protected virtual void OnDrawGizmos()
     {
@@ -67,7 +77,11 @@ public class BaseController: MonoBehaviour
         Gizmos.DrawWireSphere(wallCheckTrs.position, wallCheckRaius);
     }
 
-
+    protected virtual IState GetCurState()
+    {
+        var curstate = machine.CurState;
+        return curstate;
+    }
 
 
 

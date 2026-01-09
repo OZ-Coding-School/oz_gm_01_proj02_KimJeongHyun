@@ -11,6 +11,7 @@ public class AnimationHash<T> where T : Enum
     public AnimationHash(Animator animator)
     {
         this.animator = animator;
+        InitAniHash();
     }
 
     public void InitAniHash()
