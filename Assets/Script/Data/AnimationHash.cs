@@ -26,7 +26,10 @@ public class AnimationHash<T> where T : Enum
     {
         if (aniHash.TryGetValue(state, out var hash))
         {
-            animator.Play(hash);
+            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != hash)
+            {
+                animator.Play(hash);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-
 public abstract class BaseState<T> : IState where T : BaseController
 {
     protected T ctr;
@@ -16,4 +15,6 @@ public abstract class BaseState<T> : IState where T : BaseController
     public virtual void HandleInput() { }
     public virtual void StateUpdate() { }
     public virtual void StateFixedUpdate() { }
+
+    public virtual bool canMove => true;
 }

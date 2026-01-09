@@ -45,6 +45,15 @@ namespace playerAnimation
         SuperGroundStraight,
     }
 }
+namespace gunEffect
+{
+    public enum GunEffect
+    {
+        PeashooterStart,
+        PeashooterBullet,
+        PeashooterDestroy,
+    }
+}
 namespace CustomKeyMapping
 {
     public enum CusKey
