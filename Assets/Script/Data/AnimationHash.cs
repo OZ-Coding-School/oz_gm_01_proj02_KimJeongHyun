@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class AnimationHash<T> where T : Enum
 {
@@ -26,9 +27,23 @@ public class AnimationHash<T> where T : Enum
     {
         if (aniHash.TryGetValue(state, out var hash))
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != hash)
+            var curAni = animator.GetCurrentAnimatorStateInfo(0);
+            if (curAni.shortNameHash != hash)
             {
                 animator.Play(hash);
+            }
+        }
+    }
+
+    public void PlayAniSync(T state)
+    {
+        if (aniHash.TryGetValue(state,out var hash))
+        {
+            var curAni = animator.GetCurrentAnimatorStateInfo(0);
+            if (curAni.shortNameHash != hash)
+            {
+                float normalizedTIme = curAni.normalizedTime % 1.0f;
+                animator.Play(hash, 0, normalizedTIme);
             }
         }
     }

@@ -1,15 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using CustomKeyMapping;
 using playerAnimation;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    [SerializeField] private PlayerDataSO data;
-    public PlayerDataSO Data => data;
+    [SerializeField] private PlayerDataSO _data;
+    public PlayerDataSO data => _data;
     public AnimationHash<PlayerAnimation> aniHash { get; private set; }
     public PlayerShooting shooter { get; private set; }
     public PlayerStateData state { get; private set; }
@@ -22,6 +24,9 @@ public class PlayerController : BaseController
     public bool InputLock { get; private set; }
     public bool InputShoot { get; private set; }
     public bool InputDuck { get; private set; }
+    public bool isInvincible { get; private set; } = false;
+    public int hitDir { get; private set; }
+
 
     public Transform[] firePoint;
 
@@ -44,13 +49,6 @@ public class PlayerController : BaseController
     {
         base.Update();
         GetInput();
-
-        if (InputX != 0)
-        {
-            Flip((int)InputX);
-            curDir = (int)InputX;
-        }
-
         machine.CurState?.HandleInput();
         machine.CurState?.StateUpdate();
         text.text = GetCurState().ToString();
@@ -63,10 +61,20 @@ public class PlayerController : BaseController
         machine.CurState?.StateFixedUpdate();
     }
 
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("enemy"))
+        {
+            float hitX = collision.GetContact(0).point.x;
+            int dir = (transform.position.x < hitX) ? -1 : 1;
+            machine.CurState.OnHit(dir);
+        }      
+    }
+
     public void SetVelocityX(float x)
     {
         rb.velocity = new Vector2(x, rb.velocity.y);
-    }
+    }    
 
     public void PlayerShoot(Transform trs, Vector2 dir)
     {

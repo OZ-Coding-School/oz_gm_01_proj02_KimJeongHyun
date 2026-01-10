@@ -7,7 +7,7 @@ using playerAnimation;
 public class PlayerDuckState : PlayerState
 {
     public PlayerDuckState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    public override bool canMove => false;
+    protected override bool canMove => false;
 
     public override void Enter()
     {
@@ -32,20 +32,10 @@ public class PlayerDuckState : PlayerState
         }
     }
 
-    public override void StateFixedUpdate()
-    {
-        ctr.SetVelocityX(0);
-    }
-
     protected override void StateShoot()
     {
         Vector2 dir = new Vector2(ctr.curDir, 0);
-        Transform firePoint = GetFirePoint(dir);
+        Transform firePoint = ctr.firePoint[5];
         ctr.PlayerShoot(firePoint, dir);
-    }
-
-    protected override Transform GetFirePoint(Vector2 dir)
-    {
-        return ctr.firePoint[5];
     }
 }

@@ -5,6 +5,7 @@ using playerAnimation;
 public class PlayerLockState : PlayerState
 {
     public PlayerLockState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    protected override bool canMove => false;
 
     public override void Enter()
     {
@@ -28,12 +29,8 @@ public class PlayerLockState : PlayerState
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         LockAnimation();
-    }
-
-    public override void StateFixedUpdate()
-    {
-        ctr.SetVelocityX(0);
     }
 
     private void LockAnimation()
@@ -41,10 +38,10 @@ public class PlayerLockState : PlayerState
         bool isShoot = ctr.InputShoot;
         Vector2 dir = new Vector2(ctr.InputX, ctr.InputY);
 
-        if (dir.x != 0 && dir.y > 0) ctr.aniHash.PlayAni(isShoot ? PlayerAnimation.ShotDiagonalUp : PlayerAnimation.AimDiagonalUp);
-        else if (dir.x == 0 && dir.y > 0) ctr.aniHash.PlayAni(isShoot ? PlayerAnimation.ShotUp : PlayerAnimation.AimUp);
-        else if (dir.x != 0 && dir.y < 0) ctr.aniHash.PlayAni(isShoot ? PlayerAnimation.ShotDiagonalDown : PlayerAnimation.AimDiagonalDown);
-        else if (dir.x == 0 && dir.y < 0) ctr.aniHash.PlayAni(isShoot ? PlayerAnimation.ShotDown : PlayerAnimation.AimDown);
-        else ctr.aniHash.PlayAni(isShoot ? PlayerAnimation.ShotStraight : PlayerAnimation.AimStraight);
+        if (dir.x != 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalUp : PlayerAnimation.AimDiagonalUp);
+        else if (dir.x == 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotUp : PlayerAnimation.AimUp);
+        else if (dir.x != 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalDown : PlayerAnimation.AimDiagonalDown);
+        else if (dir.x == 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDown : PlayerAnimation.AimDown);
+        else ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotStraight : PlayerAnimation.AimStraight);
     }
 }

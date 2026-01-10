@@ -9,7 +9,7 @@ public class PlayerJumpState : PlayerState
 
     public override void Enter()
     {
-        ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.Data.jumpForce);
+        ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.data.jumpForce);
         ctr.aniHash.PlayAni(PlayerAnimation.Jump);
     }
 

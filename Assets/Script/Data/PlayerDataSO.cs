@@ -6,21 +6,39 @@ using UnityEngine;
 public class PlayerDataSO : ScriptableObject
 {
     [Header("Movement Stats")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
-    public float dashSpeed = 20f;
-    public float dashTime = 0.5f;
-    public float dashColldown = 0.5f;
+
+    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private float _jumpForce = 10f;
+    [SerializeField] private float _dashSpeed = 20f;
+    [SerializeField] private float _dashTime = 0.5f;
+    [SerializeField] private float _dashCooldown = 0.5f;
 
     [Header("Collision Size")]
-    public Vector2 standSize = new Vector2(1f, 2f);
-    public Vector2 standOffset = new Vector2(0, 1f);
-    public Vector2 duckSize = new Vector2(1f, 1f);
-    public Vector2 duckOffset = new Vector2(0, 0.5f);
+    [SerializeField] private Vector2 _standSize = new Vector2(1f, 2f);
+    [SerializeField] private Vector2 _standOffset = new Vector2(0, 1f);
+    [SerializeField] private Vector2 _duckSize = new Vector2(1f, 1f);
+    [SerializeField] private Vector2 _duckOffset = new Vector2(0, 0.5f);
 
     [Header("Health & Hit")]
-    public int maxHealth = 5;
-    public float hitStunTime = 0.5f;
-    public float invincibilityTime = 2.0f;
-    public Vector2 knockbackForce = new Vector2(5f, 5f);
+    [SerializeField] private int _maxHealth = 5;
+    [SerializeField] private float _invincibilityTime = 2f;
+    [SerializeField] private float _knockbackForceX = 1f;
+    [SerializeField] private float _knockbackForceY = 1f;
+
+    public float moveSpeed => _moveSpeed;
+    public float jumpForce => _jumpForce;
+    public float dashSpeed => _dashSpeed;
+    public float dashTime => _dashTime;
+    public float dashCooldown => _dashCooldown;
+
+    public Vector2 standSize => _standSize;
+    public Vector2 standOffset => _standOffset;
+    public Vector2 duckSize => _duckSize;
+    public Vector2 duckOffset => _duckOffset;
+
+    public int maxHealth => _maxHealth;
+    public float invincibilityTIme => _invincibilityTime;
+    public float knockbackForceX => _knockbackForceX;
+    public float knockbackForceY => _knockbackForceY;
+
 }

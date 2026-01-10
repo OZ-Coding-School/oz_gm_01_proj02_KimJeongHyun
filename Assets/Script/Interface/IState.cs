@@ -5,6 +5,5 @@ public interface IState
     void HandleInput();
     void StateUpdate();
     void StateFixedUpdate();
-    
-    bool canMove { get; }
+    void OnHit(int dir) { }
 }

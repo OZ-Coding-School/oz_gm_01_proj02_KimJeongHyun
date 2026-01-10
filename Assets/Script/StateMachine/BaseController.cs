@@ -51,16 +51,7 @@ public class BaseController: MonoBehaviour
         machine.CurState?.StateFixedUpdate();
         isGround = IsGround();
         isWall = IsWall();
-    }
-
-    protected virtual void Flip(int x)
-    {
-        if (x != 0 && x != curDir)
-        {
-            curDir *= -1;
-            transform.Rotate(0, 180, 0);
-        }
-    }
+    }    
 
     private bool IsGround()
     {
@@ -83,11 +74,14 @@ public class BaseController: MonoBehaviour
         return curstate;
     }
 
-
-
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    public void FlipX()
     {
-
+        curDir *= -1;
     }
+
+
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision) { }        
+    protected virtual void OnCollisionEnter2D(Collision2D collision) { }
 
 }

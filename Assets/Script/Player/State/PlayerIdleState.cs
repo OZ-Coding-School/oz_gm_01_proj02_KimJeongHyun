@@ -28,6 +28,10 @@ public class PlayerIdleState : PlayerState
         {
             ctr.aniHash.PlayAni(PlayerAnimation.Idle);
         }
+        if(ctr.InputDash)
+        {
+            OnHit(-1);
+        }
     }
 
     protected override void StateShoot()

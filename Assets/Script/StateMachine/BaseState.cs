@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 public abstract class BaseState<T> : IState where T : BaseController
 {
     protected T ctr;
@@ -15,6 +16,8 @@ public abstract class BaseState<T> : IState where T : BaseController
     public virtual void HandleInput() { }
     public virtual void StateUpdate() { }
     public virtual void StateFixedUpdate() { }
+    public virtual void OnHit(int dir) { }
 
-    public virtual bool canMove => true;
+    protected virtual bool canMove => true;
+    protected virtual bool canFlip => true;
 }

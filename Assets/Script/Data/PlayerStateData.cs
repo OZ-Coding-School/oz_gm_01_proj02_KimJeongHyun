@@ -19,5 +19,6 @@ public class PlayerStateData
         Duck = new PlayerDuckState(ctr, machine);
         Dash = new PlayerDashState(ctr, machine);
         Lock = new PlayerLockState(ctr, machine);
+        Hit = new PlayerHitState(ctr, machine);
     }
 }
