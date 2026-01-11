@@ -39,24 +39,19 @@ public class PlayerController : BaseController
     [SerializeField] private Transform[] _firePoint;
     public Transform[] firePoint => _firePoint;
 
-
-    
-    //temp
-    public TextMeshProUGUI text;
-
     protected override void Init()
     {
         base.Init();
         aniHash = new AnimationHash<PlayerAnimation>(animator);
         state = new PlayerStateData(this, machine);
         shooter = GetComponentInChildren<PlayerShooting>();
-        input = InputManager.Instance;
 
     }
     protected override void Start()
     {
         base.Start();
         machine.Init(state.Idle);
+        input = InputManager.Instance;
     }
 
     protected override void Update()
@@ -66,7 +61,6 @@ public class PlayerController : BaseController
 
         machine.CurState.HandleInput();
         machine.CurState.StateUpdate();
-        text.text = GetCurState().ToString();
     }
 
     protected override void FixedUpdate()

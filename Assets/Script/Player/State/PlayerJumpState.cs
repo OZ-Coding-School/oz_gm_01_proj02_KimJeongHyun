@@ -15,7 +15,7 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        isShort = false;
+        isShort = false;     
         ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.data.jumpForce);
         ctr.aniHash.PlayAni(PlayerAnimation.Jump);
     }
