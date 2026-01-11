@@ -9,6 +9,8 @@ public class PlayerStateData
     public PlayerDashState Dash { get; private set; }
     public PlayerLockState Lock { get; private set; }
     public PlayerHitState Hit { get; private set; }
+    public PlayerParryState Parry { get; private set; }
+    public PlayerSuperAttackState Super {  get; private set; }
 
     public PlayerStateData(PlayerController ctr, StateMachine machine)
     {
@@ -20,5 +22,7 @@ public class PlayerStateData
         Dash = new PlayerDashState(ctr, machine);
         Lock = new PlayerLockState(ctr, machine);
         Hit = new PlayerHitState(ctr, machine);
+        Parry = new PlayerParryState(ctr, machine);
+        Super = new PlayerSuperAttackState(ctr, machine);
     }
 }

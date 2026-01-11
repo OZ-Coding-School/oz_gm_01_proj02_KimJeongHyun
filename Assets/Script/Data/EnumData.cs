@@ -66,6 +66,7 @@ namespace CustomKeyMapping
         Shoot,
         Dash,
         Lock,
+        Super,
     }
 }
 public class EnumData

@@ -21,8 +21,8 @@ public class PlayerHitState : PlayerState
         base.StateFixedUpdate();
         if (ctr.rb.velocity.y <= 0.05 && ctr.isGround)
         {
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); }
-            else { machine.ChangeState(ctr.state.Idle); }
+            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+            else { machine.ChangeState(ctr.state.Idle); return; }
         }
     }
 

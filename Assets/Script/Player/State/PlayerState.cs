@@ -7,8 +7,48 @@ public class PlayerState : BaseState<PlayerController>
 {    
     public PlayerState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
 
+    protected virtual bool canJump => true;
+    protected virtual bool canDash => true;
+    protected virtual bool canDuck => true;
+    protected virtual bool canLock => true;
+    protected virtual bool canParry => false;
+    protected virtual bool canSuperAttack => true;
+    protected float timer;
+
+    public override void Enter()
+    {
+        timer = 0;
+        ctr.rb.gravityScale = canGravity ? ctr.data.gravityVal : 0;
+    }
+
+    public override void HandleInput()
+    {
+        if (canParry && ctr.InputJump) { machine.ChangeState(ctr.state.Parry); return; }
+        if (canDash && ctr.InputDash && ctr._canDash) { machine.ChangeState(ctr.state.Dash); return; }
+        if (canSuperAttack && ctr.InputSuper && ctr.HasEnergy) { machine.ChangeState(ctr.state.Super); return; }
+
+        if (ctr.isGround)
+        {
+            if (canJump && ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
+            if (canDuck && ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
+            if (canLock && ctr.InputLock) { machine.ChangeState(ctr.state.Lock); return; }
+            if (machine.CurState != ctr.state.Jump)
+            {
+                if (canMove && ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+                if (canMove && ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
+            }
+        }
+    }
+   
+
     public override void StateUpdate()
     {
+        timer += Time.deltaTime;  
+
+        if (ctr.isGround && Time.time >= ctr.lastDashTime + ctr.data.dashCooldown)
+        {
+            ctr.SetCanDash(true);
+        }
         if (canFlip && ctr.InputX != 0)
         {
             if (ctr.curDir != (int)ctr.InputX)
@@ -17,14 +57,19 @@ public class PlayerState : BaseState<PlayerController>
                 ctr.transform.Rotate(0, 180, 0);
             }
         }
-    }    
+    }
 
     public override void StateFixedUpdate()
     {
         if (canMove == true)
         {
             float xSpeed = ctr.InputX * ctr.data.moveSpeed;
-            ctr.SetVelocityX(xSpeed);
+            ctr.rb.velocity = new Vector2(xSpeed, ctr.rb.velocity.y);
+        }
+        float maxFallSpeed = -15f;
+        if (ctr.rb.velocity.y < maxFallSpeed)
+        {
+            ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, maxFallSpeed);
         }
     }
 

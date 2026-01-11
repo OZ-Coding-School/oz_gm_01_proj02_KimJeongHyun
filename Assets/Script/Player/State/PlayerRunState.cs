@@ -9,16 +9,15 @@ public class PlayerRunState : PlayerState
 
     public override void Enter()
     {
+        base.Enter();
         if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.RunShot);
         else ctr.aniHash.PlayAni(PlayerAnimation.Run);
     }
 
     public override void HandleInput()
     {
-        if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
-        if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
-        if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-        if (ctr.InputLock) {  machine.ChangeState(ctr.state.Lock); return; }
+        base.HandleInput();
+
         if (ctr.InputShoot) 
         {
             if (ctr.InputY != 0) ctr.aniHash.PlayAni(PlayerAnimation.RunDiagonalUpShot);  
@@ -31,9 +30,9 @@ public class PlayerRunState : PlayerState
         }
     }
 
-
-    public override void StateFixedUpdate()
+    public override void StateUpdate()
     {
-        base.StateFixedUpdate();    
+        base.StateUpdate();
+        if (!ctr.isGround) { machine.ChangeState(ctr.state.Fall); return; }
     }
 }

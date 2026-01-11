@@ -9,16 +9,15 @@ public class PlayerIdleState : PlayerState
 
     public override void Enter()
     {
+        base.Enter();
         if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.ShotStraight);
         else ctr.aniHash.PlayAni(PlayerAnimation.Idle);
     }
 
     public override void HandleInput()
     {
-        if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-        if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
-        if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-        if (ctr.InputLock) {  machine.ChangeState(ctr.state.Lock); return; }
+        base.HandleInput();
+
         if (ctr.InputShoot)
         {           
             ctr.aniHash.PlayAni(PlayerAnimation.ShotStraight);
@@ -27,11 +26,13 @@ public class PlayerIdleState : PlayerState
         else
         {
             ctr.aniHash.PlayAni(PlayerAnimation.Idle);
-        }
-        if(ctr.InputDash)
-        {
-            OnHit(-1);
-        }
+        }              
+    }
+
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+        if (!ctr.isGround) { machine.ChangeState(ctr.state.Fall); return; }
     }
 
     protected override void StateShoot()
@@ -39,10 +40,5 @@ public class PlayerIdleState : PlayerState
         Vector2 dir = new Vector2(ctr.curDir, 0);
         Transform firePoint = ctr.firePoint[0];
         ctr.PlayerShoot(firePoint, dir);
-    }
-
-    public override void StateFixedUpdate()
-    {
-        ctr.SetVelocityX(0);
     }
 }

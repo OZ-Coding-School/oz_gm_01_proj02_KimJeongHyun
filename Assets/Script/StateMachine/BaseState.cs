@@ -20,4 +20,6 @@ public abstract class BaseState<T> : IState where T : BaseController
 
     protected virtual bool canMove => true;
     protected virtual bool canFlip => true;
+    protected virtual bool canGravity => true;
+    protected virtual bool canAttack => true;
 }

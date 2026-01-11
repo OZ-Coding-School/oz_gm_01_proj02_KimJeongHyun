@@ -28,6 +28,7 @@ public class InputManager : Singleton<InputManager>
         keyMapping[CusKey.Shoot] = KeyCode.X;
         keyMapping[CusKey.Dash] = KeyCode.C;
         keyMapping[CusKey.Jump] = KeyCode.V;
+        keyMapping[CusKey.Super] = KeyCode.Space;
     }
 
     public bool GetKeyDown(CusKey key)

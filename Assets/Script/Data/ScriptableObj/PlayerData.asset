@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _jumpForce: 10
-  _dashSpeed: 20
+  _jumpForce: 13
+  _lowJumpForce: 7
+  _lowJumpTime: 0.17
+  _dashSpeed: 15
   _dashTime: 0.5
-  _dashCooldown: 0.5
+  _dashCooldown: 0.4
+  _gravityVal: 4.2
   _standSize: {x: 1, y: 2}
   _standOffset: {x: 0, y: 1}
   _duckSize: {x: 1, y: 1}
   _duckOffset: {x: 0, y: 0.5}
   _maxHealth: 5
+  _maxEnergy: 5
   _invincibilityTime: 2
   _knockbackForceX: 0.7
-  _knockbackForceY: 10
+  _knockbackForceY: 4.2

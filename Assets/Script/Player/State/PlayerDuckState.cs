@@ -7,28 +7,33 @@ using playerAnimation;
 public class PlayerDuckState : PlayerState
 {
     public PlayerDuckState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    protected override bool canDuck => false;
     protected override bool canMove => false;
+    protected override bool canLock => false;
 
     public override void Enter()
     {
-        ctr.SetVelocityX(0);
-
+        base.Enter();
+        ctr.rb.velocity = new Vector2(0, ctr.rb.velocity.y);
         if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
         else ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle);
     }
 
     public override void HandleInput()
     {
-        if (!ctr.InputDuck) { machine.ChangeState(ctr.state.Idle); return; }
-        if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
+        base.HandleInput();
+
         if (ctr.InputShoot)
         {
             ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
             StateShoot();
         }
-        else
+        else { ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle); }
+
+        if (!ctr.InputDuck)
         {
-            ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle);
+            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+            else {  machine.ChangeState(ctr.state.Idle);}
         }
     }
 
