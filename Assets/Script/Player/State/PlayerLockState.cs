@@ -5,10 +5,6 @@ using playerAnimation;
 public class PlayerLockState : PlayerState
 {
     public PlayerLockState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    protected override bool canMove => false;
-    protected override bool canLock => false;
-    protected override bool canDuck => false;
-    protected override bool canJump => false;
 
     public override void Enter()
     {
@@ -20,32 +16,32 @@ public class PlayerLockState : PlayerState
 
     public override void HandleInput()
     {
-        base.HandleInput();
-
+        StateShoot();
         if (!ctr.InputLock)
         {
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+            if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
+            if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
             if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-            else machine.ChangeState(ctr.state.Idle); return;
-        }      
+            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
+        }
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        LockAnimation();
+        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
     }
 
-    private void LockAnimation()
+    protected override void StateShoot()
     {
         bool isShoot = ctr.InputShoot;
         Vector2 dir = new Vector2(ctr.InputX, ctr.InputY);
-        if (isShoot) { StateShoot(); }
+        if (isShoot) { base.StateShoot(); }
         if (dir.x != 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalUp : PlayerAnimation.AimDiagonalUp);
         else if (dir.x == 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotUp : PlayerAnimation.AimUp);
         else if (dir.x != 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalDown : PlayerAnimation.AimDiagonalDown);
         else if (dir.x == 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDown : PlayerAnimation.AimDown);
         else ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotStraight : PlayerAnimation.AimStraight);
-
     }
 }

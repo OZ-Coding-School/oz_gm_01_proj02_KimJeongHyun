@@ -6,9 +6,6 @@ using playerAnimation;
 public class PlayerJumpState : PlayerState
 {
     public PlayerJumpState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    protected override bool canJump => false;
-    protected override bool canParry => true;
-    protected override bool canDuck => false;
     
     private bool isShort;
 
@@ -22,31 +19,27 @@ public class PlayerJumpState : PlayerState
 
     public override void HandleInput()
     {
-        base.HandleInput();
-
-        if (ctr.rb.velocity.y < 0.01 && ctr.isGround)
-        {
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-            else machine.ChangeState(ctr.state.Idle); return;            
-        }
-        if (ctr.InputDash && ctr._canDash) { machine.ChangeState(ctr.state.Dash); }
         if (ctr.InputShoot) StateShoot();
-    }
+        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
 
+    }
     public override void StateUpdate()
     {
         base.StateUpdate();
-
+        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
         if (!isShort && ctr.InputJumpUp)
         {
-            if (timer < ctr.data.lowJumpTime)
+            if (timer < ctr.data.lowJumpTime && ctr.rb.velocity.y > 0)
             {
                 ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.data.lowJumpForce);
                 isShort = true;
             }
-        }
-
+        }        
+    }
+    public override void StateFixedUpdate()
+    {
+        base.StateFixedUpdate();
+        ctr.MovementX();
         if (ctr.rb.velocity.y <= 0) { machine.ChangeState(ctr.state.Fall); return; }
     }
 }

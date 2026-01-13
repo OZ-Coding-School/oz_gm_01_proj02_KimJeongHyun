@@ -8,7 +8,7 @@ public class LobbySceneUIController : BaseSceneUIController
     private Dictionary<EnumData.UIType, BaseUIController> uiList = new Dictionary<EnumData.UIType, BaseUIController>();
     private Stack<EnumData.UIType> uiStack = new Stack<EnumData.UIType>();
     private BaseUIController[] baseCnt;
-
+    private const float SLIDER_MAX_AUDIO_VAL = 10f;
     private void Awake()
     {
         baseCnt = GetComponentsInChildren<BaseUIController>(true);
@@ -59,6 +59,8 @@ public class LobbySceneUIController : BaseSceneUIController
             case (EnumData.UIType.LobbyMainUI, EnumData.ButtonType.Option): OpenUI(EnumData.UIType.OptionUI); break;
             case (EnumData.UIType.OptionUI, EnumData.ButtonType.Sound): OpenUI(EnumData.UIType.AudioUI); break;
             case (EnumData.UIType.OptionUI, EnumData.ButtonType.Visual): OpenUI(EnumData.UIType.VisualUI); break;
+            case (EnumData.UIType.GameStartUI, EnumData.ButtonType.Start): OpenUI(EnumData.UIType.TutorialUI); break;
+
 
             case (_, EnumData.ButtonType.Back): CloseUI(); break;
             case (_, EnumData.ButtonType.Exit): Application.Quit(); break;
@@ -69,7 +71,7 @@ public class LobbySceneUIController : BaseSceneUIController
 
     private void SliderEvent(EnumData.UIType uiType ,EnumData.SliderType sldType, float val)
     {
-        float result = val / 10;
+        float result = val / SLIDER_MAX_AUDIO_VAL;
         AudioManager.Instance.SetVolume(sldType, result);
     }
 

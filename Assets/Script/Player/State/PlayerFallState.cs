@@ -16,16 +16,26 @@ public class PlayerFallState : PlayerState
     }
 
     public override void HandleInput()
-    {
-        base.HandleInput();
-
-        if (ctr.rb.velocity.y <= 0 && ctr.isGround)
-        {
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-            else machine.ChangeState(ctr.state.Idle); return;
-        }
-        if (ctr.InputDash && ctr._canDash) { machine.ChangeState(ctr.state.Dash); return; }
+    {        
         if (ctr.InputShoot) StateShoot();
+        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }       
+    }
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }        
+        if (ctr.isGround)
+        {
+            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
+            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
+            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
+            if (ctr.InputLock) { machine.ChangeState(ctr.state.Lock); return; }
+        }
+    }
+
+    public override void StateFixedUpdate()
+    {
+        base.StateFixedUpdate();
+        ctr.MovementX();
     }
 }

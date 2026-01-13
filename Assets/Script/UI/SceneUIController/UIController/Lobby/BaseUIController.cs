@@ -11,7 +11,11 @@ public class BaseUIController : MonoBehaviour
     public event Action<EnumData.UIType, EnumData.SliderType, float> SliderValueChanged;
 
     [SerializeField] protected Selectable firstSelect;
-    private GameObject lastSelectedObj;
+    protected RectTransform firstSelectRect;
+    protected ButtonType firstSelectBtn;
+    protected GameObject lastSelectedObj;
+    protected RectTransform lastSelectedRect;
+    protected ButtonType lastSelectedBtn;
 
     private void Awake()
     {
@@ -25,19 +29,25 @@ public class BaseUIController : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        if (EventSystem.current == null) return;
         StartCoroutine(SetFirstSelectBtn());
     }
 
-    private void Update()
+    protected virtual void Update()
     {
 
         GameObject current = EventSystem.current.currentSelectedGameObject;
 
-        if (current != null)
+        if (current != null && lastSelectedObj != current)
         {
-            if (current.GetComponent<Selectable>() != null && current.transform.IsChildOf(this.transform))
+            if (current.transform.IsChildOf(this.transform))
             {
-                lastSelectedObj = current;
+                if (current.TryGetComponent(out ButtonType btn))
+                {
+                    lastSelectedObj = current;
+                    lastSelectedBtn = btn;
+                    lastSelectedRect = current.GetComponent<RectTransform>();
+                }
             }
         }
 
@@ -49,15 +59,16 @@ public class BaseUIController : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(lastSelectedObj);
         }
     }
+
     protected virtual void OnDisable()
     {
-
+        StopAllCoroutines();
     }
 
     private IEnumerator SetFirstSelectBtn()
     {
 
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
 
         GameObject targetToSelect = null;
 
@@ -105,9 +116,12 @@ public class BaseUIController : MonoBehaviour
                 sld.onValueChanged.AddListener((val) => OnSliderValueChanged(uiType, sldType, val));
             }
         }
+        firstSelectRect = firstSelect.gameObject.GetComponent<RectTransform>();
+        firstSelectBtn = firstSelect.gameObject.GetComponent<ButtonType>();
+
     }
 
-    protected virtual void OnButtonClick(EnumData.UIType uiType,EnumData.ButtonType btnType)
+    protected virtual void OnButtonClick(EnumData.UIType uiType, EnumData.ButtonType btnType)
     {
         ButtonClicked?.Invoke(uiType, btnType);
     }

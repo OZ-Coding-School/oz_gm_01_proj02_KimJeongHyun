@@ -5,34 +5,28 @@ using playerAnimation;
 
 public class PlayerHitState : PlayerState
 {
-    private int dir;
     public PlayerHitState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    protected override bool canMove => false;
-    protected override bool canFlip => false;
 
     public override void Enter()
     {
-        ctr.rb.velocity = new Vector2(dir * ctr.data.knockbackForceX, ctr.data.knockbackForceY);
-        ctr.aniHash.PlayAni(PlayerAnimation.HitGround);
+        base.Enter();
+        ctr.rb.velocity = new Vector2(ctr.hitDir * ctr.data.knockbackForceX, ctr.data.knockbackForceY);
+        if (ctr.isGround) ctr.aniHash.PlayAni(PlayerAnimation.HitGround);
+        else ctr.aniHash.PlayAni(PlayerAnimation.HitAir);
     }
 
-    public override void StateFixedUpdate()
+    public override void StateUpdate()
     {
-        base.StateFixedUpdate();
-        if (ctr.rb.velocity.y <= 0.05 && ctr.isGround)
+        base.StateUpdate();
+        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
+        if (ctr.isGround)
         {
             if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            else { machine.ChangeState(ctr.state.Idle); return; }
+            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
+            if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
+            if (ctr.InputLock) { machine.ChangeState(ctr.state.Lock); return; }
+            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
         }
-    }
-
-    public void SetDir(int dir)
-    {
-        this.dir = dir;
-    }
-
-    public override void Exit()
-    {
-        ctr.rb.velocity = Vector2.zero;
+        if (!ctr.isGround) { machine.ChangeState(ctr.state.Fall); return; }
     }
 }

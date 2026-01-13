@@ -6,14 +6,16 @@ using UnityEngine;
 public class PlayerDataSO : ScriptableObject
 {
     [Header("Movement Stats")]
-
     [SerializeField] private float _moveSpeed = 5f;
+
     [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _lowJumpForce = 5f;
     [SerializeField] private float _lowJumpTime = 0.15f;
+
     [SerializeField] private float _dashSpeed = 10f;
     [SerializeField] private float _dashTime = 0.5f;
     [SerializeField] private float _dashCooldown = 0.5f;
+
     [SerializeField] private float _gravityVal = 2.6f;
 
     [Header("Collision Size")]

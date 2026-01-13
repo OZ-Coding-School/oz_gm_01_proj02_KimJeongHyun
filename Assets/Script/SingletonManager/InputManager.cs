@@ -8,6 +8,7 @@ using CustomKeyMapping;
 public class InputManager : Singleton<InputManager>
 {
     private Dictionary<CusKey, KeyCode> keyMapping;
+    private Dictionary<CusKey, KeyCode> defaultKey;
 
     protected override void Init()
     {
@@ -18,17 +19,42 @@ public class InputManager : Singleton<InputManager>
     private void InitKey()
     {
         keyMapping = new Dictionary<CusKey, KeyCode>();
+        defaultKey = new Dictionary<CusKey, KeyCode>();
 
-        keyMapping[CusKey.Up] = KeyCode.UpArrow;
-        keyMapping[CusKey.Down] = KeyCode.DownArrow;
-        keyMapping[CusKey.Left] = KeyCode.LeftArrow;
-        keyMapping[CusKey.Right] = KeyCode.RightArrow;
+        void AddKey(CusKey key, KeyCode code)
+        {
+            keyMapping[key] = code;
+            defaultKey[key] = code;
+        }
 
-        keyMapping[CusKey.Lock] = KeyCode.Z;
-        keyMapping[CusKey.Shoot] = KeyCode.X;
-        keyMapping[CusKey.Dash] = KeyCode.C;
-        keyMapping[CusKey.Jump] = KeyCode.V;
-        keyMapping[CusKey.Super] = KeyCode.Space;
+        AddKey(CusKey.Up, KeyCode.UpArrow);
+        AddKey(CusKey.Down, KeyCode.DownArrow);
+        AddKey(CusKey.Left, KeyCode.LeftArrow);
+        AddKey(CusKey.Right, KeyCode.RightArrow);
+        AddKey(CusKey.Lock, KeyCode.Z);
+        AddKey(CusKey.Shoot, KeyCode.X);
+        AddKey(CusKey.Dash, KeyCode.C);
+        AddKey(CusKey.Jump, KeyCode.V);
+        AddKey(CusKey.Super, KeyCode.Space);
+        AddKey(CusKey.ChangeWeapon, KeyCode.Tab);
+    }
+
+    public void SetKey(CusKey key, KeyCode code)
+    {
+        keyMapping[key] = code;
+    }
+
+    public void SetDefault()
+    {
+        foreach (var reset in defaultKey)
+        {
+            keyMapping[reset.Key] = reset.Value;
+        }
+    }
+
+    public KeyCode GetKeyCode(CusKey key)
+    {
+        return keyMapping[key];
     }
 
     public bool GetKeyDown(CusKey key)

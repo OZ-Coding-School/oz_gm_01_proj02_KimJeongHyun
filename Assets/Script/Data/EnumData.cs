@@ -67,6 +67,7 @@ namespace CustomKeyMapping
         Dash,
         Lock,
         Super,
+        ChangeWeapon,
     }
 }
 public class EnumData
@@ -88,6 +89,13 @@ public class EnumData
         OptionUI,
         AudioUI,
         VisualUI,
+        TutorialUI
+    }
+
+    public enum SpriteType
+    {
+        Setting,
+        Tutorial,
     }
     public enum ButtonType
     {
@@ -102,6 +110,9 @@ public class EnumData
         Retry,
         Visual,
         Sound,
+        Done,
+        Default,
+        keySetting,
     }
 
     public enum SliderType

@@ -1,9 +1,11 @@
 using System;
+using System.Threading;
 using UnityEngine;
 public abstract class BaseState<T> : IState where T : BaseController
 {
     protected T ctr;
     protected StateMachine machine;
+    protected float timer;
 
     public BaseState(T ctr, StateMachine machine)
     {
@@ -11,15 +13,10 @@ public abstract class BaseState<T> : IState where T : BaseController
         this.machine = machine;
     }
 
-    public virtual void Enter() { }
+    public virtual void Enter() { timer = 0; }
     public virtual void Exit() { }
     public virtual void HandleInput() { }
-    public virtual void StateUpdate() { }
+    public virtual void StateUpdate() { timer += Time.deltaTime; }
     public virtual void StateFixedUpdate() { }
     public virtual void OnHit(int dir) { }
-
-    protected virtual bool canMove => true;
-    protected virtual bool canFlip => true;
-    protected virtual bool canGravity => true;
-    protected virtual bool canAttack => true;
 }

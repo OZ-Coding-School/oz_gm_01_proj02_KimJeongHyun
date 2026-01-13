@@ -7,9 +7,6 @@ using playerAnimation;
 public class PlayerDuckState : PlayerState
 {
     public PlayerDuckState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    protected override bool canDuck => false;
-    protected override bool canMove => false;
-    protected override bool canLock => false;
 
     public override void Enter()
     {
@@ -21,26 +18,43 @@ public class PlayerDuckState : PlayerState
 
     public override void HandleInput()
     {
-        base.HandleInput();
-
         if (ctr.InputShoot)
         {
-            ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
             StateShoot();
-        }
+            ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
+        } 
         else { ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle); }
+
+        if (ctr.InputJump && ctr.GetcurPlatform() != null)
+        {
+            ctr.IgnoreCurPlatform();
+            machine.ChangeState(ctr.state.Fall); return;
+        }
+    }
+
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
 
         if (!ctr.InputDuck)
         {
+            if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
             if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            else {  machine.ChangeState(ctr.state.Idle);}
+            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
         }
+    }
+
+    public override void StateFixedUpdate()
+    {
+        base.StateFixedUpdate();
+        ctr.rb.velocity = new Vector2(0, ctr.rb.velocity.y);
     }
 
     protected override void StateShoot()
     {
-        Vector2 dir = new Vector2(ctr.curDir, 0);
+        Vector2 dir = new Vector2(ctr.CurrentDir, 0);
         Transform firePoint = ctr.firePoint[5];
         ctr.PlayerShoot(firePoint, dir);
-    }
+    }    
 }
