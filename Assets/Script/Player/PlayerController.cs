@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -32,9 +33,11 @@ public class PlayerController : BaseController
     public AnimationHash<PlayerAnimation> aniHash { get; private set; }
     public PlayerShooting shooter { get; private set; }
     public PlayerStateData state { get; private set; }
-    public Collider2D playercol {  get; private set; }
-    public Collider2D groundcol { get; private set; }
-    public Collider2D curPlatform {  get; private set; }
+    [SerializeField] private BoxCollider2D bodyCol;
+    [SerializeField] private BoxCollider2D footCol;
+    [SerializeField] private BoxCollider2D hitboxCol;
+    public Collider2D currentPlatform { get; private set; }
+    private Collider2D ignorePlatform;
     private InputManager input;
 
     //@인게임데이터
@@ -54,10 +57,9 @@ public class PlayerController : BaseController
     {
         base.Init();
         CurrentDir = 1;
-        playercol = GetComponent<Collider2D>();
         aniHash = new AnimationHash<PlayerAnimation>(animator);
         state = new PlayerStateData(this, machine);
-        shooter = GetComponentInChildren<PlayerShooting>();
+        shooter = GetComponentInChildren<PlayerShooting>();               
 
     }
     protected override void Start()
@@ -76,13 +78,55 @@ public class PlayerController : BaseController
 
     protected override void FixedUpdate()
     {
-        curPlatform = GetcurPlatform();
         base.FixedUpdate();
     }
 
     protected override void OnTriggerEnter2D(Collider2D Enemy)
     {
         if (Enemy.gameObject.CompareTag("enemy")) { OnDamage(1, Enemy.transform.position); }
+    }
+
+    public override void CheckGround()
+    {
+        RaycastHit2D hit = Physics2D.BoxCast(footCol.bounds.center, footCol.bounds.size, 0f, Vector2.down, groundCheckDis, groundAndPlatform);
+
+        if (hit.collider != null)
+        {
+            currentPlatform = hit.collider;
+            if (hit.collider == ignorePlatform)
+            {
+                isGround = false;
+            }
+            else
+            {
+                isGround = true;
+            }
+        }
+        else
+        {
+            isGround = false;
+            currentPlatform = null;
+        }
+    }
+
+    public void TryDropDown()
+    {
+        if (currentPlatform.gameObject.layer == LayerMask.NameToLayer("platform"))
+        {
+            Physics2D.IgnoreCollision(bodyCol, currentPlatform, true);
+            StartCoroutine(DropDownCo(currentPlatform));
+        }
+    }
+
+    IEnumerator DropDownCo(Collider2D platform)
+    {
+        ignorePlatform = platform;
+        rb.velocity = new Vector2(rb.velocity.x, -5f);
+        Physics2D.IgnoreCollision(footCol, platform, true);
+        yield return new WaitForFixedUpdate();
+        while(footCol.bounds.Intersects(platform.bounds)) { yield return null; }
+        Physics2D.IgnoreCollision(footCol, platform, false);
+        ignorePlatform = null;
     }
 
     public override void OnDamage(int dmg, Vector2 hitPoint)
@@ -99,6 +143,21 @@ public class PlayerController : BaseController
         {
             base.Flip();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (footCol == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(footCol.bounds.center, footCol.bounds.size);
+
+        Gizmos.color = Color.yellow;
+        Vector3 endCenter = (Vector2)footCol.bounds.center + Vector2.down * groundCheckDis;
+        Gizmos.DrawLine(footCol.bounds.center, endCenter);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(endCenter, footCol.bounds.size);
     }
 
     public void AddEnergy(float val)
@@ -130,27 +189,6 @@ public class PlayerController : BaseController
     public void PlayerShoot(Transform trs, Vector2 dir)
     {
         shooter.Shoot(trs, dir);
-    }
-
-    public Collider2D GetcurPlatform()
-    {
-        return Physics2D.OverlapBox(groundCheckTrs.position, boxSize, 0, platform);
-    }
-
-    public void IgnoreCurPlatform()
-    {
-        StartCoroutine(IgnoreCurPlatform(curPlatform));
-    }
-
-    private IEnumerator IgnoreCurPlatform(Collider2D target)
-    {
-        if (target == null || groundcol == null) yield break;
-
-        Physics2D.IgnoreCollision(groundcol, target, true);
-
-        yield return new WaitUntil(() => target == null || groundcol.bounds.max.y < target.bounds.min.y);
-        yield return null;
-        Physics2D.IgnoreCollision(groundcol, target, false);
     }
 
     private void GetInput()

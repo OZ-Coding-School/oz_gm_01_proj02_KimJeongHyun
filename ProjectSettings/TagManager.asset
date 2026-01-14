@@ -15,9 +15,9 @@ TagManager:
   - wall
   - Enemy
   - platform
-  - 
-  - 
-  - 
+  - playerHitbox
+  - playerFoot
+  - playerBody
   - 
   - 
   - 

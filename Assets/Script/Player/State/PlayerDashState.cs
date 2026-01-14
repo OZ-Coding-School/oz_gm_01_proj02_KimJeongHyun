@@ -24,12 +24,6 @@ public class PlayerDashState : PlayerState
     {
         if (ctr.InputJump)
         {
-            if (ctr.InputDuck && ctr.GetcurPlatform() != null)
-            {
-                ctr.IgnoreCurPlatform();
-                machine.ChangeState(ctr.state.Fall);                
-                return;
-            }
             if (ctr.isGround) { machine.ChangeState(ctr.state.Jump); return; }
         }
     }

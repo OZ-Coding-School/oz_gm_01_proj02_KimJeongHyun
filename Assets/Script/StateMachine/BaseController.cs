@@ -11,14 +11,10 @@ public class BaseController: MonoBehaviour, IDamageable
     public Collider2D col {  get; private set; }
     public SpriteRenderer sr { get; private set; }
     public Animator animator { get; private set; }
-    public StateMachine machine {  get; private set; }   
+    public StateMachine machine {  get; private set; }
 
     //@인게임 데이터
-    [SerializeField] protected Transform groundCheckTrs;
-    [SerializeField] protected Transform wallCheckTrs;
-    [SerializeField] protected Vector2 boxSize;    
-    [SerializeField] protected LayerMask ground;
-    [SerializeField] protected LayerMask platform;
+    [SerializeField] protected float groundCheckDis = 0.1f;
     [SerializeField] protected LayerMask groundAndPlatform;    
     public bool isInvincible { get; protected set; } = false;
     public int currentHP { get; protected set; }
@@ -53,13 +49,9 @@ public class BaseController: MonoBehaviour, IDamageable
     {
         CheckGround();
         machine.CurState.StateFixedUpdate();
-    }    
-
-    public virtual void CheckGround()
-    {
-        if (groundCheckTrs == null) return;
-        isGround = Physics2D.OverlapBox(groundCheckTrs.position, boxSize, 0, groundAndPlatform);
     }
+
+    public virtual void CheckGround() { }
 
     public virtual void Flip()
     {
@@ -79,8 +71,6 @@ public class BaseController: MonoBehaviour, IDamageable
         }
     }
     public virtual void Die() { }
-
-    protected virtual void OnDrawGizmos() { if (groundCheckTrs != null) { Gizmos.DrawWireCube(groundCheckTrs.position, boxSize); } }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision) { }        
     protected virtual void OnCollisionEnter2D(Collision2D collision) { }

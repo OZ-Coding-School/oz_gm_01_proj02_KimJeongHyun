@@ -25,10 +25,10 @@ public class PlayerDuckState : PlayerState
         } 
         else { ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle); }
 
-        if (ctr.InputJump && ctr.GetcurPlatform() != null)
+        if (ctr.InputJump)
         {
-            ctr.IgnoreCurPlatform();
-            machine.ChangeState(ctr.state.Fall); return;
+            ctr.TryDropDown();
+            return;
         }
     }
 
@@ -43,6 +43,7 @@ public class PlayerDuckState : PlayerState
             if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
             if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
         }
+        if (!ctr.isGround) {  machine.ChangeState(ctr.state.Fall); return; }
     }
 
     public override void StateFixedUpdate()

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  _jumpForce: 13
-  _lowJumpForce: 7
+  _jumpForce: 15
+  _lowJumpForce: 5
   _lowJumpTime: 0.17
-  _dashSpeed: 15
-  _dashTime: 0.5
+  _dashSpeed: 13
+  _dashTime: 0.15
   _dashCooldown: 0.4
   _gravityVal: 4.2
   _standSize: {x: 1, y: 2}
