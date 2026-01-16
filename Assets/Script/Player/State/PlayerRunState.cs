@@ -32,6 +32,7 @@ public class PlayerRunState : PlayerState
     public override void StateFixedUpdate()
     {
         Move();
+        base.StateFixedUpdate();
     }
 
     protected override void Shooting()
