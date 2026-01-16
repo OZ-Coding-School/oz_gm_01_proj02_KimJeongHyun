@@ -1,3 +1,5 @@
+using System.Numerics;
+
 public interface IState
 {    
     void Enter();
@@ -5,5 +7,5 @@ public interface IState
     void HandleInput();
     void StateUpdate();
     void StateFixedUpdate();
-    void OnHit(int dir) { }
+    void OnHit(Vector2 dir) { }
 }

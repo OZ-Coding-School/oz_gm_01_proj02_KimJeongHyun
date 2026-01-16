@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class LobbyTutorialUIConrtoller : BaseUIController
 {
-    
+    protected override void OnEnable()
+    {
+        AudioManager.Instance.PlayBGM(EnumData.BGM.Tutorial);
+    }
 }

@@ -12,20 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f427ca167762e644fa2e8b43f0eade3b, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _jumpForce: 15
-  _lowJumpForce: 5
-  _lowJumpTime: 0.17
-  _dashSpeed: 13
-  _dashTime: 0.15
-  _dashCooldown: 0.4
-  _gravityVal: 4.2
-  _standSize: {x: 1, y: 2}
-  _standOffset: {x: 0, y: 1}
-  _duckSize: {x: 1, y: 1}
-  _duckOffset: {x: 0, y: 0.5}
-  _maxHealth: 5
-  _maxEnergy: 5
-  _invincibilityTime: 2
-  _knockbackForceX: 0.7
-  _knockbackForceY: 4.2
+  moveSpeed: 5
+  jumpForce: 19
+  lowJumpForce: 5
+  lowJumpTime: 0.15
+  dashSpeed: 15
+  dashTime: 0.25
+  dashCooldown: 0.5
+  gravityJump: 7
+  gravityFall: 8.3
+  standSize: {x: 1, y: 2}
+  standOffset: {x: 0, y: 1}
+  duckSize: {x: 1, y: 1}
+  duckOffset: {x: 0, y: 0.5}
+  maxHealth: 5
+  maxEnergy: 5
+  energyGainPerHit: 0.1
+  invincibilityTime: 2
+  knockbackForceX: 1
+  knockbackForceY: 1

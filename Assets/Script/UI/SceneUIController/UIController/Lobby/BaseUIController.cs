@@ -27,6 +27,8 @@ public class BaseUIController : MonoBehaviour
         SetEvent();
     }
 
+    protected virtual void Start() { }
+
     protected virtual void OnEnable()
     {
         if (EventSystem.current == null) return;
@@ -116,8 +118,15 @@ public class BaseUIController : MonoBehaviour
                 sld.onValueChanged.AddListener((val) => OnSliderValueChanged(uiType, sldType, val));
             }
         }
-        firstSelectRect = firstSelect.gameObject.GetComponent<RectTransform>();
-        firstSelectBtn = firstSelect.gameObject.GetComponent<ButtonType>();
+        if (firstSelect != null)
+        {
+            firstSelectRect = firstSelect.gameObject.GetComponent<RectTransform>();
+            firstSelectBtn = firstSelect.gameObject.GetComponent<ButtonType>();
+        }
+        else
+        {
+            return;
+        }
 
     }
 

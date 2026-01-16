@@ -1,3 +1,37 @@
+namespace effectType
+{
+    public enum EffectType
+    {
+        // 1000번 부터 호출시 반전 X
+        // Flip O==============================================
+
+        //Player
+        PlayerDashDust,
+
+
+
+        //Bullet
+
+
+
+
+
+        // Flip X===============================================
+
+        //Player
+        PlayerJumpDust = 1000,
+
+
+
+        //Bullet
+        PeashooterShootEffect = 2000,
+        PeashooterHitEffect,
+    }
+}
+
+
+
+
 namespace playerAnimation
 {
     public enum PlayerAnimation
@@ -88,7 +122,7 @@ public class EnumData
         GameStartUI,
         OptionUI,
         AudioUI,
-        VisualUI,
+        KeySettingUI,
         TutorialUI
     }
 

@@ -5,41 +5,31 @@ using playerAnimation;
 
 public class PlayerJumpState : PlayerState
 {
-    public PlayerJumpState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-    
-    private bool isShort;
+    public PlayerJumpState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.Jump) { }
 
     public override void Enter()
     {
         base.Enter();
-        isShort = false;     
-        ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.data.jumpForce);
-        ctr.aniHash.PlayAni(PlayerAnimation.Jump);
+        ctr.PlayerMovement.Jump();
     }
 
     public override void HandleInput()
     {
-        if (ctr.InputShoot) StateShoot();
-        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
-
-    }
-    public override void StateUpdate()
-    {
-        base.StateUpdate();
-        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
-        if (!isShort && ctr.InputJumpUp)
+        Flip();
+        if (TryParry) { machine.ChangeState(ctr.PlayerState.Parry); return; }
+        if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
+        if (ctr.PlayerInputHandler.InputJumpUp)
         {
-            if (timer < ctr.data.lowJumpTime && ctr.rb.velocity.y > 0)
+            if (timer < ctr.PlayerData.LowJumpTime && ctr.Rb.velocity.y > 0)
             {
-                ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, ctr.data.lowJumpForce);
-                isShort = true;
+                ctr.Rb.velocity = new Vector2(ctr.Rb.velocity.x, ctr.PlayerData.LowJumpForce);
             }
-        }        
+        }
     }
+
     public override void StateFixedUpdate()
     {
-        base.StateFixedUpdate();
-        ctr.MovementX();
-        if (ctr.rb.velocity.y <= 0) { machine.ChangeState(ctr.state.Fall); return; }
+        Move();
+        if (ctr.Rb.velocity.y < 0) { machine.ChangeState(ctr.PlayerState.Fall); return; }
     }
 }

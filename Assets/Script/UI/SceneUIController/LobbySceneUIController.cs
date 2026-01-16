@@ -58,7 +58,7 @@ public class LobbySceneUIController : BaseSceneUIController
             case (EnumData.UIType.LobbyMainUI, EnumData.ButtonType.Start): OpenUI(EnumData.UIType.GameStartUI); break;
             case (EnumData.UIType.LobbyMainUI, EnumData.ButtonType.Option): OpenUI(EnumData.UIType.OptionUI); break;
             case (EnumData.UIType.OptionUI, EnumData.ButtonType.Sound): OpenUI(EnumData.UIType.AudioUI); break;
-            case (EnumData.UIType.OptionUI, EnumData.ButtonType.Visual): OpenUI(EnumData.UIType.VisualUI); break;
+            case (EnumData.UIType.OptionUI, EnumData.ButtonType.keySetting): OpenUI(EnumData.UIType.KeySettingUI); break;
             case (EnumData.UIType.GameStartUI, EnumData.ButtonType.Start): OpenUI(EnumData.UIType.TutorialUI); break;
 
 
@@ -85,9 +85,13 @@ public class LobbySceneUIController : BaseSceneUIController
     private void CloseUI()
     {
         if (uiStack.Count <= 1) return;
-        {
-            uiList[uiStack.Pop()].gameObject.SetActive(false);
-            uiList[uiStack.Peek()].gameObject.SetActive(true);
-        }
+
+        EnumData.UIType curType = uiStack.Peek();
+
+        if (curType == EnumData.UIType.TutorialUI) return;
+
+        uiList[uiStack.Pop()].gameObject.SetActive(false);
+        uiList[uiStack.Peek()].gameObject.SetActive(true);
+
     }
 }

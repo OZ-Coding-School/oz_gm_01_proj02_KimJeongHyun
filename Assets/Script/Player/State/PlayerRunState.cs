@@ -5,41 +5,47 @@ using playerAnimation;
 
 public class PlayerRunState : PlayerState
 {
-    public PlayerRunState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
-
-    public override void Enter()
-    {
-        base.Enter();
-        if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.RunShot);
-        else ctr.aniHash.PlayAni(PlayerAnimation.Run);
-    }
+    public PlayerRunState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.Run) { }
 
     public override void HandleInput()
-    {
-        if (ctr.InputShoot)
+    {        
+        if (ctr.PlayerInputHandler.InputShoot)
         {
-            StateShoot();
-            if (ctr.InputY != 0) ctr.aniHash.PlayAni(PlayerAnimation.RunDiagonalUpShot);
-            else ctr.aniHash.PlayAni(PlayerAnimation.RunShot);
+            Shooting();
+            PlayAni(CheckShotAni());
         }
-        else { ctr.aniHash.PlayAni(PlayerAnimation.Run); }
-
-        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
-        if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
-        if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-        if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
-    }
+        else { PlayAni(PlayerAnimation.Run); }
+        if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+        if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
+        if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
+        if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
+        if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
+        if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
+    }    
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
-        if (!ctr.isGround) { machine.ChangeState(ctr.state.Fall); return; }
+        Flip();
     }
 
     public override void StateFixedUpdate()
     {
-        base.StateFixedUpdate();
-        ctr.MovementX();
+        Move();
+    }
+
+    protected override void Shooting()
+    {
+        if (ctr.PlayerInputHandler.InputY >= 0) { ctr.PlayerShooter.Shoot(ctr.PlayerInputHandler.InputDir); }
+    }
+
+    private PlayerAnimation CheckShotAni()
+    {
+        Vector2 dir = ctr.PlayerInputHandler.InputDir;
+        bool isInputX = Mathf.Abs(dir.x) > 0.01f;
+        PlayerAnimation ani = PlayerAnimation.RunShot;
+        if (dir.y > 0) ani = isInputX ? PlayerAnimation.RunDiagonalUpShot : PlayerAnimation.RunShot;
+        else ani = PlayerAnimation.RunShot;                
+        return ani;
     }
 }

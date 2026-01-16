@@ -1,35 +1,63 @@
-using System;
 using UnityEngine;
-using UnityEngine.Windows;
-using static UnityEngine.RuleTile.TilingRuleOutput;
-
+using playerAnimation;
 public class PlayerState : BaseState<PlayerController>
-{    
-    public PlayerState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+{
+    protected PlayerAnimation groundAni;
+    protected PlayerAnimation airAni;
 
-    protected virtual void StateShoot()
+    public PlayerState(PlayerController ctr, StateMachine machine, PlayerAnimation groundAni) : base(ctr, machine)
     {
-        Vector2 dir = new Vector2(ctr.InputX, ctr.InputY).normalized;
-        if (dir == Vector2.zero) { dir = new Vector2(ctr.CurrentDir, 0); }
+        this.groundAni = groundAni;
+        this.airAni = groundAni;
+    }
+    public PlayerState(PlayerController ctr, StateMachine machine, PlayerAnimation groundAni, PlayerAnimation airAni) : base(ctr, machine)
+    {
+        this.groundAni = groundAni;
+        this.airAni = airAni;
+    }
 
-        UnityEngine.Transform firePoint = GetFirePoint(dir);
-        ctr.PlayerShoot(firePoint, dir);
+    public override void Enter()
+    {
+        base.Enter();
+        PlayEnterAni();
     }
 
     public override void StateFixedUpdate()
     {
-        float maxFallSpeed = -15f;
-        if (ctr.rb.velocity.y < maxFallSpeed) { ctr.rb.velocity = new Vector2(ctr.rb.velocity.x, maxFallSpeed); }
+        if (!ctr.PlayerCollision.IsGround && ctr.Rb.velocity.y < 0) { machine.ChangeState(ctr.PlayerState.Fall); return; }
     }
 
-    protected virtual UnityEngine.Transform GetFirePoint(Vector2 dir)
+    private void PlayEnterAni()
     {
-        bool isInputX = dir.x != 0;
-        int index = 0;
-
-        if (dir.y > 0) index = isInputX ? 2 : 4;
-        else if (dir.y < 0) index = isInputX ? 1 : 3;
-        else index = 0;
-        return ctr.firePoint[index];
+        if (ctr.PlayerCollision.IsGround) ctr.AniHash.PlayAni(groundAni);
+        else ctr.AniHash.PlayAni(airAni);
     }
+
+    protected void PlayAni(PlayerAnimation ani)
+    {
+        ctr.AniHash.PlayAni(ani);
+    }
+    protected void PlayAniSync(PlayerAnimation ani)
+    {
+        ctr.AniHash.PlayAniSync(ani);
+    }
+
+    protected void Move()
+    {
+        ctr.PlayerMovement.Move(ctr.PlayerInputHandler.InputX);
+    }
+
+    protected void Flip()
+    {
+        ctr.PlayerMovement.CheckFlip(ctr.PlayerInputHandler.InputX);
+    }
+
+    protected virtual void Shooting()
+    {
+        ctr.PlayerShooter.Shoot(ctr.PlayerInputHandler.InputDir);
+    }
+    protected bool TryJump => ctr.PlayerInputHandler.InputJump && ctr.PlayerMovement.CanJump;
+    protected bool TryDash => ctr.PlayerInputHandler.InputDash && ctr.PlayerMovement.CanDash;
+    protected bool TrySuper => ctr.PlayerInputHandler.InputSuper && ctr.PlayerShooter.CanSuper;
+    protected bool TryParry => ctr.PlayerInputHandler.InputJump && ctr.PlayerCollision.CanParry;
 }

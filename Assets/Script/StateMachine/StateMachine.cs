@@ -1,4 +1,3 @@
-
 public class StateMachine
 {
     public IState CurState { get; private set; }

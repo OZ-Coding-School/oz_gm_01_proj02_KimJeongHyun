@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4532536018068687239}
-  - component: {fileID: 5806767185028446807}
+  - component: {fileID: 8734301944466401746}
   - component: {fileID: 6610145715347653867}
   - component: {fileID: 6480097276195670535}
   - component: {fileID: 6852916196283567393}
@@ -38,7 +38,7 @@ Transform:
   - {fileID: 2072612144904463694}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5806767185028446807
+--- !u!114 &8734301944466401746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,21 +50,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9a01433db911e340b33f4b1385aa08f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckDis: 0.02
-  groundAndPlatform:
-    serializedVersion: 2
-    m_Bits: 264
-  _data: {fileID: 11400000, guid: 768d71e41ed318647a122704e75221ef, type: 2}
-  bodyCol: {fileID: 3225046916716097746}
-  footCol: {fileID: 7395149734681218948}
-  hitboxCol: {fileID: 7402938495305795238}
-  _firePoint:
+  firePoint:
   - {fileID: 8309477514027006015}
   - {fileID: 3433616835196014746}
   - {fileID: 8407470072549566323}
   - {fileID: 5747500036579061408}
   - {fileID: 8513089211821900290}
   - {fileID: 1133976788029647046}
+  playerCollisions:
+    footCol: {fileID: 7395149734681218948}
+    bodyCol: {fileID: 3225046916716097746}
+    hitboxCol: {fileID: 7402938495305795238}
+    groundAndPlatform:
+      serializedVersion: 2
+      m_Bits: 264
+  bulletdata: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
+  playerdata: {fileID: 11400000, guid: 768d71e41ed318647a122704e75221ef, type: 2}
 --- !u!212 &6610145715347653867
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -366,7 +367,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1969201023640133488}
-  - component: {fileID: 4502600012375827316}
   - component: {fileID: 8346722431332331850}
   m_Layer: 9
   m_Name: GunAnimator
@@ -390,19 +390,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4532536018068687239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4502600012375827316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5041578707217336788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ba5f5b2aa385d4cbdb1eae6882ac5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
 --- !u!212 &8346722431332331850
 SpriteRenderer:
   m_ObjectHideFlags: 0

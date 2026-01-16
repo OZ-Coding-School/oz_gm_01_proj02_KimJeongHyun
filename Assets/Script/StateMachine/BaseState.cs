@@ -1,7 +1,8 @@
 using System;
 using System.Threading;
 using UnityEngine;
-public abstract class BaseState<T> : IState where T : BaseController
+
+public abstract class BaseState<T> : IState where T : Entity
 {
     protected T ctr;
     protected StateMachine machine;
@@ -18,5 +19,5 @@ public abstract class BaseState<T> : IState where T : BaseController
     public virtual void HandleInput() { }
     public virtual void StateUpdate() { timer += Time.deltaTime; }
     public virtual void StateFixedUpdate() { }
-    public virtual void OnHit(int dir) { }
+    public virtual void OnHit(Vector2 dir) { }
 }

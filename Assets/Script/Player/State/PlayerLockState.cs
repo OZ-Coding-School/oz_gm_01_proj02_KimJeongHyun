@@ -2,46 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using playerAnimation;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 public class PlayerLockState : PlayerState
 {
-    public PlayerLockState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    public PlayerLockState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.AimStraight) { }
 
     public override void Enter()
     {
         base.Enter();
-        ctr.rb.velocity = new Vector2 (0, ctr.rb.velocity.y);
-        if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.ShotStraight);
-        else ctr.aniHash.PlayAni(PlayerAnimation.AimStraight);
+        ctr.PlayerMovement.Stop();
     }
-
     public override void HandleInput()
     {
-        StateShoot();
-        if (!ctr.InputLock)
+        Flip();
+        if (ctr.PlayerInputHandler.InputShoot)
         {
-            if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }
-            if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
-            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
-        }
+            Shooting();
+            PlayAniSync(CheckShotAni());
+        }     
+        else { PlayAniSync(CheckAimAni()); }
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
+        if (!ctr.PlayerInputHandler.InputLock)
+        {
+            if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
+            if (ctr.PlayerInputHandler.InputX != 0) { machine.ChangeState(ctr.PlayerState.Run); return; }
+            if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+            if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
+            if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
+            if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
+        }
     }
 
-    protected override void StateShoot()
+    private PlayerAnimation CheckShotAni()
     {
-        bool isShoot = ctr.InputShoot;
-        Vector2 dir = new Vector2(ctr.InputX, ctr.InputY);
-        if (isShoot) { base.StateShoot(); }
-        if (dir.x != 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalUp : PlayerAnimation.AimDiagonalUp);
-        else if (dir.x == 0 && dir.y > 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotUp : PlayerAnimation.AimUp);
-        else if (dir.x != 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDiagonalDown : PlayerAnimation.AimDiagonalDown);
-        else if (dir.x == 0 && dir.y < 0) ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotDown : PlayerAnimation.AimDown);
-        else ctr.aniHash.PlayAniSync(isShoot ? PlayerAnimation.ShotStraight : PlayerAnimation.AimStraight);
+        Vector2 dir = ctr.PlayerInputHandler.InputDir;
+        bool isInputX = Mathf.Abs(dir.x) > 0.01f;
+
+        PlayerAnimation ani = PlayerAnimation.ShotStraight;
+        if (dir.y > 0) ani = isInputX ? PlayerAnimation.ShotDiagonalUp : PlayerAnimation.ShotUp;
+        else if (dir.y < 0) ani = isInputX ? PlayerAnimation.ShotDiagonalDown : PlayerAnimation.ShotDown;
+        else ani = PlayerAnimation.ShotStraight;
+        return ani;
+    }
+
+    private PlayerAnimation CheckAimAni()
+    {
+        Vector2 dir = ctr.PlayerInputHandler.InputDir;
+        bool isInputX = Mathf.Abs(dir.x) > 0.01f;
+
+        PlayerAnimation ani = PlayerAnimation.AimStraight;
+        if (dir.y > 0) ani = isInputX ? PlayerAnimation.AimDiagonalUp : PlayerAnimation.AimUp;
+        else if (dir.y < 0) ani = isInputX ? PlayerAnimation.AimDiagonalDown : PlayerAnimation.AimDown;
+        else ani = PlayerAnimation.AimStraight;
+        return ani;
     }
 }

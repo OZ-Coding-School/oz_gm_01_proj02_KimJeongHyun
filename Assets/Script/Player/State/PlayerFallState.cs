@@ -6,36 +6,42 @@ using playerAnimation;
 
 public class PlayerFallState : PlayerState
 {
-    public PlayerFallState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    public PlayerFallState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.Jump) { }
 
     public override void Enter()
     {
         base.Enter();
-        ctr.aniHash.PlayAniSync(PlayerAnimation.Jump);
-        ctr.rb.gravityScale = ctr.data.gravityVal * 1.3f;
+        ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityFall);
     }
 
     public override void HandleInput()
-    {        
-        if (ctr.InputShoot) StateShoot();
-        if (ctr.InputDash && ctr.canDash) { machine.ChangeState(ctr.state.Dash); return; }       
+    {
+        if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
+        if (TryParry) { machine.ChangeState(ctr.PlayerState.Parry); return; }
     }
+
     public override void StateUpdate()
     {
-        base.StateUpdate();
-        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }        
-        if (ctr.isGround)
+        Flip();
+        if (ctr.PlayerCollision.IsGround)
         {
-            if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
-            if (ctr.InputLock) { machine.ChangeState(ctr.state.Lock); return; }
+            if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
+            if (ctr.PlayerInputHandler.InputX != 0) { machine.ChangeState(ctr.PlayerState.Run); return; }
+            if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+            if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
+            if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
+            if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
+            if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
         }
     }
 
     public override void StateFixedUpdate()
     {
-        base.StateFixedUpdate();
-        ctr.MovementX();
+        Move();
+    }
+
+    public override void Exit()
+    {
+        ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityJump);
     }
 }

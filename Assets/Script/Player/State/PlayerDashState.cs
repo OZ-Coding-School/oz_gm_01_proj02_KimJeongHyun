@@ -3,51 +3,43 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using playerAnimation;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.Rendering;
 
 public class PlayerDashState : PlayerState
 {
-    public PlayerDashState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    public PlayerDashState(PlayerController ctr, StateMachine machine) : base(ctr, machine,
+        PlayerAnimation.DashGround, PlayerAnimation.DashAir) { }
 
     public override void Enter()
     {
         base.Enter();
-        ctr.SetLastDashTime(Time.time);
-        ctr.rb.gravityScale = 0;
-        ctr.rb.velocity = new Vector2(ctr.CurrentDir * ctr.data.dashSpeed, 0);
-        if (ctr.isGround) { ctr.aniHash.PlayAni(PlayerAnimation.DashGround); }
-        else ctr.aniHash.PlayAni(PlayerAnimation.DashAir);
+        ctr.PlayerMovement.Dash();
     }
 
     public override void HandleInput()
     {
-        if (ctr.InputJump)
-        {
-            if (ctr.isGround) { machine.ChangeState(ctr.state.Jump); return; }
-        }
+        if (TryJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (timer >= ctr.data.dashTime)
+        if (timer >= ctr.PlayerData.DashTime)
         {
-            if (ctr.isGround)
+            if (ctr.PlayerCollision.IsGround)
             {
-                if (ctr.InputDuck) { machine.ChangeState(ctr.state.Duck); return; }
-                if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-                if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
-                if (ctr.InputLock) {  machine.ChangeState(ctr.state.Lock); return; }
-            }
-            if (!ctr.isGround) { machine.ChangeState(ctr.state.Fall); return; }
+                if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
+                if (ctr.PlayerInputHandler.InputX != 0) { machine.ChangeState(ctr.PlayerState.Run); return; }
+                if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+                if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
+                if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
+                if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
+            }                                             
         }
     }
 
-    public override void StateFixedUpdate() { }          
+
     public override void Exit()
     {
-        ctr.rb.gravityScale = ctr.data.gravityVal;
+        ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityJump);
     }
-
 }

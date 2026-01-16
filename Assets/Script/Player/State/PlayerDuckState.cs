@@ -6,56 +6,38 @@ using playerAnimation;
 
 public class PlayerDuckState : PlayerState
 {
-    public PlayerDuckState(PlayerController ctr, StateMachine machine) : base(ctr, machine) { }
+    public PlayerDuckState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.DuckIdle) { }
 
     public override void Enter()
     {
         base.Enter();
-        ctr.rb.velocity = new Vector2(0, ctr.rb.velocity.y);
-        if (ctr.InputShoot) ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
-        else ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle);
+        ctr.PlayerMovement.Stop();
     }
 
     public override void HandleInput()
     {
-        if (ctr.InputShoot)
+        Flip();
+        if (ctr.PlayerInputHandler.InputShoot)
         {
-            StateShoot();
-            ctr.aniHash.PlayAni(PlayerAnimation.DuckShot);
-        } 
-        else { ctr.aniHash.PlayAni(PlayerAnimation.DuckIdle); }
-
-        if (ctr.InputJump)
-        {
-            ctr.TryDropDown();
-            return;
+            Shooting();
+            PlayAni(PlayerAnimation.DuckShot);
         }
+        else { PlayAni(PlayerAnimation.DuckIdle); }
+
+        if (ctr.PlayerInputHandler.InputJump) { ctr.PlayerCollision.DropDown(); }
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (ctr.InputX != 0 && ctr.CurrentDir != (int)ctr.InputX) { ctr.Flip(); }
-
-        if (!ctr.InputDuck)
+        if (!ctr.PlayerInputHandler.InputDuck)
         {
-            if (ctr.InputJump) { machine.ChangeState(ctr.state.Jump); return; }
-            if (ctr.InputX != 0) { machine.ChangeState(ctr.state.Run); return; }
-            if (ctr.InputX == 0) { machine.ChangeState(ctr.state.Idle); return; }
+            if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
+            if (ctr.PlayerInputHandler.InputX != 0) { machine.ChangeState(ctr.PlayerState.Run); return; }
+            if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+            if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
+            if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
+            if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
         }
-        if (!ctr.isGround) {  machine.ChangeState(ctr.state.Fall); return; }
     }
-
-    public override void StateFixedUpdate()
-    {
-        base.StateFixedUpdate();
-        ctr.rb.velocity = new Vector2(0, ctr.rb.velocity.y);
-    }
-
-    protected override void StateShoot()
-    {
-        Vector2 dir = new Vector2(ctr.CurrentDir, 0);
-        Transform firePoint = ctr.firePoint[5];
-        ctr.PlayerShoot(firePoint, dir);
-    }    
 }
