@@ -1,22 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class PoolItem : MonoBehaviour
 {
-    public GameObject prefab { get; private set; }
-    public IPoolable poolalbeComponent { get; private set; }
-    private ObjectPoolManager poolManager;
+    public GameObject Prefab { get; private set; }
+    public IPoolable PoolalbeComponent { get; private set; }
+    private ObjectPoolManager pool;    
 
     public void Setup(GameObject obj, ObjectPoolManager poolManager)
     {
-        this.poolManager = poolManager;
-        this.prefab = obj;
-        poolalbeComponent = GetComponent<IPoolable>();
+        this.pool = poolManager;
+        this.Prefab = obj;
+        PoolalbeComponent = GetComponent<IPoolable>();
     }
 
     public void Despawn()
     {
-        poolManager.Despawn(this);
+        if (pool == null)
+        {
+            pool = ObjectPoolManager.Instance;
+        }
+         pool.Despawn(this);
     }
 }

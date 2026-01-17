@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using playerAnimation;
 
 public class PlayerJumpState : PlayerState
 {
@@ -16,7 +15,7 @@ public class PlayerJumpState : PlayerState
     public override void HandleInput()
     {
         Flip();
-        if (TryParry) { machine.ChangeState(ctr.PlayerState.Parry); return; }
+        if (ctr.PlayerInputHandler.InputJump && ctr.PlayerCollision.CanParry) { machine.ChangeState(ctr.PlayerState.Parry); return; }
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
         if (ctr.PlayerInputHandler.InputJumpUp)
         {
@@ -26,10 +25,14 @@ public class PlayerJumpState : PlayerState
             }
         }
     }
+    public override void StateUpdate()
+    {
+        base.StateUpdate();        
+        if (ctr.Rb.velocity.y < 0) { machine.ChangeState(ctr.PlayerState.Fall); return; }
+    }
 
     public override void StateFixedUpdate()
     {
-        Move();
-        if (ctr.Rb.velocity.y < 0) { machine.ChangeState(ctr.PlayerState.Fall); return; }
+        Move();        
     }
 }

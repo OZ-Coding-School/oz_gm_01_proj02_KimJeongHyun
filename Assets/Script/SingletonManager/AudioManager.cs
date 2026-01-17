@@ -15,8 +15,8 @@ public class AudioManager : Singleton<AudioManager>
     private const string AUDIO_PATH_BGM = "Audio/BGM";
     private const string AUDIO_PATH_SFX = "Audio/SFX";
 
-    private Dictionary<EnumData.BGM, AudioSource> _BGMPlayer = new Dictionary<EnumData.BGM, AudioSource>();
-    private Dictionary<EnumData.SFX, AudioSource> _SFXPlayer = new Dictionary<EnumData.SFX, AudioSource>();
+    private Dictionary<BGMType, AudioSource> _BGMPlayer = new Dictionary<BGMType, AudioSource>();
+    private Dictionary<SFXType, AudioSource> _SFXPlayer = new Dictionary<SFXType, AudioSource>();
 
     private AudioSource _currBGMSource;
 
@@ -30,9 +30,9 @@ public class AudioManager : Singleton<AudioManager>
 
     private void LoadBGMPlayer()
     {
-        for (int i = 0; i < (int)EnumData.BGM.COUNT; i++)
+        for (int i = 0; i < (int)BGMType.COUNT; i++)
         {
-            var audioName = ((EnumData.BGM)i).ToString();
+            var audioName = ((BGMType)i).ToString();
             var pathStr = $"{AUDIO_PATH_BGM}/{audioName}";
             var audioClip = Resources.Load(pathStr, typeof(AudioClip)) as AudioClip;
 
@@ -50,15 +50,15 @@ public class AudioManager : Singleton<AudioManager>
             newAudioSource.outputAudioMixerGroup = BGM;
             newGameObject.transform.parent = BGMtrs;
 
-            _BGMPlayer[(EnumData.BGM)i] = newAudioSource;
+            _BGMPlayer[(BGMType)i] = newAudioSource;
         }
     }
 
     private void LoadSFXPlayer()
     {
-        for (int i = 0; i < (int)EnumData.SFX.COUNT; i++)
+        for (int i = 0; i < (int)SFXType.COUNT; i++)
         {
-            var audioName = ((EnumData.SFX)i).ToString();
+            var audioName = ((SFXType)i).ToString();
             var pathStr = $"{AUDIO_PATH_SFX}/{audioName}";
             var audioClip = Resources.Load(pathStr, typeof(AudioClip)) as AudioClip;
 
@@ -76,11 +76,11 @@ public class AudioManager : Singleton<AudioManager>
             newAudioSource.outputAudioMixerGroup = SFX;
             newGameObject.transform.parent = SFXtrs;
 
-            _SFXPlayer[(EnumData.SFX)i] = newAudioSource;
+            _SFXPlayer[(SFXType)i] = newAudioSource;
         }
     }
 
-    public void SetVolume(EnumData.SliderType type, float val)
+    public void SetVolume(SliderTypeE type, float val)
     {
         string name = type.ToString();
 
@@ -89,7 +89,7 @@ public class AudioManager : Singleton<AudioManager>
         mainMix.SetFloat(name, vol);
     }
 
-    public void PlayBGM(EnumData.BGM bgm)
+    public void PlayBGM(BGMType bgm)
     {
 
         if (_currBGMSource)
@@ -133,7 +133,7 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void PlaySFX(EnumData.SFX sfx)
+    public void PlaySFX(SFXType sfx)
     {
 
         if (!_SFXPlayer.ContainsKey(sfx))

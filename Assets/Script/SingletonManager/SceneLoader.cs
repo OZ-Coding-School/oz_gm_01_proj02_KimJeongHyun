@@ -11,7 +11,7 @@ public class SceneLoader : Singleton<SceneLoader>
     public AnimationClip openAni;
     public AnimationClip closeAni;
 
-    public void LoadScene(EnumData.SceneType sceneType)
+    public void LoadScene(SceneType sceneType)
     {
         StartCoroutine(TransEffectSceneLoad(sceneType));
     }
@@ -19,11 +19,11 @@ public class SceneLoader : Singleton<SceneLoader>
     public void ReloadScene()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
-        EnumData.SceneType currentType = (EnumData.SceneType)Enum.Parse(typeof(EnumData.SceneType), currentSceneName);
+        SceneType currentType = (SceneType)Enum.Parse(typeof(SceneType), currentSceneName);
         StartCoroutine(TransEffectSceneLoad(currentType));
     }
 
-    private IEnumerator TransEffectSceneLoad(EnumData.SceneType scene)
+    private IEnumerator TransEffectSceneLoad(SceneType scene)
     {
         Time.timeScale = 1.0f;
 

@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d9c07ae61b3ca94a919834df1086530, type: 3}
-  m_Name: Peashooter
+  m_Name: Speadshooter
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5522386937909845183, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
-  exBulletPrefab: {fileID: 2247053818274569247, guid: 52d9bffbec0afa742901d25e1c74ea0c, type: 3}
-  bulletEffectPrefab: {fileID: 2678609467598440796, guid: a4f57dadb74b09f4a9998b653ba33512, type: 3}
+  bulletPrefab: {fileID: 0}
+  exBulletPrefab: {fileID: 0}
+  bulletEffectPrefab: {fileID: 0}
   damage: 1
   speed: 10
-  fireRate: 0.12
+  fireRate: 0.15
   bulletCount: 1
   lifeTime: 3
   shootEffect: 0
-  hitEffect: 1
+  hitEffect: 0
   exDamage: 1
   exSpeed: 10
   eXfireRate: 2
   exBulletCount: 1
   exShootEffect: 0
-  exHitEffect: 2
+  exHitEffect: 0

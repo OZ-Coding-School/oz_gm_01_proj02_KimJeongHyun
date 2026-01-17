@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class LobbySceneUIController : BaseSceneUIController
 {
-    private Dictionary<EnumData.UIType, BaseUIController> uiList = new Dictionary<EnumData.UIType, BaseUIController>();
-    private Stack<EnumData.UIType> uiStack = new Stack<EnumData.UIType>();
+    private Dictionary<UIType, BaseUIController> uiList = new Dictionary<UIType, BaseUIController>();
+    private Stack<UIType> uiStack = new Stack<UIType>();
     private BaseUIController[] baseCnt;
     private const float SLIDER_MAX_AUDIO_VAL = 10f;
     private void Awake()
@@ -43,7 +43,7 @@ public class LobbySceneUIController : BaseSceneUIController
     protected override void Start()
     {
         base.Start();
-        OpenUI(EnumData.UIType.LobbyMainUI);
+        OpenUI(UIType.LobbyMainUI);
     }   
 
     protected override void Update()
@@ -51,31 +51,31 @@ public class LobbySceneUIController : BaseSceneUIController
         if (Input.GetKeyDown(KeyCode.Escape)) CloseUI();
     }
     
-    private void ButtonEvent(EnumData.UIType uiType ,EnumData.ButtonType btnType)
+    private void ButtonEvent(UIType uiType, ButtonTypeE btnType)
     {
         switch (uiType, btnType)
         {
-            case (EnumData.UIType.LobbyMainUI, EnumData.ButtonType.Start): OpenUI(EnumData.UIType.GameStartUI); break;
-            case (EnumData.UIType.LobbyMainUI, EnumData.ButtonType.Option): OpenUI(EnumData.UIType.OptionUI); break;
-            case (EnumData.UIType.OptionUI, EnumData.ButtonType.Sound): OpenUI(EnumData.UIType.AudioUI); break;
-            case (EnumData.UIType.OptionUI, EnumData.ButtonType.keySetting): OpenUI(EnumData.UIType.KeySettingUI); break;
-            case (EnumData.UIType.GameStartUI, EnumData.ButtonType.Start): OpenUI(EnumData.UIType.TutorialUI); break;
+            case (UIType.LobbyMainUI, ButtonTypeE.Start): OpenUI(UIType.GameStartUI); break;
+            case (UIType.LobbyMainUI, ButtonTypeE.Option): OpenUI(UIType.OptionUI); break;
+            case (UIType.OptionUI, ButtonTypeE.Sound): OpenUI(UIType.AudioUI); break;
+            case (UIType.OptionUI, ButtonTypeE.keySetting): OpenUI(UIType.KeySettingUI); break;
+            case (UIType.GameStartUI, ButtonTypeE.Start): OpenUI(UIType.TutorialUI); break;
 
 
-            case (_, EnumData.ButtonType.Back): CloseUI(); break;
-            case (_, EnumData.ButtonType.Exit): Application.Quit(); break;
+            case (_, ButtonTypeE.Back): CloseUI(); break;
+            case (_, ButtonTypeE.Exit): Application.Quit(); break;
                 
         }
         //gamestartui의 버튼들 눌렀을때 게임시작 ( 데이터정보를 json에서 비교해서 map씬에서 해당 진행도에서 시작되어야함 (진행도에따른 스폰지역 설정)
     }
 
-    private void SliderEvent(EnumData.UIType uiType ,EnumData.SliderType sldType, float val)
+    private void SliderEvent(UIType uiType ,SliderTypeE sldType, float val)
     {
         float result = val / SLIDER_MAX_AUDIO_VAL;
         AudioManager.Instance.SetVolume(sldType, result);
     }
 
-    private void OpenUI(EnumData.UIType type)
+    private void OpenUI(UIType type)
     {
         if (uiStack.Count > 0) uiList[uiStack.Peek()].gameObject.SetActive(false);
         uiStack.Push(type);
@@ -86,9 +86,9 @@ public class LobbySceneUIController : BaseSceneUIController
     {
         if (uiStack.Count <= 1) return;
 
-        EnumData.UIType curType = uiStack.Peek();
+        UIType curType = uiStack.Peek();
 
-        if (curType == EnumData.UIType.TutorialUI) return;
+        if (curType == UIType.TutorialUI) return;
 
         uiList[uiStack.Pop()].gameObject.SetActive(false);
         uiList[uiStack.Peek()].gameObject.SetActive(true);

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using playerAnimation;
-
 
 public class PlayerDuckState : PlayerState
 {
@@ -39,5 +37,6 @@ public class PlayerDuckState : PlayerState
             if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
             if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
         }
+        if (!ctr.PlayerCollision.IsGround) { machine.ChangeState(ctr.PlayerState.Fall); return; }
     }
 }

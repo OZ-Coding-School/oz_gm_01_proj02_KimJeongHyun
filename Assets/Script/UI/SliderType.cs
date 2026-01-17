@@ -5,5 +5,5 @@ using UnityEngine;
 public class SliderType : MonoBehaviour
 {
     public int ID;
-    public EnumData.SliderType sldType;
+    public SliderTypeE sldType;
 }

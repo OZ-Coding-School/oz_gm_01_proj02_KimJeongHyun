@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class BaseUIController : MonoBehaviour
 {
-    public EnumData.UIType uiType;
-    public event Action<EnumData.UIType, EnumData.ButtonType> ButtonClicked;
-    public event Action<EnumData.UIType, EnumData.SliderType, float> SliderValueChanged;
+    public UIType uiType;
+    public event Action<UIType, ButtonTypeE> ButtonClicked;
+    public event Action<UIType, SliderTypeE, float> SliderValueChanged;
 
     [SerializeField] protected Selectable firstSelect;
     protected RectTransform firstSelectRect;
@@ -102,7 +102,7 @@ public class BaseUIController : MonoBehaviour
         {
             if (btn.TryGetComponent(out ButtonType temp))
             {
-                EnumData.ButtonType btnType = temp.btnType;
+                ButtonTypeE btnType = temp.btnType;
                 btn.onClick.AddListener(() => OnButtonClick(uiType, btnType));
                 //오디오추가
             }
@@ -114,7 +114,7 @@ public class BaseUIController : MonoBehaviour
         {
             if (sld.TryGetComponent(out SliderType temp))
             {
-                EnumData.SliderType sldType = temp.sldType;
+                SliderTypeE sldType = temp.sldType;
                 sld.onValueChanged.AddListener((val) => OnSliderValueChanged(uiType, sldType, val));
             }
         }
@@ -130,11 +130,11 @@ public class BaseUIController : MonoBehaviour
 
     }
 
-    protected virtual void OnButtonClick(EnumData.UIType uiType, EnumData.ButtonType btnType)
+    protected virtual void OnButtonClick(UIType uiType, ButtonTypeE btnType)
     {
         ButtonClicked?.Invoke(uiType, btnType);
     }
-    protected virtual void OnSliderValueChanged(EnumData.UIType uiType, EnumData.SliderType type, float val)
+    protected virtual void OnSliderValueChanged(UIType uiType, SliderTypeE type, float val)
     {
         float normalize = val;
         SliderValueChanged?.Invoke(uiType, type, val);

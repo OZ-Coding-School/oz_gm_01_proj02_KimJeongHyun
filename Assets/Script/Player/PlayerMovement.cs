@@ -38,6 +38,11 @@ public class PlayerMovement
         rb.velocity = new Vector2(rb.velocity.x, data.JumpForce);
     }
 
+    public void Parry()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, data.ParryJumpForce);
+    }
+
     public void Stop()
     {
         rb.velocity = Vector2.zero;
@@ -63,12 +68,9 @@ public class PlayerMovement
     private IEnumerator DashCo()
     {
         LastDashTime = Time.time;
-        SetGravity(0);
         rb.velocity = new Vector2(CurrentDir * data.DashSpeed, 0);
 
         yield return new WaitForSeconds(data.DashTime);
-
-        rb.gravityScale = data.GravityJump;
     }
 
     public void CheckFlip(float x)

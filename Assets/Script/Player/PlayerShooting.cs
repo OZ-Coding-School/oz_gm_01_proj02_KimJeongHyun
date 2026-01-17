@@ -1,11 +1,11 @@
 using System.Threading;
 using UnityEngine;
 
-
 public class PlayerShooting
 {
     private readonly PlayerController controller;
     private readonly Transform[] firePoint;
+    private readonly ObjectPoolManager pool;
 
     private BulletDataSO bullet;
     private float nextFireTime = 0;
@@ -19,6 +19,7 @@ public class PlayerShooting
         this.controller = controller;
         this.firePoint = firePoint;
         this.bullet = bullet;
+        pool = ObjectPoolManager.Instance;
     }
 
 
@@ -28,16 +29,22 @@ public class PlayerShooting
         if (Time.time < nextFireTime) return;
         nextFireTime = Time.time + bullet.FireRate;
 
-        Transform position = GetFirePoint(dir, isDucking);
-        Quaternion rotation = ShotRotation(dir);
+        Transform pos = GetFirePoint(dir, isDucking);
+        Quaternion rot = ShotRotation(dir);
+
+        pool.SpawnObj(bullet.BulletPrefab, pos.position, rot);
+        GameObject fx = pool.SpawnObj(bullet.BulletEffectPrefab, pos.position, rot);
+        if (fx.TryGetComponent(out BulletEffect effect))
+        {
+            effect.PlayEffect(bullet.ShootEffect);
+        }
     }
 
     public void ShootEX(Vector2 dir)
     {
         nextFireTime = Time.time + bullet.EXFireRate;
-        Transform position = GetFirePoint(dir, false);
-        Quaternion rotation = ShotRotation(dir);
-        //Object.Instantiate EX프리팹추가
+        Transform pos = GetFirePoint(dir, false);
+        Quaternion rot = ShotRotation(dir);
     }
 
     public void ShootSuper()
@@ -47,9 +54,14 @@ public class PlayerShooting
         //Object.Instantiate Super프리팹추가
     }
 
-    public void AddEnergy()
+    public void AddEnergy() // 공격성공시 조금씩차는 용
     {
         CurrentEnergy = Mathf.Clamp(CurrentEnergy + controller.PlayerData.EnergyGainPerHit, 0, controller.PlayerData.MaxEnergy);
+    }
+
+    public void AddEnergy(float val)
+    {
+        CurrentEnergy = Mathf.Clamp(CurrentEnergy + val, 0 , controller.PlayerData.MaxEnergy);
     }
 
     private Transform GetFirePoint(Vector2 dir, bool isDucking)

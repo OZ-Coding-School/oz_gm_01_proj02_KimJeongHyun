@@ -10,12 +10,14 @@ public class PlayerCollision
     private readonly BoxCollider2D hitboxCol;
     private readonly Rigidbody2D rb;
     private readonly LayerMask groundAndPlatform;
+    private readonly LayerMask parryLayer;
     private readonly float checkDist = 0.02f;
+    private readonly float parryRadius = 0.45f;
+    private readonly Collider2D[] parryHitResult = new Collider2D[5]; 
     private readonly int platformLayer;
-
     private readonly RaycastHit2D[] hitResult = new RaycastHit2D[5];
     public bool IsGround { get; private set; }
-    public bool IsDropping { get; private set; }
+    public bool IsDropping { get; private set; }    
     public bool CanParry { get; private set; }
     public Collider2D CurrentPlatform { get; private set; }
 
@@ -29,6 +31,7 @@ public class PlayerCollision
         this.hitboxCol = col.hitboxCol;
         this.groundAndPlatform = col.groundAndPlatform;
         this.platformLayer = LayerMask.NameToLayer("platform");
+        this.parryLayer = LayerMask.GetMask("parryable");
     }
 
     public void CheckGround()
@@ -67,6 +70,24 @@ public class PlayerCollision
         }
     }
 
+    public Collider2D CheckParryOverlap()
+    {
+        int hitCount = Physics2D.OverlapCircleNonAlloc(
+            bodyCol.bounds.center,
+            parryRadius,
+            parryHitResult,
+            parryLayer
+        );
+
+        if (hitCount > 0)
+        {
+            CanParry = true;
+            return parryHitResult[0];
+        }
+        CanParry = false;
+        return null;
+    }
+
     public void DropDown()
     {
         if (IsDropping) return;
@@ -78,6 +99,7 @@ public class PlayerCollision
             controller.StartCoroutine(DropDownCo(CurrentPlatform));
         }
     }
+    
 
     public IEnumerator DropDownCo(Collider2D platform)
     {
@@ -107,8 +129,15 @@ public class PlayerCollision
 
     public void DrawGizmos()
     {
-        if (footCol == null) return;
-        Gizmos.color = IsGround ? Color.green : Color.red;
-        Gizmos.DrawWireCube((Vector2)footCol.bounds.center + Vector2.down * checkDist, footCol.bounds.size);
+        if (footCol != null)
+        {
+            Gizmos.color = IsGround ? Color.green : Color.red;
+            Gizmos.DrawWireCube((Vector2)footCol.bounds.center + Vector2.down * checkDist, footCol.bounds.size);
+        }
+        if (bodyCol != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(bodyCol.bounds.center, parryRadius);
+        }
     }
 }

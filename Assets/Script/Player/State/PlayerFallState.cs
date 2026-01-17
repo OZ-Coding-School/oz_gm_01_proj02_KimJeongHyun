@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using playerAnimation;
-
 
 public class PlayerFallState : PlayerState
 {
@@ -17,11 +15,12 @@ public class PlayerFallState : PlayerState
     public override void HandleInput()
     {
         if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
-        if (TryParry) { machine.ChangeState(ctr.PlayerState.Parry); return; }
+        if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
     }
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         Flip();
         if (ctr.PlayerCollision.IsGround)
         {

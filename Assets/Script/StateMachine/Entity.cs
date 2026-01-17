@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class Entity: MonoBehaviour
 {
     public Rigidbody2D Rb { get; private set; }
-    public Collider2D Col {  get; private set; }
     public SpriteRenderer Sr { get; private set; }
     public Animator Anim { get; private set; }
     public StateMachine SMachine {  get; private set; }
@@ -17,7 +16,6 @@ public class Entity: MonoBehaviour
     protected virtual void Init()
     {
         Rb = GetComponent<Rigidbody2D>();
-        Col = GetComponent<Collider2D>();
         Sr = GetComponent<SpriteRenderer>();
         Anim = GetComponent<Animator>();
         SMachine = new StateMachine();

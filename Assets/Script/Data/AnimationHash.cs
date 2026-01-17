@@ -47,4 +47,12 @@ public class AnimationHash<T> where T : Enum
             }
         }
     }
+
+    public void PlayFirstFrame(T state)
+    {
+        if (aniHash.TryGetValue(state, out var hash))
+        {
+            animator.Play(hash, 0, 0);
+        }
+    }
 }

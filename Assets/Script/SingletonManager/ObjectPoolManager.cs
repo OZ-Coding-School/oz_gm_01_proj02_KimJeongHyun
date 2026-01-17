@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
@@ -29,8 +28,16 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         if (pool[prefab].Count == 0)
         {
             GameObject ins = Instantiate(prefab, poolRoot);
-            item = ins.AddComponent<PoolItem>();
+            if (!ins.TryGetComponent(out item))
+            {
+                item = ins.AddComponent<PoolItem>();
+            }
             item.Setup(prefab, this);
+
+            if (item.PoolalbeComponent != null)
+            {
+                item.PoolalbeComponent.PoolItemPre = item;
+            }
         }
         else
         {
@@ -40,7 +47,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         item.transform.SetPositionAndRotation(pos, rot);
         item.gameObject.SetActive(true);
 
-        item.poolalbeComponent?.OnSpawn();
+        item.PoolalbeComponent?.OnSpawn();
 
         return item.gameObject;
     }
@@ -49,10 +56,10 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
         if (item == null) return;
 
-        item.poolalbeComponent?.OnDespawn();
+        item.PoolalbeComponent?.OnDespawn();
         item.gameObject.SetActive(false);
 
-        pool[item.prefab].Enqueue(item);
+        pool[item.Prefab].Enqueue(item);
     }
 
     public void Despawn(GameObject obj, float delay)

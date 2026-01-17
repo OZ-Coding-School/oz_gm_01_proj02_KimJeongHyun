@@ -1,4 +1,3 @@
-using playerAnimation;
 using System;
 using TMPro;
 using UnityEngine;
@@ -8,7 +7,7 @@ public struct PlayerCollisions
     public BoxCollider2D footCol;
     public BoxCollider2D bodyCol;
     public BoxCollider2D hitboxCol;
-    public LayerMask groundAndPlatform;
+    public LayerMask groundAndPlatform;    
 }
 
 public class PlayerController : Entity
@@ -57,12 +56,13 @@ public class PlayerController : Entity
         PlayerInputHandler.InputUpdate();
         if(PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
         base.Update();
-        stateText.text = $"{SMachine.CurState.ToString()}, {PlayerCollision.IsGround.ToString()}, {PlayerMovement.JumpCount.ToString()}";
+        stateText.text = $"{SMachine.CurState.ToString()}, isground : {PlayerCollision.IsGround.ToString()}, {PlayerCollision.CanParry.ToString()}";
     }
 
     protected override void FixedUpdate()
     {
         PlayerCollision.CheckGround();
+        PlayerCollision.CheckParryOverlap();
         base.FixedUpdate();
     }
 

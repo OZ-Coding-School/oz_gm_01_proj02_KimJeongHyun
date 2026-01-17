@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomKeyMapping;
 
 public class PlayerInputHandler
 {
@@ -28,7 +27,7 @@ public class PlayerInputHandler
         InputLock = input.GetKey(CusKey.Lock);
         InputShoot = input.GetKey(CusKey.Shoot);
         InputDuck = input.GetKey(CusKey.Down);
-        InputSuper = input.GetKey(CusKey.Super);
+        InputSuper = input.GetKeyDown(CusKey.Super);
         InputDir = new Vector2(InputX, InputY);
     }
 }

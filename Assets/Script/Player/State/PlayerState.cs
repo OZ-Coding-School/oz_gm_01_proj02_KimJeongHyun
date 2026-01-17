@@ -1,5 +1,5 @@
 using UnityEngine;
-using playerAnimation;
+
 public class PlayerState : BaseState<PlayerController>
 {
     protected PlayerAnimation groundAni;
@@ -20,11 +20,6 @@ public class PlayerState : BaseState<PlayerController>
     {
         base.Enter();
         PlayEnterAni();
-    }
-
-    public override void StateFixedUpdate()
-    {
-        if (!ctr.PlayerCollision.IsGround && ctr.Rb.velocity.y < 0) { machine.ChangeState(ctr.PlayerState.Fall); return; }
     }
 
     private void PlayEnterAni()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using playerAnimation;
 
 public class PlayerDashState : PlayerState
 {
@@ -12,6 +11,7 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        ctr.PlayerMovement.SetGravity(0);
         ctr.PlayerMovement.Dash();
     }
 
@@ -33,7 +33,11 @@ public class PlayerDashState : PlayerState
                 if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
                 if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
                 if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
-            }                                             
+            }
+            else
+            {
+                machine.ChangeState(ctr.PlayerState.Fall);
+            }
         }
     }
 

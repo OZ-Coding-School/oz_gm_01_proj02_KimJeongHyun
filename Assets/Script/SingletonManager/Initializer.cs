@@ -9,7 +9,7 @@ public class Initializer : MonoBehaviour
 
     private void Start()
     {
-        SceneLoader.Instance.LoadScene(EnumData.SceneType.Title);
+        SceneLoader.Instance.LoadScene(SceneType.Title);
         //StartCoroutine(LoadManager());
     }
 
@@ -33,6 +33,6 @@ public class Initializer : MonoBehaviour
             yield return null;
         }
 
-        SceneLoader.Instance.LoadScene(EnumData.SceneType.Title);
+        SceneLoader.Instance.LoadScene(SceneType.Title);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IPoolable
 {
-    void OnSpawn();
-    void OnDespawn();
+    PoolItem PoolItemPre { get; set; }
+    public void OnSpawn();
+    public void OnDespawn();
 }

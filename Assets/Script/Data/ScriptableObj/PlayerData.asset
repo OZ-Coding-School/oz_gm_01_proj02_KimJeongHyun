@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 19
+  jumpForce: 17
   lowJumpForce: 5
   lowJumpTime: 0.15
+  parryJumpForce: 17
   dashSpeed: 15
   dashTime: 0.25
   dashCooldown: 0.5
-  gravityJump: 7
-  gravityFall: 8.3
+  gravityJump: 5
+  gravityFall: 4
   standSize: {x: 1, y: 2}
   standOffset: {x: 0, y: 1}
   duckSize: {x: 1, y: 1}

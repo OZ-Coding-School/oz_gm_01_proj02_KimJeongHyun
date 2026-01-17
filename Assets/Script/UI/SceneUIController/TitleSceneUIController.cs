@@ -22,7 +22,7 @@ public class TitleSceneUIController : BaseSceneUIController
     protected override void Start()
     {
         base.Start();
-        AudioManager.Instance.PlayBGM(EnumData.BGM.Title);
+        AudioManager.Instance.PlayBGM(BGMType.Title);
         StartCoroutine(LoadTitleCo());
     }
 
@@ -36,6 +36,6 @@ public class TitleSceneUIController : BaseSceneUIController
         pressText.SetActive(true);
 
         yield return new WaitUntil(() => Input.anyKeyDown);
-        SceneLoader.Instance.LoadScene(EnumData.SceneType.Lobby);
+        SceneLoader.Instance.LoadScene(SceneType.Lobby);
     }
 }

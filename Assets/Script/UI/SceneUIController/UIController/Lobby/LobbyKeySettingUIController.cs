@@ -64,16 +64,16 @@ public class LobbyKeySettingUIController : BaseUIController
     }
 
 
-    protected override void OnButtonClick(EnumData.UIType uiType, EnumData.ButtonType btnType)
+    protected override void OnButtonClick(UIType uiType, ButtonTypeE btnType)
     {
         if (isRebinding || lastSelectedBtn == null) return;        
 
-        if (btnType == EnumData.ButtonType.Default)
+        if (btnType == ButtonTypeE.Default)
         {
             InputManager.Instance.SetDefault();
             RefreshAll();
         }
-        else if (btnType == EnumData.ButtonType.keySetting)
+        else if (btnType == ButtonTypeE.keySetting)
         {
             StartCoroutine(RebindKey(lastSelectedBtn));
         }

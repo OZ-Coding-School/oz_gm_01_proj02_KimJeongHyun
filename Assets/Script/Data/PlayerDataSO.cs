@@ -11,6 +11,7 @@ public class PlayerDataSO : ScriptableObject
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float lowJumpForce = 5f;
     [SerializeField] private float lowJumpTime = 0.15f;
+    [SerializeField] private float parryJumpForce = 5f;
 
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashTime = 0.5f;
@@ -37,6 +38,7 @@ public class PlayerDataSO : ScriptableObject
     public float JumpForce => jumpForce;
     public float LowJumpForce => lowJumpForce;
     public float LowJumpTime => lowJumpTime;
+    public float ParryJumpForce => parryJumpForce;
     public float DashSpeed => dashSpeed;
     public float DashTime => dashTime;
     public float DashCooldown => dashCooldown;
