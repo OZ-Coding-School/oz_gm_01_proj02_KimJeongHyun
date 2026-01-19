@@ -81,4 +81,9 @@ public class PlayerMovement
             controller.transform.Rotate(0, 180, 0);
         }
     }
+    
+    public void SetCurDir(int dir)
+    {
+        CurrentDir = dir; 
+    }
 }

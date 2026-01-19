@@ -16,14 +16,14 @@ MonoBehaviour:
   exBulletPrefab: {fileID: 2247053818274569247, guid: 52d9bffbec0afa742901d25e1c74ea0c, type: 3}
   bulletEffectPrefab: {fileID: 2678609467598440796, guid: a4f57dadb74b09f4a9998b653ba33512, type: 3}
   damage: 1
-  speed: 10
+  speed: 20
   fireRate: 0.12
   bulletCount: 1
   lifeTime: 3
   shootEffect: 0
   hitEffect: 1
-  exDamage: 1
-  exSpeed: 10
+  exDamage: 5
+  exSpeed: 5
   eXfireRate: 2
   exBulletCount: 1
   exShootEffect: 0

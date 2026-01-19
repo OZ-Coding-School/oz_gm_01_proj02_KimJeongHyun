@@ -1,37 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 public class PlayerCollision
 {
     private readonly PlayerController controller;
-    private readonly BoxCollider2D footCol;
-    private readonly BoxCollider2D bodyCol;
-    private readonly BoxCollider2D hitboxCol;
+    private BoxCollider2D footCol;
+    private BoxCollider2D bodyCol;
+    private BoxCollider2D hitBoxCol;
+    private readonly Transform centerTrs;
     private readonly Rigidbody2D rb;
+    private readonly FlashEffect playerFlash;
     private readonly LayerMask groundAndPlatform;
     private readonly LayerMask parryLayer;
     private readonly float checkDist = 0.02f;
-    private readonly float parryRadius = 0.45f;
+    private readonly Vector2 parryBoxSize = new Vector2(1.3f, 1.3f);
     private readonly Collider2D[] parryHitResult = new Collider2D[5]; 
     private readonly int platformLayer;
     private readonly RaycastHit2D[] hitResult = new RaycastHit2D[5];
+    public Vector2 ParryPoint { get; private set; }
     public bool IsGround { get; private set; }
     public bool IsDropping { get; private set; }    
     public bool CanParry { get; private set; }
     public Collider2D CurrentPlatform { get; private set; }
 
     public PlayerCollision(PlayerController controller, Rigidbody2D rb,
-       PlayerCollisions col)
+       PlayerCollisions col, FlashEffect playerFlash)
     {
         this.controller = controller;
         this.rb = rb;
         this.footCol = col.footCol;
         this.bodyCol = col.bodyCol;
-        this.hitboxCol = col.hitboxCol;
+        this.hitBoxCol = col.hitBoxCol;
         this.groundAndPlatform = col.groundAndPlatform;
         this.platformLayer = LayerMask.NameToLayer("platform");
         this.parryLayer = LayerMask.GetMask("parryable");
+        this.playerFlash = playerFlash;
     }
 
     public void CheckGround()
@@ -70,17 +75,19 @@ public class PlayerCollision
         }
     }
 
-    public Collider2D CheckParryOverlap()
+    public Collider2D CheckParry()
     {
-        int hitCount = Physics2D.OverlapCircleNonAlloc(
+        int hitCount = Physics2D.OverlapBoxNonAlloc(
             bodyCol.bounds.center,
-            parryRadius,
+            parryBoxSize,
+            0,
             parryHitResult,
             parryLayer
         );
 
         if (hitCount > 0)
         {
+            ParryPoint = parryHitResult[0].ClosestPoint(bodyCol.bounds.center);
             CanParry = true;
             return parryHitResult[0];
         }
@@ -127,6 +134,22 @@ public class PlayerCollision
         IsDropping = false;
     } 
 
+    public void SetJumpColSize()
+    {
+        bodyCol.size = new Vector2(0.7f, 0.6f);
+        bodyCol.offset = new Vector2(0f, -0.3f);
+        hitBoxCol.size = new Vector2(0.4f, 0.4f);
+        hitBoxCol.offset = new Vector2(0f, -0.3f);
+    }
+
+    public void SetGroundColSize()
+    {
+        bodyCol.size = new Vector2(0.7f, 1.2f);
+        bodyCol.offset = new Vector2(0f, -0.01f);
+        hitBoxCol.size = new Vector2(0.5f, 0.9f);
+        hitBoxCol.offset = new Vector2(0f, -0.1f);
+    }
+
     public void DrawGizmos()
     {
         if (footCol != null)
@@ -137,7 +160,7 @@ public class PlayerCollision
         if (bodyCol != null)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(bodyCol.bounds.center, parryRadius);
+            Gizmos.DrawWireCube(bodyCol.bounds.center, parryBoxSize);
         }
     }
 }

@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPoolable
 {
-    [SerializeField] private BulletDataSO data;
-    [SerializeField] private BulletAniType aniType;
-    private Rigidbody2D rb;
-    private Animator anim;
-    private AnimationHash<BulletAniType> aniHash;
-    public PoolItem PoolItemPre { get; set; }
-    private ObjectPoolManager pool;
+    [SerializeField] protected BulletDataSO data;
+    [SerializeField] protected BulletAniType aniType;
+    [SerializeField] protected BulletEffectAniType hitType;
+    [SerializeField] protected LayerMask targetLayer;
 
-    private void Awake()
+    protected Rigidbody2D rb;
+    protected Animator anim;
+    protected AnimationHash<BulletAniType> aniHash;
+    protected ObjectPoolManager pool;
+
+    public PoolItem PoolItemPre { get; set; }
+
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -24,32 +28,41 @@ public class Bullet : MonoBehaviour, IPoolable
     {
         aniHash.PlayFirstFrame(aniType);
         rb.velocity = transform.right * data.Speed;
-        Invoke(nameof(ReturnToPool), data.LifeTime);
+        StartCoroutine(LifeTIme());
+    }
+
+    protected IEnumerator LifeTIme()
+    {
+        yield return new WaitForSeconds(data.LifeTime);
+        ReturnToPool(false);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.TryGetComponent(out IDamageable target))
+        if (((1 << col.gameObject.layer) & targetLayer) != 0)
         {
-            target.OnDamage((int)data.Damage, transform.position);
-            ReturnToPool();
-        }
-        else if (col.CompareTag("ground"))
-        {
-            ReturnToPool();
+            Vector2 hitpoint = col.ClosestPoint(transform.position);
+            if (col.attachedRigidbody != null && col.attachedRigidbody.TryGetComponent(out IDamageable target))
+            {
+                target.OnDamage(data.Damage, hitpoint);
+            }
+            ReturnToPool(true, hitpoint);
         }
     }
 
-    protected virtual void ReturnToPool()
+    protected virtual void ReturnToPool(bool playEffect, Vector2 pos = default)
     {
-        CancelInvoke();
-        GameObject fx = pool.SpawnObj(data.BulletEffectPrefab, transform.position, Quaternion.identity);
-        if (fx.TryGetComponent(out BulletEffect effect))
+        if (playEffect)
         {
-            effect.PlayEffect(data.HitEffect);
+            var fx = pool.SpawnObj<BulletEffect>(data.BulletEffectPrefab, pos, Quaternion.identity);
+            fx.PlayEffect(hitType);
         }
         PoolItemPre.Despawn();
     }
 
-    public void OnDespawn() => rb.velocity = Vector2.zero;
+    public void OnDespawn()
+    {
+        StopAllCoroutines();
+        rb.velocity = Vector2.zero;
+    }
 }

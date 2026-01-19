@@ -9,9 +9,10 @@ public class PlayerShooting
 
     private BulletDataSO bullet;
     private float nextFireTime = 0;
+    private float nextEXFireTime = 2;
 
     public float CurrentEnergy { get; private set; } = 0;
-    public bool CanSuper => CurrentEnergy >= 1f;
+    public bool CanEX => CurrentEnergy >= 0f;
     
     public PlayerShooting(PlayerController controller, Transform[] firePoint,
         BulletDataSO bullet)
@@ -28,23 +29,21 @@ public class PlayerShooting
     {
         if (Time.time < nextFireTime) return;
         nextFireTime = Time.time + bullet.FireRate;
-
         Transform pos = GetFirePoint(dir, isDucking);
         Quaternion rot = ShotRotation(dir);
 
         pool.SpawnObj(bullet.BulletPrefab, pos.position, rot);
-        GameObject fx = pool.SpawnObj(bullet.BulletEffectPrefab, pos.position, rot);
-        if (fx.TryGetComponent(out BulletEffect effect))
-        {
-            effect.PlayEffect(bullet.ShootEffect);
-        }
+        var fx = pool.SpawnObj<BulletEffect>(bullet.BulletEffectPrefab, pos.position, rot);
+        EffectHelper.SetRandomEffect(fx);
+        fx.PlayEffect(BulletEffectAniType.PeashooterShootEffect);
     }
 
     public void ShootEX(Vector2 dir)
     {
-        nextFireTime = Time.time + bullet.EXFireRate;
+        nextEXFireTime = Time.time + bullet.EXFireRate;
         Transform pos = GetFirePoint(dir, false);
         Quaternion rot = ShotRotation(dir);
+        pool.SpawnObj(bullet.ExBulletPrefab, pos.position, rot);
     }
 
     public void ShootSuper()

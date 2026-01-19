@@ -52,12 +52,64 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1125216624, guid: 321bcd79c9bb3064cba019debb04d9c1, type: 3}
+    - target: {fileID: 5355841882687959255, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: aniType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355841882687959255, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: hitType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5522386937909845183, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
       propertyPath: m_Name
       value: peashooterEX
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7777440230978321312, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: m_Size.x
+      value: 1.9108814
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777440230978321312, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: m_Size.y
+      value: 1.4213862
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777440230978321312, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.873048
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777440230978321312, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.023370134
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -4313449234097851048, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5522386937909845183, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1192324798101259518}
   m_SourcePrefab: {fileID: 100100000, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+--- !u!1 &2247053818274569247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5522386937909845183, guid: 8909c591ed791c94e81fb51250f3b964, type: 3}
+  m_PrefabInstance: {fileID: 6020281512747810976}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1192324798101259518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2247053818274569247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a0f6d4c8d8d0449b938de461e6f0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
+  aniType: 1
+  hitType: 2
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 392
+  damageInterval: 0.12

@@ -14,24 +14,24 @@ public class PlayerRunState : PlayerState
             PlayAni(CheckShotAni());
         }
         else { PlayAni(PlayerAnimation.Run); }
-        if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
         if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
         if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
         if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
-        if (TrySuper) { machine.ChangeState(ctr.PlayerState.Super); return; }
+        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
     }    
 
     public override void StateUpdate()
     {
         base.StateUpdate();
         Flip();
+        if (ctr.PlayerInputHandler.InputX == 0) { machine.ChangeState(ctr.PlayerState.Idle); return; }
+        if (!ctr.PlayerCollision.IsGround) { machine.ChangeState(ctr.PlayerState.Fall); return; }
     }
 
     public override void StateFixedUpdate()
     {
         Move();
-        base.StateFixedUpdate();
     }
 
     protected override void Shooting()

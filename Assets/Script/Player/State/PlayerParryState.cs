@@ -1,21 +1,44 @@
 using UnityEngine;
 using System.Collections;
-//최초 진입시 함수1번호출 input에서 jump키와 canparry체크해서 함수계속 호출 패링 실패시 fall전환
+
 public class PlayerParryState : PlayerState
 {
+    private bool parrying;
+    private bool firstParrying;
     public PlayerParryState(PlayerController ctr, StateMachine machine) : base(ctr, machine, PlayerAnimation.ParryNormal) { }
 
     public override void Enter()
-    {
+    {        
         base.Enter();
+        SetAirColSize();
+        firstParrying = true;
+        ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityFall);
         Parry();
     }
 
 
     public override void HandleInput()
     {
-        if (ctr.PlayerInputHandler.InputJump && ctr.PlayerCollision.CanParry) { Parry(); return; }
+        if (ctr.PlayerInputHandler.ParryInputBuffer && ctr.PlayerCollision.CanParry && !parrying)
+        {
+            if (timer > 0.2)
+            {
+                ctr.PlayerInputHandler.UseParryBuffer();
+                Parry();
+                return;
+            }
+        }
+        if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
+        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+    }
 
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+        Flip();
+        if (timer > 0.35f) { ctr.AniHash.PlayAniSync(PlayerAnimation.Jump); }
+
+        if (ctr.PlayerCollision.IsGround) { machine.ChangeState(ctr.PlayerState.Idle); return; }
     }
 
     public override void StateFixedUpdate()
@@ -26,17 +49,36 @@ public class PlayerParryState : PlayerState
     //패링효과 함수
     private void Parry()
     {
+        parrying = true;
+        timer = 0;
         ctr.Rb.velocity = new Vector2(ctr.Rb.velocity.x, ctr.PlayerData.ParryJumpForce);
-        ctr.StartCoroutine(HitStop(0.1f));
-
+        if (!firstParrying) { ctr.AniHash.PlayAniSync(PlayerAnimation.ParrySuccess); }
+        ctr.StartCoroutine(HitStop(0.3f));      
     }
 
     private IEnumerator HitStop(float time)
     {
         float temp = Time.timeScale;
         Time.timeScale = 0;
+        AudioManager.Instance.PlaySFX(SFXType.PlayerParry);
+        Vector2 pos = ctr.PlayerCollision.ParryPoint;
+        PlayerEffect fx = pool.SpawnObj<PlayerEffect>(ctr.PlayerData.PlayerEffect, pos, Quaternion.identity);
+        EffectHelper.SetRandomEffect(fx);
+        fx.PlayEffect(PlayerEffectAniType.ParrySpark);     
         yield return new WaitForSecondsRealtime(time);
+        parrying = false;
         Time.timeScale = temp;
+        firstParrying = false;
+    }
+
+    public override void Exit()
+    {
+        ctr.PlayerCollision.SetGroundColSize();
+    }
+
+    protected override void Shooting()
+    {
+        ctr.PlayerShooter.Shoot(new Vector2(ctr.PlayerMovement.CurrentDir, 0));
     }
 }
 

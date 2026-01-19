@@ -2,12 +2,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Entity: MonoBehaviour
+public class Entity : MonoBehaviour
 {
     public Rigidbody2D Rb { get; private set; }
     public SpriteRenderer Sr { get; private set; }
     public Animator Anim { get; private set; }
     public StateMachine SMachine {  get; private set; }
+    public FlashEffect EntityFlasah { get; private set; }
 
     private void Awake()
     {
@@ -19,7 +20,7 @@ public class Entity: MonoBehaviour
         Sr = GetComponent<SpriteRenderer>();
         Anim = GetComponent<Animator>();
         SMachine = new StateMachine();
-        
+        EntityFlasah = GetComponent<FlashEffect>();        
     }
 
     protected virtual void Start() { }

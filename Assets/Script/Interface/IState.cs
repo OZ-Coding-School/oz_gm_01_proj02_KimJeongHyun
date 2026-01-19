@@ -1,4 +1,4 @@
-using System.Numerics;
+using UnityEngine;
 
 public interface IState
 {    
@@ -7,5 +7,5 @@ public interface IState
     void HandleInput();
     void StateUpdate();
     void StateFixedUpdate();
-    void OnHit(Vector2 dir) { }
+    void OnHit(bool isDead, Vector2 hitDir);
 }

@@ -19,5 +19,5 @@ public abstract class BaseState<T> : IState where T : Entity
     public virtual void HandleInput() { }
     public virtual void StateUpdate() { timer += Time.deltaTime; }
     public virtual void StateFixedUpdate() { }
-    public virtual void OnHit(Vector2 dir) { }
+    public virtual void OnHit(bool isDead, Vector2 dir) { }
 }

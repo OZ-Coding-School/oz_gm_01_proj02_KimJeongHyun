@@ -16,19 +16,16 @@ MonoBehaviour:
   jumpForce: 17
   lowJumpForce: 5
   lowJumpTime: 0.15
-  parryJumpForce: 17
-  dashSpeed: 15
-  dashTime: 0.25
+  parryJumpForce: 19
+  dashSpeed: 20
+  dashTime: 0.2
   dashCooldown: 0.5
   gravityJump: 5
-  gravityFall: 4
-  standSize: {x: 1, y: 2}
-  standOffset: {x: 0, y: 1}
-  duckSize: {x: 1, y: 1}
-  duckOffset: {x: 0, y: 0.5}
+  gravityFall: 7
   maxHealth: 5
   maxEnergy: 5
   energyGainPerHit: 0.1
   invincibilityTime: 2
   knockbackForceX: 1
   knockbackForceY: 1
+  playerEffect: {fileID: 7611515567842652506, guid: ff080500ea315c4498cd9f8a91770bc1, type: 3}

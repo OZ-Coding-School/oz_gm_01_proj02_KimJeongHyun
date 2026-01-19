@@ -44,6 +44,18 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             item = pool[prefab].Dequeue();
         }
 
+
+
+        if (TryGetComponent(out Rigidbody2D rb))
+        {
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+
+        item.transform.localScale = Vector3.one;
+        item.transform.localRotation = Quaternion.identity;
+
+
         item.transform.SetPositionAndRotation(pos, rot);
         item.gameObject.SetActive(true);
 
@@ -51,6 +63,20 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
         return item.gameObject;
     }
+
+    public T SpawnObj<T>(GameObject prefab, Vector3 pos, Quaternion rot) where T : Component
+    {
+        GameObject go = SpawnObj(prefab, pos, rot);
+
+        if (go == null) return null;
+
+        if (go.TryGetComponent(out T component))
+        {
+            return component;
+        }
+        return null;
+    }
+
 
     public void Despawn(PoolItem item)
     {

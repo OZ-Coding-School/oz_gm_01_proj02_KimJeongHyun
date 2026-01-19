@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1562398514406365684}
   - component: {fileID: 1662728185539194432}
-  - component: {fileID: 5355841882687959255}
   - component: {fileID: 1590510611865483812}
   - component: {fileID: 7777440230978321312}
   - component: {fileID: -7374802704720869589}
+  - component: {fileID: -4313449234097851048}
   m_Layer: 0
   m_Name: peashooter
   m_TagString: Untagged
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1038880907
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -162127897, guid: 321bcd79c9bb3064cba019debb04d9c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -88,20 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!114 &5355841882687959255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5522386937909845183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4d58cb2de7a104faee06d78344c7a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
-  aniType: 0
 --- !u!50 &1590510611865483812
 Rigidbody2D:
   serializedVersion: 4
@@ -185,3 +171,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4313449234097851048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5522386937909845183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cac2ae3838c4347899bc661c051f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
+  aniType: 0
+  hitType: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 392

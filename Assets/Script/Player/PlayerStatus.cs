@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 public class PlayerStatus
@@ -34,23 +35,6 @@ public class PlayerStatus
         IsInvincible = false;
     }
 
-    public void TakeDamage(int damage, Vector2 dir)
-    {
-        if (IsDead || IsInvincible) return;
-
-        CurrentHp = Mathf.Max(0, CurrentHp - damage);
-        OnHpChange?.Invoke(CurrentHp);
-
-        if(IsDead)
-        {
-            OnPlayerDie?.Invoke();
-        }
-        else
-        {
-            controller.StartCoroutine(InvincibleCo());
-        }
-    }
-
     public void AddEnergy(float val)
     {
         CurrentEnergy = Mathf.Clamp(CurrentEnergy + val, 0, data.MaxEnergy);
@@ -68,17 +52,20 @@ public class PlayerStatus
         OnEnergyChange?.Invoke(CurrentEnergy);
     }
 
-    private IEnumerator InvincibleCo()
+    public bool CheckIsDead(float dmg)
     {
-        IsInvincible = true;
-        float timer = 0;
-
-        while (timer < data.InvincibilityTIme)
+        CurrentHp = Mathf.Max(0, CurrentHp - (int)dmg);
+        OnHpChange?.Invoke(CurrentHp);
+        if (CurrentHp <= 0)
         {
-            timer += Time.deltaTime;
-
-            yield return null;
+            OnPlayerDie?.Invoke();
+            return IsDead;
         }
-        IsInvincible = false;
+        return false;
+    }
+
+    public void SetInvincible(bool isInvi)
+    {
+        IsInvincible = isInvi;
     }
 }

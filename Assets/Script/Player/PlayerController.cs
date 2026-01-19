@@ -6,11 +6,11 @@ public struct PlayerCollisions
 {
     public BoxCollider2D footCol;
     public BoxCollider2D bodyCol;
-    public BoxCollider2D hitboxCol;
+    public BoxCollider2D hitBoxCol;
     public LayerMask groundAndPlatform;    
 }
 
-public class PlayerController : Entity
+public class PlayerController : Entity, IDamageable
 {
     //@테스트
     public TextMeshProUGUI stateText;
@@ -21,7 +21,7 @@ public class PlayerController : Entity
     [SerializeField] private PlayerCollisions playerCollisions;
     [SerializeField] private BulletDataSO bulletdata;
     [SerializeField] private PlayerDataSO playerdata;
-
+    
     public BulletDataSO BulletData => bulletdata;
     public PlayerDataSO PlayerData => playerdata;
 
@@ -39,12 +39,12 @@ public class PlayerController : Entity
         PlayerInputHandler = new PlayerInputHandler();
         PlayerMovement = new PlayerMovement(this, Rb, playerdata);
         PlayerStatus = new PlayerStatus(this, playerdata);
-        PlayerCollision = new PlayerCollision(this, Rb, playerCollisions);
+        PlayerCollision = new PlayerCollision(this, Rb, playerCollisions, EntityFlasah);
         PlayerShooter = new PlayerShooting(this, firePoint, bulletdata);
-
         AniHash = new AnimationHash<PlayerAnimation>(Anim);
         PlayerState = new PlayerStateData(this, SMachine);
     }
+
     protected override void Start()
     {
         base.Start();
@@ -53,6 +53,7 @@ public class PlayerController : Entity
 
     protected override void Update()
     {
+        if (Time.timeScale == 0) return;
         PlayerInputHandler.InputUpdate();
         if(PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
         base.Update();
@@ -62,7 +63,7 @@ public class PlayerController : Entity
     protected override void FixedUpdate()
     {
         PlayerCollision.CheckGround();
-        PlayerCollision.CheckParryOverlap();
+        PlayerCollision.CheckParry();
         base.FixedUpdate();
     }
 
@@ -70,5 +71,11 @@ public class PlayerController : Entity
     {
         if (PlayerCollision != null)
         PlayerCollision.DrawGizmos();
+    }
+
+    public void OnDamage(float dmg, Vector2 hitDir)
+    {
+        bool temp = PlayerStatus.CheckIsDead(dmg);
+        SMachine.CurState.OnHit(temp, hitDir);
     }
 }

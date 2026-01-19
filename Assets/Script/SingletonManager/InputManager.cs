@@ -33,6 +33,7 @@ public class InputManager : Singleton<InputManager>
         AddKey(CusKey.Shoot, KeyCode.X);
         AddKey(CusKey.Dash, KeyCode.C);
         AddKey(CusKey.Jump, KeyCode.V);
+        AddKey(CusKey.ShotEX, KeyCode.LeftShift);
         AddKey(CusKey.Super, KeyCode.Space);
         AddKey(CusKey.ChangeWeapon, KeyCode.Tab);
     }

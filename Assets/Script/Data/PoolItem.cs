@@ -16,12 +16,5 @@ public class PoolItem : MonoBehaviour
         PoolalbeComponent = GetComponent<IPoolable>();
     }
 
-    public void Despawn()
-    {
-        if (pool == null)
-        {
-            pool = ObjectPoolManager.Instance;
-        }
-         pool.Despawn(this);
-    }
+    public void Despawn() { pool.Despawn(this); }
 }

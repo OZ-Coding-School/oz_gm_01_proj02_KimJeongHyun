@@ -49,12 +49,12 @@ TagManager:
   - name: Decoration
     uniqueID: 4161798525
     locked: 0
-  - name: Object
+  - name: Enemy
     uniqueID: 1624862193
+    locked: 0
+  - name: Effect
+    uniqueID: 3256086389
     locked: 0
   - name: Player
     uniqueID: 2210843813
-    locked: 0
-  - name: New Layer 8
-    uniqueID: 969464811
     locked: 0

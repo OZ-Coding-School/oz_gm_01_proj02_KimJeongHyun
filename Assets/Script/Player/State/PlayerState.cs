@@ -4,7 +4,7 @@ public class PlayerState : BaseState<PlayerController>
 {
     protected PlayerAnimation groundAni;
     protected PlayerAnimation airAni;
-
+    protected ObjectPoolManager pool;
     public PlayerState(PlayerController ctr, StateMachine machine, PlayerAnimation groundAni) : base(ctr, machine)
     {
         this.groundAni = groundAni;
@@ -20,6 +20,7 @@ public class PlayerState : BaseState<PlayerController>
     {
         base.Enter();
         PlayEnterAni();
+        pool = ObjectPoolManager.Instance;
     }
 
     private void PlayEnterAni()
@@ -32,6 +33,7 @@ public class PlayerState : BaseState<PlayerController>
     {
         ctr.AniHash.PlayAni(ani);
     }
+
     protected void PlayAniSync(PlayerAnimation ani)
     {
         ctr.AniHash.PlayAniSync(ani);
@@ -51,8 +53,31 @@ public class PlayerState : BaseState<PlayerController>
     {
         ctr.PlayerShooter.Shoot(ctr.PlayerInputHandler.InputDir);
     }
+
+    public override void OnHit(bool isDead, Vector2 dir)
+    {
+        if (isDead) { /*machine.ChangeState(ctr.PlayerState.Die); return;*/ }
+        else
+        {
+            float hitDir = ctr.transform.position.x < dir.x ? 1 : -1;
+            if (hitDir != ctr.PlayerMovement.CurrentDir)
+            {
+                ctr.transform.Rotate(0, 180, 0);
+                ctr.PlayerMovement.SetCurDir((int)hitDir);
+            }
+            ctr.Rb.velocity = new Vector2(-hitDir * ctr.PlayerData.KnockbackForceX, ctr.PlayerData.KnockbackForceY);
+            machine.ChangeState(ctr.PlayerState.Hit);
+
+        } 
+    }      
+
+    protected void SetAirColSize()
+    {
+        ctr.PlayerCollision.SetJumpColSize();
+    }
+
     protected bool TryJump => ctr.PlayerInputHandler.InputJump && ctr.PlayerMovement.CanJump;
     protected bool TryDash => ctr.PlayerInputHandler.InputDash && ctr.PlayerMovement.CanDash;
-    protected bool TrySuper => ctr.PlayerInputHandler.InputSuper && ctr.PlayerShooter.CanSuper;
-    protected bool TryParry => ctr.PlayerInputHandler.InputJump && ctr.PlayerCollision.CanParry;
+    protected bool TryShotEX => ctr.PlayerInputHandler.InputShotEX && ctr.PlayerShooter.CanEX;
+    protected bool TryParry => ctr.PlayerInputHandler.ParryInputBuffer && ctr.PlayerCollision.CanParry;
 }

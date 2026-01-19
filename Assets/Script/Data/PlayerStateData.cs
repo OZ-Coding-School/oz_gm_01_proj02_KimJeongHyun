@@ -10,7 +10,8 @@ public class PlayerStateData
     public PlayerLockState Lock { get; private set; }
     public PlayerHitState Hit { get; private set; }
     public PlayerParryState Parry { get; private set; }
-    public PlayerSuperAttackState Super {  get; private set; }
+    public PlayerShotEXState ShotEX {  get; private set; }
+    public PlayerSuperBeamState SuperBeam { get; private set; }
 
     public PlayerStateData(PlayerController ctr, StateMachine machine)
     {
@@ -23,6 +24,7 @@ public class PlayerStateData
         Lock = new PlayerLockState(ctr, machine);
         Hit = new PlayerHitState(ctr, machine);
         Parry = new PlayerParryState(ctr, machine);
-        Super = new PlayerSuperAttackState(ctr, machine);
+        ShotEX = new PlayerShotEXState(ctr, machine);
+        SuperBeam = new PlayerSuperBeamState(ctr, machine);
     }
 }

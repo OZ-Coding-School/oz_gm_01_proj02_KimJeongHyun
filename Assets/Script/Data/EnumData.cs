@@ -17,6 +17,14 @@ public enum BulletEffectAniType
     SpreadshooterEXHitEffect,
 }
 
+public enum PlayerEffectAniType
+{
+    DashDust,
+    JumpDust,
+    ParrySpark,
+    EXStart
+}
+
 public enum PlayerAnimation
 {
     Idle,
@@ -74,6 +82,7 @@ public enum CusKey
     Shoot,
     Dash,
     Lock,
+    ShotEX,
     Super,
     ChangeWeapon,
 }
@@ -141,5 +150,6 @@ public enum BGMType
 public enum SFXType
 {
     PlayerParry,
+    PeashooterEXHit,
     COUNT
 }
