@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,8 +8,10 @@ using UnityEngine.UI;
 public class BaseUIController : MonoBehaviour
 {
     public UIType uiType;
-    public event Action<UIType, ButtonTypeE> ButtonClicked;
+    public event Action<UIType, ButtonTypeE, int> ButtonClicked;
     public event Action<UIType, SliderTypeE, float> SliderValueChanged;
+
+    protected List<ButtonType> UIButton = new List<ButtonType>();
 
     [SerializeField] protected Selectable firstSelect;
     protected RectTransform firstSelectRect;
@@ -98,12 +101,17 @@ public class BaseUIController : MonoBehaviour
 
         Button[] buttons = GetComponentsInChildren<Button>(true);
 
+        UIButton.Clear();
+
         foreach (var btn in buttons)
         {
             if (btn.TryGetComponent(out ButtonType temp))
             {
+                UIButton.Add(temp);
                 ButtonTypeE btnType = temp.btnType;
-                btn.onClick.AddListener(() => OnButtonClick(uiType, btnType));
+                int btnID = temp.ID;
+
+                btn.onClick.AddListener(() => OnButtonClick(uiType, btnType, btnID));
                 //오디오추가
             }
         }
@@ -130,9 +138,9 @@ public class BaseUIController : MonoBehaviour
 
     }
 
-    protected virtual void OnButtonClick(UIType uiType, ButtonTypeE btnType)
+    protected virtual void OnButtonClick(UIType uiType, ButtonTypeE btnType, int id)
     {
-        ButtonClicked?.Invoke(uiType, btnType);
+        ButtonClicked?.Invoke(uiType, btnType, id);
     }
     protected virtual void OnSliderValueChanged(UIType uiType, SliderTypeE type, float val)
     {

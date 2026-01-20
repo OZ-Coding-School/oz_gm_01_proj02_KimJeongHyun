@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f6b4ecdc12ea4da7b783348b3d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  managers: []
 --- !u!4 &1964670
 Transform:
   m_ObjectHideFlags: 0
@@ -625,7 +624,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7982820590429479734, guid: 1d7ce5529d86c7c4fa74f99f4580e99c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -682,7 +682,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 214397083559289421, guid: 487c81330ffc4e347add1b4282ff17ff, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

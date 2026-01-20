@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Authentication.ExtendedProtection;
 using TMPro;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ public class LobbySceneUIController : BaseSceneUIController
     {
         base.Start();
         OpenUI(UIType.LobbyMainUI);
+        Debug.Log(Application.persistentDataPath);
     }   
 
     protected override void Update()
@@ -51,7 +53,7 @@ public class LobbySceneUIController : BaseSceneUIController
         if (Input.GetKeyDown(KeyCode.Escape)) CloseUI();
     }
     
-    private void ButtonEvent(UIType uiType, ButtonTypeE btnType)
+    private void ButtonEvent(UIType uiType, ButtonTypeE btnType, int btnID)
     {
         switch (uiType, btnType)
         {
@@ -59,8 +61,7 @@ public class LobbySceneUIController : BaseSceneUIController
             case (UIType.LobbyMainUI, ButtonTypeE.Option): OpenUI(UIType.OptionUI); break;
             case (UIType.OptionUI, ButtonTypeE.Sound): OpenUI(UIType.AudioUI); break;
             case (UIType.OptionUI, ButtonTypeE.keySetting): OpenUI(UIType.KeySettingUI); break;
-            case (UIType.GameStartUI, ButtonTypeE.Start): OpenUI(UIType.TutorialUI); break;
-
+            case (UIType.GameStartUI, ButtonTypeE.Start): OnGameSlotSelected(btnID); break;
 
             case (_, ButtonTypeE.Back): CloseUI(); break;
             case (_, ButtonTypeE.Exit): Application.Quit(); break;
@@ -74,6 +75,26 @@ public class LobbySceneUIController : BaseSceneUIController
         float result = val / SLIDER_MAX_AUDIO_VAL;
         AudioManager.Instance.SetVolume(sldType, result);
     }
+
+    private void OnGameSlotSelected(int slotID)
+    {
+        DataManager.Instance.SelectSlot(slotID);
+        DataManager.Instance.SaveUserData();
+        var userGameData = DataManager.Instance.GetUserData<UserGameData>();
+        GameData data = userGameData.Data;
+
+        bool tutorialclear = data.isTutorialClear;
+
+        if (tutorialclear)
+        {
+            SceneLoader.Instance.LoadScene(SceneType.Map);
+        }
+        else
+        {
+            OpenUI(UIType.TutorialUI);
+        }
+    }
+
 
     private void OpenUI(UIType type)
     {

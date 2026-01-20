@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c1d661da69c0b4690adb0394d525e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1
 --- !u!95 &176666938
 Animator:
   serializedVersion: 5
@@ -599,6 +599,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1972359539}
     m_Modifications:
+    - target: {fileID: -7560018031877436575, guid: 2878c9b8c4299cb42b15b81cb1779d0f, type: 3}
+      propertyPath: minY
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: -7560018031877436575, guid: 2878c9b8c4299cb42b15b81cb1779d0f, type: 3}
+      propertyPath: fixedY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -7560018031877436575, guid: 2878c9b8c4299cb42b15b81cb1779d0f, type: 3}
       propertyPath: player
       value: 

@@ -16,19 +16,28 @@ public class CameraFollowTutorial : MonoBehaviour
     public float minY = 0;
     public float maxY = 20f;
 
+    public float fixedY;
+    private void Start()
+    {
+        fixedY = transform.position.y;
+    }
     private void LateUpdate()
     {
         float targetX = Mathf.Clamp(player.position.x, minX, maxX);
         float targetY = player.transform.position.y;
-
+        if (mask == null) { useMap = true; }
         if (useMap)
         {
             targetY = Mathf.Clamp(player.position.y, minY, maxY);
         }
+        else
+        {
+            targetY = fixedY;
+        }
 
         Vector3 pos = new Vector3(targetX, targetY, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, pos, speed * Time.deltaTime);
-        if (mask != null)
+        if (!useMap)
         {
             mask.position = new Vector3(transform.position.x, transform.position.y, mask.position.z);
         }

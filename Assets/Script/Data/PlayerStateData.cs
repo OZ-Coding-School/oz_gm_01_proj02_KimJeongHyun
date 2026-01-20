@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerStateData
 {
@@ -10,7 +13,7 @@ public class PlayerStateData
     public PlayerLockState Lock { get; private set; }
     public PlayerHitState Hit { get; private set; }
     public PlayerParryState Parry { get; private set; }
-    public PlayerShotEXState ShotEX {  get; private set; }
+    public PlayerShotEXState ShotEX { get; private set; }
     public PlayerSuperBeamState SuperBeam { get; private set; }
 
     public PlayerStateData(PlayerController ctr, StateMachine machine)

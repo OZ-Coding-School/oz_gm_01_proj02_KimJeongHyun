@@ -19,4 +19,9 @@ public class ButtonType : MonoBehaviour
     {
         text.text = str;
     }
+
+    public void SetTextActive(bool bol)
+    {
+        text.gameObject.SetActive(bol);
+    }
 }

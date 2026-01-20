@@ -5,33 +5,15 @@ using UnityEngine;
 
 public class Initializer : MonoBehaviour
 {    
-    public List<MonoBehaviour> managers;
-
     private void Start()
     {
-        SceneLoader.Instance.LoadScene(SceneType.Title);
-        //StartCoroutine(LoadManager());
-    }
-
-    private IEnumerator LoadManager()
-    {
-        int totalManager = managers.Count;
-        int readyCount = 0;
-        
-        while (readyCount < totalManager)
+        DataManager.Instance.LoadUserData();
+        if (!DataManager.Instance.ExistsSaveData)
         {
-            readyCount = 0;
-
-            foreach (var manager in managers)
-            {
-                var field = manager.GetType().GetField("isReady");
-                if (field != null && (bool)field.GetValue(manager) == true)
-                {
-                    readyCount++;
-                }
-            }
-            yield return null;
+            DataManager.Instance.SetDefaultUserData();
+            DataManager.Instance.SaveUserData();
         }
+
 
         SceneLoader.Instance.LoadScene(SceneType.Title);
     }

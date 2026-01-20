@@ -64,7 +64,7 @@ public class LobbyKeySettingUIController : BaseUIController
     }
 
 
-    protected override void OnButtonClick(UIType uiType, ButtonTypeE btnType)
+    protected override void OnButtonClick(UIType uiType, ButtonTypeE btnType, int btnID)
     {
         if (isRebinding || lastSelectedBtn == null) return;        
 
@@ -78,7 +78,7 @@ public class LobbyKeySettingUIController : BaseUIController
             StartCoroutine(RebindKey(lastSelectedBtn));
         }
 
-        base.OnButtonClick(uiType, btnType);
+        base.OnButtonClick(uiType, btnType, btnID);
     }
 
     private IEnumerator EnableScrollAfterFrame()
