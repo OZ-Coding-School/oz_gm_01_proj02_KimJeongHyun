@@ -13,7 +13,7 @@ public class BaseUIController : MonoBehaviour
 
     protected List<ButtonType> UIButton = new List<ButtonType>();
 
-    [SerializeField] protected Selectable firstSelect;
+    [SerializeField] public Selectable firstSelect;
     protected RectTransform firstSelectRect;
     protected ButtonType firstSelectBtn;
     protected GameObject lastSelectedObj;

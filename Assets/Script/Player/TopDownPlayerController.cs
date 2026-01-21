@@ -10,7 +10,7 @@ public class TopDownPlayerController : MonoBehaviour
     private Animator anim;
     private Vector2 lastMoveDir;
     private bool facingRight = true;
-
+    private bool canMove = true;
 
     private void Awake()
     {
@@ -20,11 +20,14 @@ public class TopDownPlayerController : MonoBehaviour
 
     private void Update()
     {
-        SetInput();
-        Animate();
-        if(input.x < 0 && facingRight || input.x > 0 && !facingRight)
+        if (canMove)
         {
-            Flip();
+            SetInput();
+            Animate();
+            if (input.x < 0 && facingRight || input.x > 0 && !facingRight)
+            {
+                Flip();
+            }
         }
     }
     private void FixedUpdate()
@@ -62,5 +65,10 @@ public class TopDownPlayerController : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
         facingRight = !facingRight;
+    }
+
+    public void SetCanMove(bool bol)
+    {
+        canMove = bol;
     }
 }

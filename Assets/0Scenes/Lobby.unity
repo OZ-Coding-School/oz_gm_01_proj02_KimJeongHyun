@@ -3994,7 +3994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1436845107
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6519,6 +6519,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 900521345}
     m_Modifications:
+    - target: {fileID: 882126756392029658, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2522055551931339590, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.347
@@ -6531,13 +6535,21 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2127881347}
+    - target: {fileID: 5255717436144848840, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.499157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5255717436144848840, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.1854937
+      objectReference: {fileID: 0}
     - target: {fileID: 7462303054764401761, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
       propertyPath: m_Name
       value: Tutorial
       objectReference: {fileID: 0}
     - target: {fileID: 7462303054764401761, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8518268614376437270, guid: 0f63bae586fc86b4fb4c78c48f7621bf, type: 3}
       propertyPath: m_LocalPosition.x

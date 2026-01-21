@@ -72,6 +72,24 @@ public enum PlayerAnimation
     SuperGroundStraight,
 }
 
+public enum SlimeAnimation
+{
+    Intro,
+    Idle,
+    Attack,
+    Jump,
+    ChangePageTwo,
+    BigIdle,
+    BigJump,
+    BigAttack,
+    ChangePageThree,
+    TombIdle,
+    TombMove,
+    TombAttack,
+    Die,
+    SlimeExplode,
+}
+
 public enum CusKey
 {
     Up,
@@ -104,7 +122,11 @@ public enum UIType
     OptionUI,
     AudioUI,
     KeySettingUI,
-    TutorialUI
+    TutorialUI,
+    MapActiveUI,
+    MapShopUI,
+    MapBossSlimeUI,
+    MapWorldUI,
 }
 
 public enum SpriteType
@@ -128,6 +150,8 @@ public enum ButtonTypeE
     Done,
     Default,
     keySetting,
+    Shop,
+    BossSlime,
 }
 
 public enum SliderTypeE

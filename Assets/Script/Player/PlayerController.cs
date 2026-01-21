@@ -54,10 +54,10 @@ public class PlayerController : Entity, IDamageable
     protected override void Update()
     {
         if (Time.timeScale == 0) return;
-        PlayerInputHandler.InputUpdate();
-        if(PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
+        PlayerInputHandler.InputUpdate();        
+        if (PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
         base.Update();
-        stateText.text = $"{SMachine.CurState.ToString()}, isground : {PlayerCollision.IsGround.ToString()}, {PlayerCollision.CanParry.ToString()}";
+        stateText.text = $"{PlayerStatus.IsInvincible}, {PlayerStatus.CurrentHp}, {PlayerCollision.IsGround}, {Rb.velocity.y}";
     }
 
     protected override void FixedUpdate()
@@ -75,7 +75,10 @@ public class PlayerController : Entity, IDamageable
 
     public void OnDamage(float dmg, Vector2 hitDir)
     {
-        bool temp = PlayerStatus.CheckIsDead(dmg);
-        SMachine.CurState.OnHit(temp, hitDir);
+        if(!PlayerStatus.IsInvincible)
+        {
+            bool temp = PlayerStatus.CheckIsDead(dmg);
+            SMachine.CurState.OnHit(temp, hitDir);
+        }
     }
 }

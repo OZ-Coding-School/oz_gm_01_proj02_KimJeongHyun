@@ -86,4 +86,12 @@ public class PlayerMovement
     {
         CurrentDir = dir; 
     }
+
+    public void CheckMaxJump()
+    {
+        if (rb.velocity.y > data.JumpForce)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, data.JumpForce);
+        }
+    }
 }

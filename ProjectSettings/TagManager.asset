@@ -20,7 +20,7 @@ TagManager:
   - playerFoot
   - playerBody
   - parryable
-  - 
+  - tomb
   - 
   - 
   - 
@@ -57,4 +57,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2210843813
+    locked: 0
+  - name: UI
+    uniqueID: 813001171
     locked: 0

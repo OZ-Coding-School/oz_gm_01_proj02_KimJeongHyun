@@ -9,6 +9,7 @@ public class PlayerDuckState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        ctr.PlayerCollision.SetDuckColSize();
         ctr.PlayerMovement.Stop();
     }
 
@@ -36,5 +37,10 @@ public class PlayerDuckState : PlayerState
     protected override void Shooting()
     {
         ctr.PlayerShooter.Shoot(new Vector2(ctr.PlayerMovement.CurrentDir, 0), true);
+    }
+
+    public override void Exit()
+    {
+        ctr.PlayerCollision.SetGroundColSize();
     }
 }

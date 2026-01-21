@@ -12,7 +12,7 @@ public class CameraFollowTutorial : MonoBehaviour
     public float minX = 0f;
     public float maxX = 55.1f;
 
-    public bool useMap = false;
+    bool useMap = false;
     public float minY = 0;
     public float maxY = 20f;
 

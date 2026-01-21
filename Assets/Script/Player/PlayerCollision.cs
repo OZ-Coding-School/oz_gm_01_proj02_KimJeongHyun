@@ -137,17 +137,25 @@ public class PlayerCollision
     public void SetJumpColSize()
     {
         bodyCol.size = new Vector2(0.7f, 0.6f);
-        bodyCol.offset = new Vector2(0f, -0.3f);
-        hitBoxCol.size = new Vector2(0.4f, 0.4f);
-        hitBoxCol.offset = new Vector2(0f, -0.3f);
+        bodyCol.offset = new Vector2(0f, -0.1f);
+        hitBoxCol.size = new Vector2(0.4f, 0.6f);
+        hitBoxCol.offset = new Vector2(0f, 0.6f);
     }
 
     public void SetGroundColSize()
     {
         bodyCol.size = new Vector2(0.7f, 1.2f);
         bodyCol.offset = new Vector2(0f, -0.01f);
-        hitBoxCol.size = new Vector2(0.5f, 0.9f);
-        hitBoxCol.offset = new Vector2(0f, -0.1f);
+        hitBoxCol.size = new Vector2(0.4f, 0.8f);
+        hitBoxCol.offset = new Vector2(0f, 0.7f);
+    }
+
+    public void SetDuckColSize()
+    {
+        bodyCol.size = new Vector2(0.8f, 0.5f);
+        bodyCol.offset = new Vector2(0, -0.3f);
+        hitBoxCol.size = new Vector2(0.8f, 0.5f);
+        hitBoxCol.offset = new Vector2(0, 0.3f);
     }
 
     public void DrawGizmos()

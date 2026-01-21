@@ -108,4 +108,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             Despawn(item);
         }
     }
+
+    public void ClearAllPool()
+    {
+        pool.Clear();
+    }
 }

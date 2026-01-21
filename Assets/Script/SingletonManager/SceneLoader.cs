@@ -34,10 +34,12 @@ public class SceneLoader : Singleton<SceneLoader>
         AsyncOperation op = SceneManager.LoadSceneAsync(scene.ToString());
         op.allowSceneActivation = false;
         while (op.progress < 0.9f) yield return null;
+        ObjectPoolManager.instance.ClearAllPool();
         op.allowSceneActivation = true;
         while (!op.isDone) yield return null;
 
         transAni.Play(openAni.name);
+        Debug.Log("씬전환 애니메이션 실행");
         yield return new WaitForSeconds(openAni.length);
         transAni.gameObject.SetActive(false);
     }

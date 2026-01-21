@@ -67,7 +67,6 @@ public class PlayerState : BaseState<PlayerController>
             }
             ctr.Rb.velocity = new Vector2(-hitDir * ctr.PlayerData.KnockbackForceX, ctr.PlayerData.KnockbackForceY);
             machine.ChangeState(ctr.PlayerState.Hit);
-
         } 
     }      
 
