@@ -86,7 +86,7 @@ Animator:
   m_GameObject: {fileID: 732598242879563395}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ab075279d8c061e428fa06adbef87d4e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0810d31dc937cd64484178030c34eee7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -143,8 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transAni: {fileID: 2872581601874828193}
-  openAni: {fileID: 7400000, guid: e3f021059129b754b8bd72ff1deff747, type: 2}
-  closeAni: {fileID: 7400000, guid: 70e00443066872d4d96a30d6732068af, type: 2}
 --- !u!1 &6265512327199575923
 GameObject:
   m_ObjectHideFlags: 0

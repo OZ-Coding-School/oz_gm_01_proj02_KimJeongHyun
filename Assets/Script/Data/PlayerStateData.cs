@@ -15,6 +15,8 @@ public class PlayerStateData
     public PlayerParryState Parry { get; private set; }
     public PlayerShotEXState ShotEX { get; private set; }
     public PlayerSuperBeamState SuperBeam { get; private set; }
+    public PlayerIntroState Intro { get; private set; }
+    public PlayerDieState Die { get; private set; }
 
     public PlayerStateData(PlayerController ctr, StateMachine machine)
     {
@@ -29,5 +31,7 @@ public class PlayerStateData
         Parry = new PlayerParryState(ctr, machine);
         ShotEX = new PlayerShotEXState(ctr, machine);
         SuperBeam = new PlayerSuperBeamState(ctr, machine);
+        Intro = new PlayerIntroState(ctr, machine);
+        Die = new PlayerDieState(ctr, machine);
     }
 }

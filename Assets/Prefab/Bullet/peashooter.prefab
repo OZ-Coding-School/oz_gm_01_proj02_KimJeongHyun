@@ -185,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 61fa277424441eb48946a7274d390dd8, type: 2}
   aniType: 0
-  hitType: 0
+  hitType: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 392

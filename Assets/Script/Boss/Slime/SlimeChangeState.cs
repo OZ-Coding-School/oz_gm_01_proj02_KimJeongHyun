@@ -18,6 +18,7 @@ public class SlimeChangeState : SlimeState
         if (ctr.page == 1)
         {
             ctr.AniHash.PlayFirstFrame(SlimeAnimation.ChangePageTwo);
+            SetRandomJumpConut();
             yield return null;
             yield return new WaitUntil(() => ctr.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         }
@@ -32,12 +33,14 @@ public class SlimeChangeState : SlimeState
             GameObject tomb = Object.Instantiate(ctr.tombfall, spawn, Quaternion.identity);
             yield return new WaitForSeconds(2.5f);
             ctr.AniHash.PlayAni(SlimeAnimation.SlimeExplode);
+            GameObject tombDust = Object.Instantiate(ctr.tombIntroDust, new Vector3(ctr.transform.position.x, ctr.transform.position.y - 2f, ctr.transform.position.z), Quaternion.identity);
 
             ctr.StartCoroutine(ctr.cam.Shake(0.3f, 0.5f));
 
 
             yield return new WaitForSeconds(1.8f);
             Object.Destroy(tomb);
+            Object.Destroy(tombDust);
         }
         ctr.page++;
         machine.ChangeState(ctr.page == 2 ? ctr.SlimeState.Move : ctr.SlimeState.TombMove);

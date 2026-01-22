@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 17
+  jumpForce: 16
   lowJumpForce: 5
   lowJumpTime: 0.15
-  parryJumpForce: 19
-  dashSpeed: 20
+  parryJumpForce: 17
+  dashSpeed: 15
   dashTime: 0.2
   dashCooldown: 0.5
-  gravityJump: 5
+  gravityJump: 4.6
   gravityFall: 7
   maxHealth: 5
   maxEnergy: 5

@@ -15,9 +15,9 @@ public class PlayerMovement
 
     public int DashCount { get; private set; } = 0;
     public int JumpCount { get; private set; } = 0;
-
-    public bool CanDash => (Time.time >= LastDashTime + data.DashCooldown) && DashCount > 0;
-    public bool CanJump => JumpCount > 0;
+    public bool CanMove { get; private set; } = true;
+    public bool CanDash => (Time.time >= LastDashTime + data.DashCooldown) && DashCount > 0 && CanMove;
+    public bool CanJump => JumpCount > 0 && CanMove;
 
     public PlayerMovement(PlayerController controller, Rigidbody2D rb,
         PlayerDataSO data)
@@ -27,9 +27,17 @@ public class PlayerMovement
         this.data = data;
     }
 
+    public void SetPlayerCanMove(bool bol)
+    {
+        CanMove = bol; 
+    }
+
     public void Move(float x)
     {
-        rb.velocity = new Vector2(x * data.MoveSpeed, rb.velocity.y);
+        if (CanMove)
+        {
+            rb.velocity = new Vector2(x * data.MoveSpeed, rb.velocity.y);
+        }
     }
 
     public void Jump()
@@ -63,6 +71,14 @@ public class PlayerMovement
     {
         DashCount = 1;
         JumpCount = 1;
+    }
+
+    public void SetMaxJump()
+    {
+        if (rb.velocity.y > data.JumpForce)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, data.JumpForce);
+        }
     }
 
     private IEnumerator DashCo()

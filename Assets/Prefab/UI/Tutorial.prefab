@@ -44,8 +44,8 @@ Transform:
   - {fileID: 9125254281076218589}
   - {fileID: 8373076618565340602}
   - {fileID: 3814737758343677677}
-  - {fileID: 2550224660198003866}
   - {fileID: 5910665251780144157}
+  - {fileID: 2550224660198003866}
   - {fileID: 3688594808408069559}
   - {fileID: 2522055551931339590}
   m_Father: {fileID: 9165919827312176545}
@@ -4779,6 +4779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiType: 6
   firstSelect: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &7471825512130904138
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,8 +24,9 @@ public class SlimeTombMoveState : SlimeState
     {
         base.StateUpdate();
         if (timer >= atkCooldown && Mathf.Abs(ctr.transform.position.x - ctr.playerTrs.position.x) < 0.6f)
+        {
             machine.ChangeState(ctr.SlimeState.TombAttack);
-
+        }
     }
 
     public override void StateFixedUpdate()

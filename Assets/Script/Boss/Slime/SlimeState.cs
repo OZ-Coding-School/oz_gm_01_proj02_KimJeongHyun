@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlimeState : BaseState<SlimeController>
 {
     public SlimeState(SlimeController ctr, StateMachine machine) : base(ctr, machine) { }
-
+   
 
     public override void StateUpdate()
     {
@@ -44,8 +44,15 @@ public class SlimeState : BaseState<SlimeController>
         }
     }
 
+    protected void SetRandomJumpConut()
+    {
+        ctr.jumpCount = Random.Range(1, 5);
+        ctr.jumpConutCheck = 0;
+    }
+
     public override void OnHit(bool isDead, Vector2 dir)
     {
-                
+        //플래쉬효과
+        ctr.player.PlayerStatus.AddEnergy(0.02f);
     }
 }

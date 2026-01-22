@@ -25,6 +25,19 @@ public enum PlayerEffectAniType
     EXStart
 }
 
+public enum SlimeEffectAniType
+{
+    SlimeDust,
+    SlimeDust2,
+    SlimeLight,
+    SlimeStar,
+    SlimeStar2,
+    SlimeTombIntroDust,
+    SlimeTombIntroDust2,
+    SlimeTombSmashDust,
+    SlimeTombMoveDust,
+}
+
 public enum PlayerAnimation
 {
     Idle,
@@ -127,6 +140,10 @@ public enum UIType
     MapShopUI,
     MapBossSlimeUI,
     MapWorldUI,
+    BossField,
+    BossStatusUI,
+    BossLose,
+    BossWin,
 }
 
 public enum SpriteType
@@ -152,6 +169,7 @@ public enum ButtonTypeE
     keySetting,
     Shop,
     BossSlime,
+    BackScene,
 }
 
 public enum SliderTypeE
@@ -168,12 +186,32 @@ public enum BGMType
     Tutorial,
     MapOne,
     BossSlime,
+    GameOver,
+    GameWin,
+
     COUNT
 }
 
 public enum SFXType
 {
+    PlayerDash,    
     PlayerParry,
+    PlayerDeath,
+    PlayerHit,
+    PlayerJump,
+    SlimeChangeBig,
+    SlimeJump,
+    SlimePunch,
+    TombAttack,
+    TombMove,
+    TombSmile,
+    BigChangeTomb,
+    BigJump,
+    BigPunch,
+    PeashooterLoop,
     PeashooterEXHit,
+    KnockOut,
+    NarratorOne,
+    NarratorTwo,
     COUNT
 }

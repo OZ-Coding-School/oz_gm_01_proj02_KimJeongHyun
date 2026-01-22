@@ -9,11 +9,10 @@ public class PlayerShooting
 
     private BulletDataSO bullet;
     private float nextFireTime = 0;
-    private float nextEXFireTime = 2;
+    private float nextEXFireTime = 0;
+    public bool UseEXTime => Time.time >= nextEXFireTime;
 
-    public float CurrentEnergy { get; private set; } = 0;
-    public bool CanEX => CurrentEnergy >= 0f;
-    
+
     public PlayerShooting(PlayerController controller, Transform[] firePoint,
         BulletDataSO bullet)
     {
@@ -30,8 +29,7 @@ public class PlayerShooting
         if (Time.time < nextFireTime) return;
         nextFireTime = Time.time + bullet.FireRate;
         Transform pos = GetFirePoint(dir, isDucking);
-        Quaternion rot = ShotRotation(dir);
-
+        Quaternion rot = ShotRotation(dir);        
         pool.SpawnObj(bullet.BulletPrefab, pos.position, rot);
         var fx = pool.SpawnObj<BulletEffect>(bullet.BulletEffectPrefab, pos.position, rot);
         EffectHelper.SetRandomEffect(fx);
@@ -51,16 +49,6 @@ public class PlayerShooting
         Vector2 dir = new Vector2(controller.PlayerMovement.CurrentDir, 0);
         Transform position = GetFirePoint(dir, false);  
         //Object.Instantiate Super프리팹추가
-    }
-
-    public void AddEnergy() // 공격성공시 조금씩차는 용
-    {
-        CurrentEnergy = Mathf.Clamp(CurrentEnergy + controller.PlayerData.EnergyGainPerHit, 0, controller.PlayerData.MaxEnergy);
-    }
-
-    public void AddEnergy(float val)
-    {
-        CurrentEnergy = Mathf.Clamp(CurrentEnergy + val, 0 , controller.PlayerData.MaxEnergy);
     }
 
     private Transform GetFirePoint(Vector2 dir, bool isDucking)

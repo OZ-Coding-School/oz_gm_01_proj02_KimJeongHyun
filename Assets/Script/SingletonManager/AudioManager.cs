@@ -28,6 +28,11 @@ public class AudioManager : Singleton<AudioManager>
         LoadSFXPlayer();
     }
 
+    private void Start()
+    {
+        SetSFXLoop(SFXType.PeashooterLoop, true);
+    }
+
     private void LoadBGMPlayer()
     {
         for (int i = 0; i < (int)BGMType.COUNT; i++)
@@ -141,5 +146,41 @@ public class AudioManager : Singleton<AudioManager>
             return;
         }
         _SFXPlayer[sfx].Play();
+    }
+
+    public void StopSFX(SFXType sfx) 
+    {
+        if (!_SFXPlayer.ContainsKey(sfx))
+        {
+            return;
+        }
+        _SFXPlayer[sfx].Stop();
+    }
+
+    public void PauseSFX(SFXType sfx)
+    {
+        if (!_SFXPlayer.ContainsKey(sfx))
+        {
+            return;
+        }
+        _SFXPlayer[sfx].Pause();
+    }
+
+    public void UnPauseSFX(SFXType sfx)
+    {
+        if (!_SFXPlayer.ContainsKey(sfx))
+        {
+            return;
+        }
+        _SFXPlayer[sfx].UnPause();
+    }
+
+    public void SetSFXLoop(SFXType type, bool bol)
+    {
+        _SFXPlayer[type].loop = bol;
+    }
+    public float GetSFXLength(SFXType type)
+    {
+        return _SFXPlayer[type].clip.length;
     }
 }

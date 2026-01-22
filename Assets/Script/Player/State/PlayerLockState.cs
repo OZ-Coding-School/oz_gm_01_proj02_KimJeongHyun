@@ -20,7 +20,11 @@ public class PlayerLockState : PlayerState
             PlayAniSync(CheckShotAni());
         }     
         else { PlayAniSync(CheckAimAni()); }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; } 
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
     }
 
     public override void StateUpdate()

@@ -9,6 +9,7 @@ public class SlimeIntroState : SlimeState
     public override void Enter()
     {
         base.Enter();
+        SetRandomJumpConut();
         ctr.AniHash.PlayAni(SlimeAnimation.Intro);
     }
 

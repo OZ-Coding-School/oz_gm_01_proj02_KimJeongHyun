@@ -48,15 +48,16 @@ public class PlayerController : Entity, IDamageable
     protected override void Start()
     {
         base.Start();
-        SMachine.Init(PlayerState.Idle);
+        SMachine.Init(PlayerState.Intro);
+        Time.maximumDeltaTime = 0.03f;
     }
 
     protected override void Update()
     {
         if (Time.timeScale == 0) return;
-        PlayerInputHandler.InputUpdate();        
-        if (PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
+        PlayerInputHandler.InputUpdate();
         base.Update();
+        if (PlayerCollision.IsGround && Rb.velocity.y < 0.01) PlayerMovement.ResetJumpDash();
         stateText.text = $"{PlayerStatus.IsInvincible}, {PlayerStatus.CurrentHp}, {PlayerCollision.IsGround}, {Rb.velocity.y}";
     }
 
@@ -65,6 +66,7 @@ public class PlayerController : Entity, IDamageable
         PlayerCollision.CheckGround();
         PlayerCollision.CheckParry();
         base.FixedUpdate();
+        PlayerMovement.SetMaxJump();
     }
 
     private void OnDrawGizmos()

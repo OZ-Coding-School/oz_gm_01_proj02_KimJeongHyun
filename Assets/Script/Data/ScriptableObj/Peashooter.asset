@@ -22,9 +22,9 @@ MonoBehaviour:
   lifeTime: 3
   shootEffect: 0
   hitEffect: 1
-  exDamage: 100
+  exDamage: 5
   exSpeed: 5
-  eXfireRate: 2
+  eXfireRate: 1
   exBulletCount: 1
   exShootEffect: 0
   exHitEffect: 2

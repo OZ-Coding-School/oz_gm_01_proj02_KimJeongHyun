@@ -14,6 +14,8 @@ public class PlayerHitState : PlayerState
         base.Enter();
         ctr.PlayerStatus.SetInvincible(true);        
         ctr.StartCoroutine(FlashCo(ctr.PlayerData.InvincibilityTIme));
+        audio.PlaySFX(SFXType.PlayerHit);
+        audio.StopSFX(SFXType.PeashooterLoop);
     }
 
     public override void StateUpdate()
@@ -36,5 +38,10 @@ public class PlayerHitState : PlayerState
             time += flashTime;
         }
         ctr.PlayerStatus.SetInvincible(false);
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        if (ctr.PlayerInputHandler.InputShoot) { audio.PlaySFX(SFXType.PeashooterLoop); }
     }
 }

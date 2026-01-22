@@ -23,7 +23,11 @@ public class PlayerDuckState : PlayerState
         else { PlayAni(PlayerAnimation.DuckIdle); }
 
         if (ctr.PlayerInputHandler.InputJump) { ctr.PlayerCollision.DropDown(); }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
     }
 
     public override void StateUpdate()

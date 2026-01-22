@@ -35,7 +35,7 @@ public class Entity : MonoBehaviour
     {
         SMachine.CurState.StateFixedUpdate();
     }
-
+    protected virtual void OnTriggerStay2D(Collider2D collision) { }
     protected virtual void OnTriggerEnter2D(Collider2D collision) { }        
     protected virtual void OnCollisionEnter2D(Collision2D collision) { }
 }

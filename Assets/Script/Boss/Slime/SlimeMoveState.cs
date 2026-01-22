@@ -22,7 +22,7 @@ public class SlimeMoveState : SlimeState
     private IEnumerator JumpCO()
     {
         ctr.AniHash.PlayFirstFrame(ctr.page == 1 ? SlimeAnimation.Jump : SlimeAnimation.BigJump);
-        ctr.jumpCount++;
+        ctr.jumpConutCheck++;
 
         yield return null;
         yield return new WaitUntil(() => ctr.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.37f);
@@ -30,6 +30,10 @@ public class SlimeMoveState : SlimeState
         ctr.Rb.velocity = new Vector2(ctr.curDir * 5f, 17f);
         yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => ctr.IsGround());
+        GameObject dust = Object.Instantiate(ctr.slimeJumpDust, ctr.transform.position, Quaternion.identity);
+        ctr.StartCoroutine(ctr.cam.Shake(0.2f, 0.1f));
         machine.ChangeState(ctr.SlimeState.Idle);
+        yield return new WaitForSeconds(0.05f);
+        Object.Destroy(dust);
     }
 }

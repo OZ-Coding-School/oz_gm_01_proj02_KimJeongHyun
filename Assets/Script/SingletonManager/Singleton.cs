@@ -30,13 +30,16 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
     protected virtual void OnDestroy()
     {
-        Dispose();
+        if (instance == this)
+        {
+            Dispose();
+        }
     }
 
     protected virtual void Dispose()

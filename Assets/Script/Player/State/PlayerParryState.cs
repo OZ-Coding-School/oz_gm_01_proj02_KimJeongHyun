@@ -14,6 +14,7 @@ public class PlayerParryState : PlayerState
         firstParrying = true;
         ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityFall);
         Parry();
+        audio.StopSFX(SFXType.PeashooterLoop);
     }
 
 
@@ -29,7 +30,11 @@ public class PlayerParryState : PlayerState
             }
         }
         if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
     }
 
     public override void StateUpdate()
@@ -60,7 +65,7 @@ public class PlayerParryState : PlayerState
     {
         float temp = Time.timeScale;
         Time.timeScale = 0;
-        AudioManager.Instance.PlaySFX(SFXType.PlayerParry);
+        audio.PlaySFX(SFXType.PlayerParry);
         Vector2 pos = ctr.PlayerCollision.ParryPoint;
         PlayerEffect fx = pool.SpawnObj<PlayerEffect>(ctr.PlayerData.PlayerEffect, pos, Quaternion.identity);
         EffectHelper.SetRandomEffect(fx);
@@ -74,6 +79,7 @@ public class PlayerParryState : PlayerState
     public override void Exit()
     {
         ctr.PlayerCollision.SetGroundColSize();
+        if (ctr.PlayerInputHandler.InputShoot) { audio.PlaySFX(SFXType.PeashooterLoop); }
     }
 
     protected override void Shooting()

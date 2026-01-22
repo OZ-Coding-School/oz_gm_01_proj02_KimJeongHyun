@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : Singleton<SceneLoader>
 {
     public Animator transAni;
-    public AnimationClip openAni;
-    public AnimationClip closeAni;
 
     public void LoadScene(SceneType sceneType)
     {
@@ -25,22 +23,31 @@ public class SceneLoader : Singleton<SceneLoader>
 
     private IEnumerator TransEffectSceneLoad(SceneType scene)
     {
-        Time.timeScale = 1.0f;
+        transAni.updateMode = AnimatorUpdateMode.UnscaledTime;
 
         transAni.gameObject.SetActive(true);
-        transAni.Play(closeAni.name);
-        yield return new WaitForSeconds(closeAni.length);
+        transAni.Play("Close");
+        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(transAni.GetCurrentAnimatorStateInfo(0).length);
 
         AsyncOperation op = SceneManager.LoadSceneAsync(scene.ToString());
         op.allowSceneActivation = false;
-        while (op.progress < 0.9f) yield return null;
-        ObjectPoolManager.instance.ClearAllPool();
-        op.allowSceneActivation = true;
-        while (!op.isDone) yield return null;
 
-        transAni.Play(openAni.name);
-        Debug.Log("씬전환 애니메이션 실행");
-        yield return new WaitForSeconds(openAni.length);
+        while (op.progress < 0.9f) yield return null;
+
+        ObjectPoolManager.instance.ClearAllPool();
+
+        Time.timeScale = 0;        
+
+        op.allowSceneActivation = true;
+
+        while (!op.isDone) yield return null;
+        yield return null;
+
+        transAni.Play("Open");
+        yield return null;
+        yield return new WaitForSecondsRealtime(transAni.GetCurrentAnimatorStateInfo(0).length);
         transAni.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

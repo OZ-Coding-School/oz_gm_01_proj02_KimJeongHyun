@@ -5,12 +5,16 @@ using UnityEngine.UIElements;
 
 public class BaseBossController : Entity
 {
+    public PlayerController player;
     public Transform playerTrs;
     public Transform groundCheckTrs;
     public Transform wallCheckTrs;
     public LayerMask groundLayer;
     public LayerMask wallLayer;
     public  int curDir = -1;
+    public int page = 1;
+    public float maxHp;
+    public float curHp;
 
     public float groundCheckRadius = 0.2f;
     public float wallCheckRadius = 1f;
@@ -36,7 +40,7 @@ public class BaseBossController : Entity
         }
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && collision.TryGetComponent<IDamageable>(out var target))
         {

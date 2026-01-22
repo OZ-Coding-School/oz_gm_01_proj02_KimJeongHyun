@@ -13,6 +13,8 @@ public class PlayerInputHandler
     public bool InputDash { get; private set; }
     public bool InputLock { get; private set; }
     public bool InputShoot { get; private set; }
+    public bool InputShootDown { get; private set; }
+    public bool InputShootUp { get; private set; }
     public bool InputDuck { get; private set; }
     public bool InputSuper { get; private set; }
     public bool InputShotEX { get; private set; }
@@ -32,6 +34,8 @@ public class PlayerInputHandler
         InputDash = input.GetKeyDown(CusKey.Dash);
         InputLock = input.GetKey(CusKey.Lock);
         InputShoot = input.GetKey(CusKey.Shoot);
+        InputShootDown = input.GetKeyDown(CusKey.Shoot);
+        InputShootUp = input.GetKeyUp(CusKey.Shoot);
         InputDuck = input.GetKey(CusKey.Down);
         InputShotEX = input.GetKeyDown(CusKey.ShotEX);
         InputSuper = input.GetKeyDown(CusKey.Super);

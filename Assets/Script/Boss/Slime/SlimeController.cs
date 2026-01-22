@@ -7,21 +7,21 @@ public class SlimeController : BaseBossController, IDamageable
 {
     public TextMeshProUGUI stateText;
     public SlimeStateData SlimeState { get; private set; }
+    public GameObject slimeEffectPre;
     public AnimationHash<SlimeAnimation> AniHash { get; private set; }
     public GameObject tombfall;
+    public GameObject tombIntroDust;
+    public GameObject slimeJumpDust;
     public CameraShake cam;
-
-
-    public int page = 1;
+    
     public float page2per = 0.7f;
     public float page3per = 0.4f;
     public int jumpCount = 0;
+    public int jumpConutCheck = 0;
     public int moveCount = 0;
-    public float maxHp = 600f;
-    public float curHp;    
 
     public float[] jumpPower = { 8f, 4f, 12f };
-    public float tombSpeed = 5f;
+    public float tombSpeed = 25f;
     public bool isChange = false;
     public bool IsDead { get; private set; } = false;
 
@@ -32,6 +32,7 @@ public class SlimeController : BaseBossController, IDamageable
         base.Init();
         AniHash = new AnimationHash<SlimeAnimation>(Anim);
         SlimeState = new SlimeStateData(this, SMachine);
+        maxHp = 600;
         curHp = maxHp;
     }
 
@@ -39,6 +40,8 @@ public class SlimeController : BaseBossController, IDamageable
     {
         SMachine.Init(SlimeState.Intro);
     }
+
+
 
     protected override void Update()
     {
@@ -64,10 +67,15 @@ public class SlimeController : BaseBossController, IDamageable
         curHp = Mathf.Max(0, curHp - (int)dmg);
         if (curHp <= 0)
         {
-            OnSlimeDie?.Invoke();   
+            IsDead = true;
             return IsDead;
         }
-        return false;
+        return IsDead;
+    }
+
+    public void SlimeDie()
+    {
+        OnSlimeDie?.Invoke();
     }
 
     public void CheckWallFlip()

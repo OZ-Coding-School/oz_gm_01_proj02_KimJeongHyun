@@ -18,7 +18,11 @@ public class PlayerRunState : PlayerState
         if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
         if (ctr.PlayerInputHandler.InputLock) { machine.ChangeState(ctr.PlayerState.Lock); return; }
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
     }    
 
     public override void StateUpdate()

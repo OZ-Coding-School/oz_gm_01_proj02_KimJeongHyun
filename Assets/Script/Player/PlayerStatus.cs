@@ -17,8 +17,6 @@ public class PlayerStatus
     public bool CanUseSuper => CurrentEnergy >= data.MaxEnergy;
     public bool IsInvincible { get; private set; }
 
-    public event Action<int> OnHpChange;
-    public event Action<float> OnEnergyChange;
     public event Action OnPlayerDie;
 
     public PlayerStatus(PlayerController controller, PlayerDataSO data)
@@ -38,24 +36,20 @@ public class PlayerStatus
     public void AddEnergy(float val)
     {
         CurrentEnergy = Mathf.Clamp(CurrentEnergy + val, 0, data.MaxEnergy);
-        OnEnergyChange?.Invoke(CurrentEnergy);
     }
-    public void UseEX(float val)
+    public void UseEXEnergy()
     {
-        CurrentEnergy -= val;
-        OnEnergyChange?.Invoke(CurrentEnergy);
+        CurrentEnergy -= 1f;
     }
 
     public void UseSuper()
     {
         CurrentEnergy = 0f;
-        OnEnergyChange?.Invoke(CurrentEnergy);
     }
 
     public bool CheckIsDead(float dmg)
     {
         CurrentHp = Mathf.Max(0, CurrentHp - (int)dmg);
-        OnHpChange?.Invoke(CurrentHp);
         if (CurrentHp <= 0)
         {
             OnPlayerDie?.Invoke();

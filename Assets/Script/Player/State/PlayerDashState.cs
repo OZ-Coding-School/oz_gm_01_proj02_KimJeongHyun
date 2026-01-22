@@ -13,6 +13,8 @@ public class PlayerDashState : PlayerState
         base.Enter();
         ctr.PlayerMovement.SetGravity(0);
         ctr.PlayerMovement.Dash();
+        audio.PlaySFX(SFXType.PlayerDash);
+        audio.StopSFX(SFXType.PeashooterLoop);
     }
 
     public override void HandleInput()
@@ -33,5 +35,6 @@ public class PlayerDashState : PlayerState
     public override void Exit()
     {
         ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityJump);
+        if (ctr.PlayerInputHandler.InputShoot) { audio.PlaySFX(SFXType.PeashooterLoop); }
     }
 }

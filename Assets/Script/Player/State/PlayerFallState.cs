@@ -22,7 +22,11 @@ public class PlayerFallState : PlayerState
             return;
         }
         if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
     }
 

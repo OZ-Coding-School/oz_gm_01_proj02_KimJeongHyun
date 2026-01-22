@@ -5,6 +5,7 @@ public class PlayerState : BaseState<PlayerController>
     protected PlayerAnimation groundAni;
     protected PlayerAnimation airAni;
     protected ObjectPoolManager pool;
+    protected AudioManager audio;
     public PlayerState(PlayerController ctr, StateMachine machine, PlayerAnimation groundAni) : base(ctr, machine)
     {
         this.groundAni = groundAni;
@@ -21,6 +22,21 @@ public class PlayerState : BaseState<PlayerController>
         base.Enter();
         PlayEnterAni();
         pool = ObjectPoolManager.Instance;
+        audio = AudioManager.Instance;
+    }
+
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+        if (ctr.PlayerStatus.IsDead) { machine.ChangeState(ctr.PlayerState.Die); return; }
+        if (ctr.PlayerInputHandler.InputShootDown)
+        {
+            audio.PlaySFX(SFXType.PeashooterLoop);
+        }
+        if (ctr.PlayerInputHandler.InputShootUp)
+        {
+            audio.StopSFX(SFXType.PeashooterLoop);
+        }
     }
 
     private void PlayEnterAni()
@@ -50,7 +66,7 @@ public class PlayerState : BaseState<PlayerController>
     }
 
     protected virtual void Shooting()
-    {
+    {        
         ctr.PlayerShooter.Shoot(ctr.PlayerInputHandler.InputDir);
     }
 
@@ -77,6 +93,6 @@ public class PlayerState : BaseState<PlayerController>
 
     protected bool TryJump => ctr.PlayerInputHandler.InputJump && ctr.PlayerMovement.CanJump;
     protected bool TryDash => ctr.PlayerInputHandler.InputDash && ctr.PlayerMovement.CanDash;
-    protected bool TryShotEX => ctr.PlayerInputHandler.InputShotEX && ctr.PlayerShooter.CanEX;
+    protected bool TryShotEX => ctr.PlayerInputHandler.InputShotEX && ctr.PlayerStatus.CanUseEX && ctr.PlayerShooter.UseEXTime;
     protected bool TryParry => ctr.PlayerInputHandler.ParryInputBuffer && ctr.PlayerCollision.CanParry;
 }

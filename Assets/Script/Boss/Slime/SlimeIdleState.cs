@@ -18,9 +18,9 @@ public class SlimeIdleState : SlimeState
 
         if (ctr.page < 3)
         {
-            if (ctr.jumpCount >= 3)
+            if (ctr.jumpConutCheck == ctr.jumpCount)
             {
-                ctr.jumpCount = 0;
+                SetRandomJumpConut();   
                 machine.ChangeState(ctr.SlimeState.Attack);
                 return;
             }

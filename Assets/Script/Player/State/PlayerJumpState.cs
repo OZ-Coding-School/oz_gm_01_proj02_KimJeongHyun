@@ -9,8 +9,9 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        SetAirColSize();
+        //SetAirColSize();
         ctr.PlayerMovement.Jump();
+        audio.PlaySFX(SFXType.PlayerJump);
     }
 
     public override void HandleInput()
@@ -34,7 +35,11 @@ public class PlayerJumpState : PlayerState
 
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
         if (ctr.PlayerInputHandler.InputShoot) { Shooting(); }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        }
     }
 
     public override void StateUpdate()

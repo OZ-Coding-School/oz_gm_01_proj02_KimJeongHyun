@@ -25,7 +25,11 @@ public class PlayerIdleState : PlayerState
         else { PlayAni(PlayerAnimation.Idle); }
 
         if (TryDash) { machine.ChangeState(ctr.PlayerState.Dash); return; }
-        if (TryShotEX) { machine.ChangeState(ctr.PlayerState.ShotEX); return; }   
+        if (TryShotEX)
+        {
+            ctr.PlayerStatus.UseEXEnergy();
+            machine.ChangeState(ctr.PlayerState.ShotEX); return;
+        } 
         if (ctr.PlayerInputHandler.InputJump) { machine.ChangeState(ctr.PlayerState.Jump); return; }
         if (ctr.PlayerInputHandler.InputX != 0) { machine.ChangeState(ctr.PlayerState.Run); return; }
         if (ctr.PlayerInputHandler.InputDuck) { machine.ChangeState(ctr.PlayerState.Duck); return; }
