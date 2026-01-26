@@ -15,6 +15,9 @@ public class GameData
 {
     public string lastSaveTime;
     public string lastClearBoss;
+    public float lastClearTime;
+    public string lastClearRank;
+
     public bool isTutorialClear;
 
     public int coinCount;
@@ -39,6 +42,8 @@ public class GameData
         worldIndex = 0;
         lastSaveTime = "";
         lastClearBoss = "";
+        lastClearRank = "";
+        lastClearTime = 0;
         isTutorialClear = false;
 
         unlockedItems = new List<string>() { "Peashooter" };

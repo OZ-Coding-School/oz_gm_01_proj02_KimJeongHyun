@@ -8,6 +8,7 @@ public class SlimeAttackState : SlimeState
 
     public override void Enter()
     {
+        base.Enter();
         ctr.FlipToPlayer();
         ctr.StartCoroutine(AttackCo());
     }
@@ -17,8 +18,8 @@ public class SlimeAttackState : SlimeState
         if (ctr.page == 1)
         {
             ctr.AniHash.PlayAni(SlimeAnimation.Attack);
-            yield return null; // 전프레임 애니메이션 대기
-            //펀치사운드
+            yield return null;
+            audio.PlaySFX(SFXType.SlimePunch);
             yield return new WaitUntil(() => ctr.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
             machine.ChangeState(ctr.SlimeState.Idle);
         }
@@ -26,7 +27,7 @@ public class SlimeAttackState : SlimeState
         {
             ctr.AniHash.PlayAni(SlimeAnimation.BigAttack);
             yield return null;
-            //펀치사운드
+            audio.PlaySFX(SFXType.BigPunch);
             yield return new WaitUntil(() => ctr.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
             machine.ChangeState(ctr.SlimeState.Idle);
         }

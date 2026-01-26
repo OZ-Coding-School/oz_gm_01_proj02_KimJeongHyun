@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlimeChangeState : SlimeState
@@ -18,6 +19,8 @@ public class SlimeChangeState : SlimeState
         if (ctr.page == 1)
         {
             ctr.AniHash.PlayFirstFrame(SlimeAnimation.ChangePageTwo);
+            yield return new WaitForSeconds(0.9f);
+            audio.PlaySFX(SFXType.SlimeChangeBig);
             SetRandomJumpConut();
             yield return null;
             yield return new WaitUntil(() => ctr.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
@@ -25,16 +28,18 @@ public class SlimeChangeState : SlimeState
         else
         {
             ctr.AniHash.PlayFirstFrame(SlimeAnimation.ChangePageThree);
-            //yield return new WaitForSeconds(1f);
+            audio.PlaySFX(SFXType.BigChangeTomb);
             float posX = ctr.transform.position.x;
             float posY = ctr.transform.position.y + 90f;
             Vector3 spawn = new Vector3(posX, posY, 0);
 
             GameObject tomb = Object.Instantiate(ctr.tombfall, spawn, Quaternion.identity);
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(2f);
+            audio.PlaySFX(SFXType.DropTomb);
+            yield return new WaitForSeconds(0.5f);
+            audio.StopSFX(SFXType.BigChangeTomb);
             ctr.AniHash.PlayAni(SlimeAnimation.SlimeExplode);
             GameObject tombDust = Object.Instantiate(ctr.tombIntroDust, new Vector3(ctr.transform.position.x, ctr.transform.position.y - 2f, ctr.transform.position.z), Quaternion.identity);
-
             ctr.StartCoroutine(ctr.cam.Shake(0.3f, 0.5f));
 
 

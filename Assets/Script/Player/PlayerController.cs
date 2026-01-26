@@ -33,6 +33,8 @@ public class PlayerController : Entity, IDamageable
     public PlayerShooting PlayerShooter { get; private set; }
     public PlayerCollision PlayerCollision { get; private set; }
 
+
+
     protected override void Init()
     {
         base.Init();

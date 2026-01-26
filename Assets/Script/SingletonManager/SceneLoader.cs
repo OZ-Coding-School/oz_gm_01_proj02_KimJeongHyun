@@ -43,10 +43,10 @@ public class SceneLoader : Singleton<SceneLoader>
 
         while (!op.isDone) yield return null;
         yield return null;
-
+        AudioManager.instance.StopAllSFX();
         transAni.Play("Open");
         yield return null;
-        yield return new WaitForSecondsRealtime(transAni.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSecondsRealtime(transAni.GetCurrentAnimatorStateInfo(0).length - 0.1f);
         transAni.gameObject.SetActive(false);
         Time.timeScale = 1f;
     }

@@ -19,7 +19,7 @@ MonoBehaviour:
   parryJumpForce: 17
   dashSpeed: 15
   dashTime: 0.2
-  dashCooldown: 0.5
+  dashCooldown: 0.3
   gravityJump: 4.6
   gravityFall: 7
   maxHealth: 5

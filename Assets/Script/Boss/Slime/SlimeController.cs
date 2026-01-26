@@ -32,7 +32,7 @@ public class SlimeController : BaseBossController, IDamageable
         base.Init();
         AniHash = new AnimationHash<SlimeAnimation>(Anim);
         SlimeState = new SlimeStateData(this, SMachine);
-        maxHp = 600;
+        maxHp = 1200;
         curHp = maxHp;
     }
 

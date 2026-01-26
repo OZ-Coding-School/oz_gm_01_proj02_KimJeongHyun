@@ -10,19 +10,8 @@ public class SlimeDieState : SlimeState
 
     public override void Enter()
     {
-        ctr.StartCoroutine(DieCo());
         ctr.gameObject.layer = LayerMask.NameToLayer("DeadBody");
-    }
-
-    private IEnumerator DieCo()
-    {
-        // 화면 잠깐 멈춤
-        //넉아웃 사운드
-        //브금 멈추면서 페이드 아웃
-        // 승리브금
         ctr.AniHash.PlayAni(SlimeAnimation.Die);
-        yield return null;
         ctr.SlimeDie();
-
     }
 }

@@ -9,8 +9,9 @@ public class PlayerStatus
     private readonly PlayerController controller;
     private readonly PlayerDataSO data;
 
-    public int CurrentHp {  get; private set; }
+    public int CurrentHp { get; private set; }
     public float CurrentEnergy {  get; private set; }
+    public int ParryCount { get; private set; }
 
     public bool IsDead => CurrentHp <= 0;
     public bool CanUseEX => CurrentEnergy >= 1f;
@@ -18,6 +19,7 @@ public class PlayerStatus
     public bool IsInvincible { get; private set; }
 
     public event Action OnPlayerDie;
+    
 
     public PlayerStatus(PlayerController controller, PlayerDataSO data)
     {
@@ -29,6 +31,7 @@ public class PlayerStatus
     private void Init()
     {
         CurrentHp = data.MaxHealth;
+        ParryCount = 0;
         CurrentEnergy = 0;
         IsInvincible = false;
     }
@@ -57,6 +60,11 @@ public class PlayerStatus
         }
         return false;
     }
+    public void AddParryCount()
+    {
+        ParryCount++;
+    }
+
 
     public void SetInvincible(bool isInvi)
     {

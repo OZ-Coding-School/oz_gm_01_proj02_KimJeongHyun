@@ -39,6 +39,7 @@ public class BossLoseUIController : BaseUIController
         }
         float target = Mathf.Clamp01((boss.maxHp - boss.curHp) / boss.maxHp);
         runCupHead.value = 0f;
+        yield return new WaitForSeconds(1f);
         while (runCupHead.value < target)
         {
             runCupHead.value += Time.unscaledDeltaTime * 0.3f;

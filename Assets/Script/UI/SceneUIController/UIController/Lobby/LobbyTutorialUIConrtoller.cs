@@ -5,12 +5,10 @@ using UnityEngine;
 public class LobbyTutorialUIConrtoller : BaseUIController
 {
     public PlayerController player;
-    protected override void OnEnable()
-    {
-        AudioManager.Instance.PlayBGM(BGMType.Tutorial);        
-    }
     protected override void Start()
     {
+        base.Start();
         player.PlayerStatus.AddEnergy(5f);
+        AudioManager.Instance.PlayBGM(BGMType.Tutorial);
     }
 }

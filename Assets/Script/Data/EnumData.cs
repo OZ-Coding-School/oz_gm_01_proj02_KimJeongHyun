@@ -213,5 +213,8 @@ public enum SFXType
     KnockOut,
     NarratorOne,
     NarratorTwo,
+    DropTomb,
+    KnockOutBell,
+    BossStartBtn,
     COUNT
 }

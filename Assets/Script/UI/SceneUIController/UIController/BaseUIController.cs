@@ -85,7 +85,7 @@ public class BaseUIController : MonoBehaviour
 
         GameObject targetToSelect = null;
 
-        if (lastSelectedObj != null && lastSelectedObj.activeInHierarchy)
+        if (lastSelectedObj != null && lastSelectedObj.activeInHierarchy && uiType != UIType.OptionUI)
         {
             targetToSelect = lastSelectedObj;
         }

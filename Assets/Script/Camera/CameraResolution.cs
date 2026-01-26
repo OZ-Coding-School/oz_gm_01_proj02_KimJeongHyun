@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class CameraResolution : MonoBehaviour
 {
-    float Aspect = 16.0f / 9.0f;
-    float windowAspect = (float)Screen.width / Screen.height;
-
     private void Awake()
     {
+        float Aspect = 16.0f / 9.0f;
+        float windowAspect = (float)Screen.width / Screen.height;
         float scaleHeight = windowAspect / Aspect;
 
         Camera camera = GetComponent<Camera>();

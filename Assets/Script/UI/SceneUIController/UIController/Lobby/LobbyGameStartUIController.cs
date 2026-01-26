@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameStartUIController : BaseUIController
 {
@@ -36,12 +37,24 @@ public class GameStartUIController : BaseUIController
                 btn.SetTextActive(false);
                 select.SetSlotTextActive(true);
 
-                string playerName = "Player";
-                string lastPlay = gameData.lastSaveTime;
-                string world = gameData.worldIndex.ToString();
                 string clearBoss = gameData.lastClearBoss;
+                float tempTime = gameData.lastClearTime;
+                string tempRank = gameData.lastClearRank;
+                int minutes = (int)(tempTime / 60);
+                int seconds = (int)(tempTime % 60);
 
-                select.SetSlotText(playerName, lastPlay, world, clearBoss);
+                string timeStr = $"{minutes:D2}분 {seconds:D2}초";
+
+                string gradeTime = $"등급 : {tempRank}  클리어시간 : {timeStr}";
+                string playerName = $"플레이어 {(id + 1).ToString()}";
+                string lastPlay = $"마지막 접속일 : {gameData.lastSaveTime}";
+
+                if (string.IsNullOrEmpty(clearBoss))
+                {
+                    clearBoss = "";
+                    gradeTime = "";
+                }
+                select.SetSlotText(playerName, lastPlay, gradeTime, clearBoss);
             }
             catch { }
         }

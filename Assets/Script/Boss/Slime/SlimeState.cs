@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class SlimeState : BaseState<SlimeController>
 {
+    protected AudioManager audio;
     public SlimeState(SlimeController ctr, StateMachine machine) : base(ctr, machine) { }
-   
 
+    public override void Enter()
+    {
+        base.Enter();
+        audio = AudioManager.Instance;
+    }
     public override void StateUpdate()
     {
         base.StateUpdate();
@@ -52,7 +57,7 @@ public class SlimeState : BaseState<SlimeController>
 
     public override void OnHit(bool isDead, Vector2 dir)
     {
-        //플래쉬효과
+        ctr.EntityFlasah.PlayFlash(0.05f);
         ctr.player.PlayerStatus.AddEnergy(0.02f);
     }
 }

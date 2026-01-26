@@ -5,52 +5,35 @@ using UnityEngine.UI;
 
 public class SlimeBossSceneUIController : BaseSceneUIController
 {
-    private Dictionary<UIType, BaseUIController> uiList = new Dictionary<UIType, BaseUIController>();
-    private BaseUIController[] baseCnt;
+    //사실상 basebossscene
     public PlayerController player;
     public SlimeController boss;
+    public float time;
 
     protected override void Init()
     {
         base.Init();
-        baseCnt = GetComponentsInChildren<BaseUIController>(true);
-
-        foreach (var cnt in baseCnt)
-        {
-            uiList[cnt.uiType] = cnt;
-            cnt.gameObject.SetActive(false);
-        }
-    }
-
-    protected override void OnEnable()
-    {
-        foreach (var cnts in baseCnt)
-        {
-            cnts.ButtonClicked += ButtonEvent;
-        }
-    }
-
-
-    protected override void OnDisable()
-    {
-        player.PlayerStatus.OnPlayerDie -= OpenLoseUI;
-        boss.OnSlimeDie -= OpenWinUI;
-        foreach (var cnts in baseCnt)
-        {
-            cnts.ButtonClicked -= ButtonEvent;
-        }
+        time = 0;
     }
 
     protected override void Start()
     {        
+        base.Start();
         OpenUI(UIType.BossField);
-        OpenUI(UIType.BossStatusUI);
+        OpenUI(UIType.BossStatusUI);        
         AudioManager.Instance.PlayBGM(BGMType.BossSlime);
         player.PlayerStatus.OnPlayerDie += OpenLoseUI;
         boss.OnSlimeDie += OpenWinUI;
     }
 
-    private void ButtonEvent(UIType uiType, ButtonTypeE btnType, int btnID)
+    protected override void Update()
+    {
+        base.Update();
+        time += Time.deltaTime;
+    }
+
+
+    protected override void ButtonEvent(UIType uiType, ButtonTypeE btnType, int btnID)
     {
         switch (uiType, btnType)
         {
@@ -60,23 +43,13 @@ public class SlimeBossSceneUIController : BaseSceneUIController
         }
     }
 
-    private void OpenUI(UIType type)
-    {
-        uiList[type].gameObject.SetActive(true);
-    }
-
-    private void CloseUI(UIType type)
-    {
-        uiList[type].gameObject.SetActive(false);
-    }
-
     private void OpenLoseUI()
     {
         OpenUI(UIType.BossLose);
     }
 
     private void OpenWinUI()
-    {        
+    {
         OpenUI(UIType.BossWin);
     }
 }

@@ -12,10 +12,11 @@ public class TutorialExitDoor : MonoBehaviour
         if (InputManager.Instance.GetKeyDown(CusKey.Shoot) && playerIn)
         {
             SceneLoader.Instance.LoadScene(SceneType.Map);
+            GameManager.Instance.ProcessTutorialClear();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {

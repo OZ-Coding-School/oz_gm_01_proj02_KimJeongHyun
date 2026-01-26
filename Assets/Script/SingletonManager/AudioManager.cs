@@ -31,6 +31,7 @@ public class AudioManager : Singleton<AudioManager>
     private void Start()
     {
         SetSFXLoop(SFXType.PeashooterLoop, true);
+        SetSFXLoop(SFXType.TombMove, true);
     }
 
     private void LoadBGMPlayer()
@@ -175,10 +176,19 @@ public class AudioManager : Singleton<AudioManager>
         _SFXPlayer[sfx].UnPause();
     }
 
+    public void StopAllSFX()
+    {
+        for (int i = 0; i < (int)SFXType.COUNT; i++)
+        {
+            _SFXPlayer[(SFXType)i].Stop();
+        }
+    }
+
     public void SetSFXLoop(SFXType type, bool bol)
     {
         _SFXPlayer[type].loop = bol;
     }
+
     public float GetSFXLength(SFXType type)
     {
         return _SFXPlayer[type].clip.length;

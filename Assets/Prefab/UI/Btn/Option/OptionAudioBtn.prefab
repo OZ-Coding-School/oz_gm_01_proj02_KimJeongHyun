@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AUDIO
+  m_text: "\uC624\uB514\uC624 \uC124\uC815"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb010312acad4fb478b369a91b25d9b7, type: 2}
   m_sharedMaterial: {fileID: -2616703513123790125, guid: fb010312acad4fb478b369a91b25d9b7, type: 2}
@@ -161,7 +161,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4457998458907412874}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -270,3 +270,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   btnType: 10
+  btnKey: 0
+  text: {fileID: 0}

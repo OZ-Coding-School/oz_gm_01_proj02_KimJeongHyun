@@ -10,7 +10,7 @@ public class PlayerParryState : PlayerState
     public override void Enter()
     {        
         base.Enter();
-        SetAirColSize();
+        SetAirColSize();        
         firstParrying = true;
         ctr.PlayerMovement.SetGravity(ctr.PlayerData.GravityFall);
         Parry();
@@ -54,6 +54,15 @@ public class PlayerParryState : PlayerState
     //패링효과 함수
     private void Parry()
     {
+        Collider2D hitCol = ctr.PlayerCollision.CheckParry();
+        if (hitCol != null)
+        {
+            if (hitCol.TryGetComponent<Iparryable>(out var parryable))
+            {
+                parryable.OnParry();
+            }
+        }
+        ctr.PlayerStatus.AddParryCount();
         parrying = true;
         timer = 0;
         ctr.Rb.velocity = new Vector2(ctr.Rb.velocity.x, ctr.PlayerData.ParryJumpForce);
@@ -66,6 +75,7 @@ public class PlayerParryState : PlayerState
         float temp = Time.timeScale;
         Time.timeScale = 0;
         audio.PlaySFX(SFXType.PlayerParry);
+        ctr.PlayerStatus.AddEnergy(1f);
         Vector2 pos = ctr.PlayerCollision.ParryPoint;
         PlayerEffect fx = pool.SpawnObj<PlayerEffect>(ctr.PlayerData.PlayerEffect, pos, Quaternion.identity);
         EffectHelper.SetRandomEffect(fx);

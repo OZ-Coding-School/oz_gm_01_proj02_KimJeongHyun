@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class MapBossSlime : MonoBehaviour
 {
-    public Transform btnTrs;
-    public GameObject targetBtn;
+    public GameObject targetUI;
+    public TopDownPlayerController player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            targetBtn.transform.position = btnTrs.position;
-            targetBtn.SetActive(true);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            targetBtn.SetActive(false);
+            targetUI.SetActive(true);
+            player.SetCanMove(false);
         }
     }
 }

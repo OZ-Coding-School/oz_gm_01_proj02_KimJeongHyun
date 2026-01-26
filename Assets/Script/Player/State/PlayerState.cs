@@ -28,12 +28,11 @@ public class PlayerState : BaseState<PlayerController>
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if (ctr.PlayerStatus.IsDead) { machine.ChangeState(ctr.PlayerState.Die); return; }
         if (ctr.PlayerInputHandler.InputShootDown)
         {
             audio.PlaySFX(SFXType.PeashooterLoop);
         }
-        if (ctr.PlayerInputHandler.InputShootUp)
+        if (ctr.PlayerInputHandler.InputShootUp || Time.timeScale == 0)
         {
             audio.StopSFX(SFXType.PeashooterLoop);
         }
@@ -72,7 +71,7 @@ public class PlayerState : BaseState<PlayerController>
 
     public override void OnHit(bool isDead, Vector2 dir)
     {
-        if (isDead) { /*machine.ChangeState(ctr.PlayerState.Die); return;*/ }
+        if (isDead) { machine.ChangeState(ctr.PlayerState.Die); return;}
         else
         {
             float hitDir = ctr.transform.position.x < dir.x ? 1 : -1;

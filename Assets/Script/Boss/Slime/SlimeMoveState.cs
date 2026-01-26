@@ -31,9 +31,9 @@ public class SlimeMoveState : SlimeState
         yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => ctr.IsGround());
         GameObject dust = Object.Instantiate(ctr.slimeJumpDust, ctr.transform.position, Quaternion.identity);
+        Object.Destroy(dust,0.24f);
+        audio.PlaySFX(ctr.page == 1 ? SFXType.SlimeJump : SFXType.BigJump);
         ctr.StartCoroutine(ctr.cam.Shake(0.2f, 0.1f));
         machine.ChangeState(ctr.SlimeState.Idle);
-        yield return new WaitForSeconds(0.05f);
-        Object.Destroy(dust);
     }
 }

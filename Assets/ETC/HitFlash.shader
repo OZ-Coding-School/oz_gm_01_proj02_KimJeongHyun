@@ -2,6 +2,7 @@ Shader "Unlit/HitFlash"
 {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
+        _FlashColor ("Flash Color", Color) = (1,1,1,1)
         _FlashAmount ("Flash Amount", Range(0, 1)) = 0
     }
     SubShader {
@@ -19,6 +20,7 @@ Shader "Unlit/HitFlash"
             struct v2f { float4 vertex : SV_POSITION; float2 uv : TEXCOORD0; fixed4 color : COLOR; };
 
             sampler2D _MainTex;
+            fixed4 _FlashColor;
             float _FlashAmount;
 
             v2f vert (appdata v) {
@@ -31,8 +33,8 @@ Shader "Unlit/HitFlash"
 
             fixed4 frag (v2f i) : SV_Target {
                 fixed4 col = tex2D(_MainTex, i.uv) * i.color;
-                fixed3 whiteScale = col.rgb + (fixed3(1,1,1) * _FlashAmount);
-                col.rgb = lerp(col.rgb, saturate(whiteScale), _FlashAmount);
+               
+                col.rgb = lerp(col.rgb, _FlashColor.rgb, _FlashAmount);
                 
                 return col;
             }
